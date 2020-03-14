@@ -21,6 +21,7 @@ import org.xml.sax.SAXException;
 import com.google.common.collect.*;
 import com.google.common.collect.Table.Cell;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -427,6 +428,8 @@ public class testMethod
                         System.out.println("------Name Class Value: " + NC);
                         
                         notesListInChord.add(note);
+                        
+                        System.out.println("calculateCNC(note): " + calculateCNC(note));
                         binomialNoteMap.put(note, binomialParameter);
                     }
                     
@@ -438,12 +441,14 @@ public class testMethod
                 {               
                     for(int w=k+1; w<notesListInChord.size(); w++)
                     {
-                        String singlePermutation = "<" + notesListInChord.get(k) + "," + notesListInChord.get(w)+">";
+                        String singlePermutation = notesListInChord.get(k) + ":" + notesListInChord.get(w);
                         notesListPermutation.add(singlePermutation);    
                     }
                 }
-                System.out.println("notesListPermutation: " + notesListPermutation); 
+                //System.out.println("notesListPermutation: " + notesListPermutation); 
                 
+                getMaxOfPairPitch(notesListPermutation);
+                        
                 for(String intervalKey : notesListPermutation)
                 {
                     if(permutationMap.containsKey(intervalKey))
@@ -475,10 +480,36 @@ public class testMethod
         }
     }
     
+    //Ritorna la lista del massimo valore tra coppie di Pitch
+    public static ArrayList<Integer> getMaxOfPairPitch(ArrayList<String> inputPitchList)
+    {
+        String[] tempVar;
+        ArrayList<Integer> pairPitch = new ArrayList<>();
+        ArrayList<Integer> maxPairPitchValue = new ArrayList<>();
+        if(inputPitchList.size() > 0)
+        {
+            for(int j=0; j<inputPitchList.size(); j++)
+            {
+                Integer maxValue = 0;
+                pairPitch = new ArrayList<>();
+                tempVar = inputPitchList.get(j).split(":");
+                pairPitch.add(calculateCNC(tempVar[0]));
+                pairPitch.add(calculateCNC(tempVar[1]));
+                maxValue = Collections.max(pairPitch);
+                maxPairPitchValue.add(maxValue);
+            }
+            System.out.println("Inside getMaxOfPairPitch parameter: maxPairPitchValue - value: " + maxPairPitchValue);     
+        }
+
+        return maxPairPitchValue;
+    }
+    
     public static Integer calculateCNC(String inputNote)
     {
-        Integer octave = Integer.getInteger(inputNote.substring(inputNote.length()-1, inputNote.length()));
-        Integer nameClass = Integer.getInteger(inputNote.substring(0, 1));
+        Integer octave = Integer.parseInt(inputNote.substring(inputNote.length()-1, inputNote.length()));
+        Integer nameClass = getNameClass(inputNote.substring(0, 1));
+        System.out.println("Inside calculateCNC parameter: octave - value: " + octave);
+        System.out.println("Inside calculateCNC parameter: nameClass - value: " + nameClass);
         return (octave * 7) + nameClass;        
     }
     
