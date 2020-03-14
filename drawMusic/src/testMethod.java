@@ -43,8 +43,8 @@ public class testMethod
         //getPitchClass();
         //getPitch();
         //getDuration();
-        //getXmlHarmonicInterval();
-        getAlteration();
+        getXmlHarmonicInterval();
+        //getAlteration();
     }
     
     public static Document readFile(String name) throws ParserConfigurationException, SAXException, IOException {
@@ -363,14 +363,12 @@ public class testMethod
         factory.setIgnoringElementContentWhitespace(true); 
         
         TreeMap<String, Integer> permutationMap = new TreeMap<>();
-
-        ArrayList<String> notesSharp = new ArrayList<>(Arrays.asList("C","C#","D","D#","E","F","F#","G","G#","A","A#","B"));
-        ArrayList<String> notesFlat = new ArrayList<>(Arrays.asList("C","Cb","D","Db","E","F","Fb","G","Gb","A","Ab","B"));
+        
+        TreeMap<String, ArrayList<Integer>> binomialNoteMap = new TreeMap<>();
         
         ArrayList<String> notesListInChord;
         ArrayList<String> notesListPermutation;
-        
-        
+        ArrayList<Integer> binomialParameter;
         
         try
         {
@@ -387,13 +385,15 @@ public class testMethod
             NodeList currentChord = (NodeList) (myXPath.evaluate(xPathChordGreaterThanOne, myXmlDocument, XPathConstants.NODESET));
             
             String note = "";
+            Integer PC = 0;
+            Integer NC = 0;
             
             System.out.println("currentDuration: " + currentChord.getLength());  
             
             for (int i = 0; i < currentChord.getLength(); i++)
             {
                 notesListInChord = new ArrayList<>();
-                
+               
                 
                 String currentChordRef = ((Element) (currentChord.item(i))).getAttribute("event_ref");
                 
@@ -407,19 +407,31 @@ public class testMethod
                 for (int j = 0; j < currentPitchInChord.getLength(); j++)
                 {
                     //System.out.println("currentPitchInChord.getLength(): " + currentPitchInChord.getLength());
-                    
+                     binomialParameter = new ArrayList<>();
                     if(currentPitchInChord.item(j) != null)
                     {
-                        String currentPitch = ((Element) (currentPitchInChord.item(j))).getAttribute("step");
+                        String currentStep = ((Element) (currentPitchInChord.item(j))).getAttribute("step");
                         String currentOctave = ((Element) (currentPitchInChord.item(j))).getAttribute("octave");
                         String currentAccidental = ((Element) (currentPitchInChord.item(j))).getAttribute("actual_accidental");
                         
-                        note = currentPitch+currentOctave+getNoteAccidental(currentAccidental);
+                        note = currentStep+getNoteAccidental(currentAccidental)+currentOctave;
+
+                        PC = getPitchClass(currentStep+getNoteAccidental(currentAccidental));
+                        NC = getNameClass(currentStep);
+                        binomialParameter.add(PC);
+                        binomialParameter.add(NC);
                         System.out.println("------currentNote: " + note);
-                        notesListInChord.add(note);   
+                        System.out.println("------Pitch Class Value: " + PC);
+                        
+                        System.out.println("------currentStep: " + currentStep);
+                        System.out.println("------Name Class Value: " + NC);
+                        
+                        notesListInChord.add(note);
+                        binomialNoteMap.put(note, binomialParameter);
                     }
-                } 
-                System.out.println("notesListInChord: " + notesListInChord);
+                    
+                }
+                System.out.println("binomialNoteMap: " + binomialNoteMap);
                 
                 notesListPermutation = new ArrayList<>();
                 for(int k=0; k<notesListInChord.size(); k++)
@@ -444,15 +456,13 @@ public class testMethod
                     {
                         permutationMap.put(intervalKey,1);
                     }
-                }
-                 
+                }    
             }
-            
+            /*
             permutationMap.forEach((k, v) -> {
 		System.out.println("Occorrenze: " + k + ": " + v);
             });
-            
-            
+            */   
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {
@@ -465,6 +475,85 @@ public class testMethod
         }
     }
     
+    public static Integer calculateCNC(String inputNote)
+    {
+        Integer octave = Integer.getInteger(inputNote.substring(inputNote.length()-1, inputNote.length()));
+        Integer nameClass = Integer.getInteger(inputNote.substring(0, 1));
+        return (octave * 7) + nameClass;        
+    }
+    
+    public static Integer getPitchClass(String inputNote)
+    {
+        System.out.println("Inside getPitchClass inputNote: " + inputNote);
+        
+        Integer pitchClassValue = -1;
+        ArrayList<String> pitch0 = new ArrayList<>(Arrays.asList("C","B#","Dbb"));
+        ArrayList<String> pitch1 = new ArrayList<>(Arrays.asList("C#","Db","B##"));
+        ArrayList<String> pitch2 = new ArrayList<>(Arrays.asList("D","C##","Ebb"));
+        ArrayList<String> pitch3 = new ArrayList<>(Arrays.asList("D#","Eb","Fbb"));
+        ArrayList<String> pitch4 = new ArrayList<>(Arrays.asList("E","D##","Fb"));
+        ArrayList<String> pitch5 = new ArrayList<>(Arrays.asList("F","E#","Gbb"));
+        ArrayList<String> pitch6 = new ArrayList<>(Arrays.asList("F#","Gb","E#"));
+        ArrayList<String> pitch7 = new ArrayList<>(Arrays.asList("G","F##","Abb"));
+        ArrayList<String> pitch8 = new ArrayList<>(Arrays.asList("G#","Ab"));
+        ArrayList<String> pitch9 = new ArrayList<>(Arrays.asList("A","G##","Bbb"));
+        ArrayList<String> pitch10 = new ArrayList<>(Arrays.asList("A#","Bb","Cbb"));
+        ArrayList<String> pitch11 = new ArrayList<>(Arrays.asList("B","A##","Cb"));
+        
+        TreeMap<Integer, ArrayList<String>> pitchClassMap = new TreeMap<>();
+        pitchClassMap.put(0, pitch0);
+        pitchClassMap.put(1, pitch1);
+        pitchClassMap.put(2, pitch2);
+        pitchClassMap.put(3, pitch3);
+        pitchClassMap.put(4, pitch4);
+        pitchClassMap.put(5, pitch5);
+        pitchClassMap.put(6, pitch6);
+        pitchClassMap.put(7, pitch7);
+        pitchClassMap.put(8, pitch8);
+        pitchClassMap.put(9, pitch9);
+        pitchClassMap.put(10, pitch10);
+        pitchClassMap.put(11, pitch11);
+        
+        for(Integer index : pitchClassMap.keySet())
+        {
+            if(pitchClassMap.get(index).contains(inputNote))
+                pitchClassValue = index;
+        }      
+        return pitchClassValue;
+    }
+    
+    public static Integer getNameClass(String inputNote)
+    {
+        System.out.println("Inside getNameClass inputNote: " + inputNote);
+        
+        Integer nameClassValue = -1;
+        String nameClass0 = "C";
+        String nameClass1 = "D";
+        String nameClass2 = "E";
+        String nameClass3 = "F";
+        String nameClass4 = "G";
+        String nameClass5 = "A";
+        String nameClass6 = "B";
+        
+        TreeMap<Integer, String> nameClassMap = new TreeMap<>();
+        nameClassMap.put(0, nameClass0);
+        nameClassMap.put(1, nameClass1);
+        nameClassMap.put(2, nameClass2);
+        nameClassMap.put(3, nameClass3);
+        nameClassMap.put(4, nameClass4);
+        nameClassMap.put(5, nameClass5);
+        nameClassMap.put(6, nameClass6);
+    
+        for(Integer index : nameClassMap.keySet())
+        {
+            if(nameClassMap.get(index).equals(inputNote))
+            {
+                nameClassValue = index;
+            }    
+        }      
+        return nameClassValue;
+    }
+    
     public static void getAlteration()
     {
         Table<Integer, Integer, String> alterationTable = HashBasedTable.create();
@@ -472,6 +561,24 @@ public class testMethod
         alterationTable.put(0, 0, "C");
         alterationTable.put(0, 1, "Dbb");
         alterationTable.put(0, 6, "B#");
+        
+        alterationTable.put(1, 0, "C#");
+        alterationTable.put(1, 1, "Db");
+        alterationTable.put(1, 6, "Bx");
+        
+        alterationTable.put(2, 0, "Cx");
+        alterationTable.put(2, 1, "D");
+        alterationTable.put(2, 2, "Ebb");
+        
+        alterationTable.put(3, 1, "D#");
+        alterationTable.put(3, 2, "Eb");
+        alterationTable.put(3, 3, "Fbb");
+        
+        alterationTable.put(4, 1, "Dx");
+        alterationTable.put(4, 2, "E");
+        alterationTable.put(4, 3, "Fb");
+        
+        
         
         Collection<Map<Integer, String>> findRow;
         Collection<Map<Integer, String>> findColumn;
