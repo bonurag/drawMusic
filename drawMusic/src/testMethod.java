@@ -453,6 +453,8 @@ public class testMethod
                     }
                 }
                 System.out.println("notesListPermutation: " + notesListPermutation); 
+                
+                calculateInterval(notesListPermutation,binomialNoteMap);
                         
                 for(String intervalKey : notesListPermutation)
                 {
@@ -482,6 +484,33 @@ public class testMethod
         catch (XPathExpressionException ex)
         {
             Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //Per determinare l’intervallo tra due note, si sottrae la prima nota dalla
+    //seconda. Tale calcolo corrisponde all’operazione di sottrazione
+    public static void calculateInterval(ArrayList<String> inputPermutation, TreeMap<String, ArrayList<Integer>> binomialMap)
+    {
+        if(inputPermutation.size() > 0)
+        {
+            for(int y=0; y<inputPermutation.size(); y++)
+            {
+                List<String> singleNote = Arrays.asList(inputPermutation.get(y).split(":"));
+                System.out.println("Inside calculateInterval: " + singleNote.get(0));
+                System.out.println("Inside calculateInterval: " + singleNote.get(1));
+                System.out.println("Inside binomialMap: " + binomialMap.get(singleNote.get(0)));
+                System.out.println("Inside binomialMap: " + binomialMap.get(singleNote.get(1)));
+                ArrayList<Integer> binomialFirstNote = binomialMap.get(singleNote.get(0));
+                ArrayList<Integer> binomialSecondNote = binomialMap.get(singleNote.get(1));
+                Integer var1_FirstNote = binomialFirstNote.get(0);
+                Integer var2_FirstNote = binomialFirstNote.get(1);
+                
+                Integer var1_SecondNote = binomialSecondNote.get(0);
+                Integer var2_SecondNote = binomialSecondNote.get(1);
+                
+                String finalInterval = //<c,d> – <a,b> = <(c – a) mod 12, (d – b) mod 7>
+
+            }
         }
     }
     
