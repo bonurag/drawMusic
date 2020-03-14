@@ -18,6 +18,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import com.google.common.collect.*;
+import com.google.common.collect.Table.Cell;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -36,7 +43,8 @@ public class testMethod
         //getPitchClass();
         //getPitch();
         //getDuration();
-        getXmlHarmonicInterval();
+        //getXmlHarmonicInterval();
+        getAlteration();
     }
     
     public static Document readFile(String name) throws ParserConfigurationException, SAXException, IOException {
@@ -323,7 +331,8 @@ public class testMethod
         return rhythmMap;
     }
     
-    public static String calculatePCI(int pitchA, int pitchB) {
+    public static String calculatePCI(int pitchA, int pitchB)
+    {
         int pciInt = 0;
         TreeMap<Integer, String> pciMap = new TreeMap<>();
         if((pitchA >= 0 || pitchA < 12) && (pitchB >= 0 || pitchB < 12))
@@ -347,18 +356,21 @@ public class testMethod
         return pciMap.get(pciInt);
     }
     
-    public static ArrayList<String> getXmlHarmonicInterval()
+    public static void getXmlHarmonicInterval()
     {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setValidating(false);
         factory.setIgnoringElementContentWhitespace(true); 
         
-        TreeMap<String, Integer> harmonicIntervalMap = new TreeMap<>();
+        TreeMap<String, Integer> permutationMap = new TreeMap<>();
 
         ArrayList<String> notesSharp = new ArrayList<>(Arrays.asList("C","C#","D","D#","E","F","F#","G","G#","A","A#","B"));
         ArrayList<String> notesFlat = new ArrayList<>(Arrays.asList("C","Cb","D","Db","E","F","Fb","G","Gb","A","Ab","B"));
         
-        ArrayList<String> PCI = new ArrayList<>();
+        ArrayList<String> notesListInChord;
+        ArrayList<String> notesListPermutation;
+        
+        
         
         try
         {
@@ -375,16 +387,14 @@ public class testMethod
             NodeList currentChord = (NodeList) (myXPath.evaluate(xPathChordGreaterThanOne, myXmlDocument, XPathConstants.NODESET));
             
             String note = "";
-            String nextNote = "";
-            
-            int pciA = 0;
-            int pciB = 0;
             
             System.out.println("currentDuration: " + currentChord.getLength());  
             
             for (int i = 0; i < currentChord.getLength(); i++)
             {
-                PCI = new ArrayList<>();
+                notesListInChord = new ArrayList<>();
+                
+                
                 String currentChordRef = ((Element) (currentChord.item(i))).getAttribute("event_ref");
                 
                 System.out.println("currentChordRef: " + currentChordRef); 
@@ -394,61 +404,54 @@ public class testMethod
                 
                 System.out.println("xPathPitchForEachChord: " + xPathPitchForEachChord); 
                 
-                for (int j = 0; j < currentPitchInChord.getLength()-1; j++)
+                for (int j = 0; j < currentPitchInChord.getLength(); j++)
                 {
                     //System.out.println("currentPitchInChord.getLength(): " + currentPitchInChord.getLength());
                     
                     if(currentPitchInChord.item(j) != null)
                     {
                         String currentPitch = ((Element) (currentPitchInChord.item(j))).getAttribute("step");
+                        String currentOctave = ((Element) (currentPitchInChord.item(j))).getAttribute("octave");
                         String currentAccidental = ((Element) (currentPitchInChord.item(j))).getAttribute("actual_accidental");
-                        note = currentPitch+getNoteAccidental(currentAccidental);
-                        System.out.println("------note: " + note);
                         
-                        if(notesSharp.contains(note))
-                            pciB = notesSharp.indexOf(note);
-                        else if(notesFlat.contains(note))
-                            pciB = notesFlat.indexOf(note);
-                        System.out.println("pciB: " + pciB);
+                        note = currentPitch+currentOctave+getNoteAccidental(currentAccidental);
+                        System.out.println("------currentNote: " + note);
+                        notesListInChord.add(note);   
                     }
-                    
-                    if(currentPitchInChord.item(j+1) != null)
-                    {                    
-                        String nextPitch = ((Element) (currentPitchInChord.item(j+1))).getAttribute("step");
-                        String nextAccidental = ((Element) (currentPitchInChord.item(j+1))).getAttribute("actual_accidental");
-                        nextNote = nextPitch+getNoteAccidental(nextAccidental);
-                        System.out.println("------nextNote: " + nextNote);
-                        
-                        if(notesSharp.contains(nextNote))
-                            pciA = notesSharp.indexOf(nextNote);
-                        else if(notesFlat.contains(nextNote))
-                            pciA = notesFlat.indexOf(nextNote);
-                        System.out.println("pciA: " + pciA);
-                    }
-
-                    PCI.add(calculatePCI(pciA,pciB));   
                 } 
-                System.out.println("PCI: " + PCI);
-                System.out.println("PCI Size" + PCI.size());
+                System.out.println("notesListInChord: " + notesListInChord);
                 
-                for(String intervalKey : PCI)
-                {
-                    if(harmonicIntervalMap.containsKey(intervalKey))
+                notesListPermutation = new ArrayList<>();
+                for(int k=0; k<notesListInChord.size(); k++)
+                {               
+                    for(int w=k+1; w<notesListInChord.size(); w++)
                     {
-                        int counter = harmonicIntervalMap.get(intervalKey);
+                        String singlePermutation = "<" + notesListInChord.get(k) + "," + notesListInChord.get(w)+">";
+                        notesListPermutation.add(singlePermutation);    
+                    }
+                }
+                System.out.println("notesListPermutation: " + notesListPermutation); 
+                
+                for(String intervalKey : notesListPermutation)
+                {
+                    if(permutationMap.containsKey(intervalKey))
+                    {
+                        int counter = permutationMap.get(intervalKey);
                         counter += 1;
-                        harmonicIntervalMap.put(intervalKey,counter);     
+                        permutationMap.put(intervalKey,counter);     
                     }
                     else
                     {
-                        harmonicIntervalMap.put(intervalKey,1);
+                        permutationMap.put(intervalKey,1);
                     }
-                } 
+                }
+                 
             }
-
-            harmonicIntervalMap.forEach((k, v) -> {
+            
+            permutationMap.forEach((k, v) -> {
 		System.out.println("Occorrenze: " + k + ": " + v);
             });
+            
             
         }
         catch (ParserConfigurationException | SAXException | IOException e)
@@ -460,6 +463,33 @@ public class testMethod
         {
             Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return PCI;
+    }
+    
+    public static void getAlteration()
+    {
+        Table<Integer, Integer, String> alterationTable = HashBasedTable.create();
+
+        alterationTable.put(0, 0, "C");
+        alterationTable.put(0, 1, "Dbb");
+        alterationTable.put(0, 6, "B#");
+        
+        Collection<Map<Integer, String>> findRow;
+        Collection<Map<Integer, String>> findColumn;
+        String[] array = null;
+        if(alterationTable.containsValue("B"))
+        {
+            findRow = alterationTable.rowMap().values();
+            findColumn = alterationTable.columnMap().values();
+            System.out.println("findValue: " + findRow);
+            System.out.println("findColumn: " + findColumn);
+            for (Iterator i = findColumn.iterator(); i.hasNext();)
+            {
+              array = i.next().toString().split("=");
+            }
+            System.out.println("array: " + array[0].replace("{", ""));
+            System.out.println("array: " + array[1].replace("}", "")); 
+                 
+            
+        }
     }
 }
