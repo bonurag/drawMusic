@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -19,6 +20,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -34,10 +36,11 @@ public class testMethod
     
     public static void main(String[] args) throws XPathExpressionException 
     {
-        getPitchClass();
-        getPitch();
-        getXmlStatisticsDuration();
-        getXmlHarmonicInterval();
+        //getPitchClass();
+        //getPitch();
+        //getXmlStatisticsDuration();
+        //getXmlHarmonicInterval();
+        getXmlMelodicInterval();
     }
     
     public static File readFile(String name)
@@ -331,11 +334,7 @@ public class testMethod
     }
     
     public static TreeMap<String, Integer> getXmlHarmonicInterval()
-    {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setValidating(false);
-        factory.setIgnoringElementContentWhitespace(true); 
-        
+    {        
         TreeMap<String, Integer> armonicIntervalMap = new TreeMap<>();
         TreeMap<String, ArrayList<Integer>> binomialNoteMap = new TreeMap<>();
         
@@ -434,11 +433,10 @@ public class testMethod
                     }
                 }    
             }
-            
+          
             armonicIntervalMap.forEach((k, v) -> {
 		System.out.println("Occorrenze: " + k + ": " + v);
-            });
-              
+            });           
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {
@@ -454,11 +452,43 @@ public class testMethod
     
     public static void getXmlMelodicInterval()
     {
-        
-        
+        try
+        {
+            String fileName = "gounod_ave_maria.xml";          
+            Document myXmlDocument = getDoc(readFile(fileName));
+            
+            XPathFactory myXPathFactory = XPathFactory.newInstance();
+            XPath myXPath = myXPathFactory.newXPath();
+            
+            String xPathVoiceAttributeSelect = "//measure/voice[count(./chord) > 1]//..";
+            NodeList voiceItemrefList = (NodeList) (myXPath.evaluate(xPathVoiceAttributeSelect, myXmlDocument, XPathConstants.NODESET));
+            
+            Set<String> voiceItemref_Set = new HashSet<String>(); 
+            ArrayList<String> eventRef_List = new ArrayList<>();
+            
+            for (int i = 0; i < voiceItemrefList.getLength(); i++)
+            {
+                if(voiceItemrefList.item(i) != null)
+                {
+                    String singleValue_voice_item_ref = ((Element) (voiceItemrefList.item(i))).getAttribute("voice_item_ref");
+                    //System.out.println("singleValue_voice_item_ref: " + singleValue_voice_item_ref);
+                    if(!singleValue_voice_item_ref.equals(""))
+                        voiceItemref_Set.add(singleValue_voice_item_ref);
+                }
+            }
+            System.out.println("hash_Set: " + voiceItemref_Set);         
+        }
+        catch (ParserConfigurationException | SAXException | IOException e)
+        {
+            System.out.println("Errore nell'elaborazione del file");
+            System.exit(1);
+        }
+        catch (XPathExpressionException ex)
+        {
+            Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    
+      
     public static ArrayList<String> getPciName(ArrayList<Integer> pciInput)
     {
         TreeMap<Integer, String> pciMap = new TreeMap<>();
