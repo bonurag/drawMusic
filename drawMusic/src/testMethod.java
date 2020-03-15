@@ -38,19 +38,22 @@ public class testMethod
         //getPitch();
         //getDuration();
         getXmlHarmonicInterval();
-        //getAlteration();
     }
     
-    public static Document readFile(String name) throws ParserConfigurationException, SAXException, IOException {
-        
+    public static File readFile(String name)
+    {
+        String fileName = "gounod_ave_maria.xml";  
+        File file = new File(fileName);
+        return file;      
+    }
+    
+    public static Document getDoc(File inputFile) throws ParserConfigurationException, SAXException, IOException
+    {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setValidating(false);
         factory.setIgnoringElementContentWhitespace(true);
-        
-        String fileName = "gounod_ave_maria.xml";
         DocumentBuilder builder = factory.newDocumentBuilder();
-        File file = new File(fileName);
-        return (Document) builder.parse(file);      
+        return (Document) builder.parse(inputFile);
     }
     
     public static LinkedHashMap<String, Integer> getOrderedResult(TreeMap<String, Integer> inputMap, Boolean debug, Rappresentation typeOrder) {
@@ -188,8 +191,10 @@ public class testMethod
     {
         LinkedHashMap<String,String> accidentalTranscoding = new LinkedHashMap<String,String>();
         accidentalTranscoding.put("FLAT", "b");
+        accidentalTranscoding.put("DOUBLE_FLAT", "bb");
         accidentalTranscoding.put("NATURAL", "");
         accidentalTranscoding.put("SHARP", "#");
+        accidentalTranscoding.put("DOUBLE_SHARP", "##");
         return accidentalTranscoding.get(accident.toUpperCase());
     }
     
@@ -235,7 +240,7 @@ public class testMethod
         try
         {
             String fileName = xmlToOpen;
-            Document doc = readFile(fileName);
+            Document doc = getDoc(readFile(fileName));
             
             //Altezza
             NodeList pitchNodeList = doc.getElementsByTagName("pitch");
@@ -279,14 +284,14 @@ public class testMethod
         return pitchNoteMap;
     }
     
-    public static TreeMap<Integer, Integer> getDuration()
+    public static TreeMap<Integer, Integer> getXmlStatisticsDuration()
     {
         TreeMap<Integer, Integer> rhythmMap = new TreeMap<Integer, Integer>();
 
         try
         { 
             String fileName = "gounod_ave_maria.xml";
-            Document doc = readFile(fileName);
+            Document doc = getDoc(readFile(fileName));
             
             //Valore Ritmico
             NodeList rythmNodeList = doc.getElementsByTagName("duration");
@@ -340,11 +345,8 @@ public class testMethod
         
         try
         {
-            String directory = "C:\\Users\\Giuseppe\\Documents\\NetBeansProjects\\Esercizi_Prog.Musica\\FirstDOMParsing\\src\\firstdomparsing\\";
-            String fileName = "gounod_ave_maria.xml";
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            File file = new File(directory+fileName);            
-            Document myXmlDocument = builder.parse(file);
+            String fileName = "gounod_ave_maria.xml";          
+            Document myXmlDocument = getDoc(readFile(fileName));
             
             XPathFactory myXPathFactory = XPathFactory.newInstance();
             XPath myXPath = myXPathFactory.newXPath();
@@ -353,24 +355,20 @@ public class testMethod
             NodeList currentChord = (NodeList) (myXPath.evaluate(xPathChordGreaterThanOne, myXmlDocument, XPathConstants.NODESET));
             
             String note = "";
+            
             Integer PC = 0;
             Integer NC = 0;
             
-            System.out.println("currentDuration: " + currentChord.getLength());  
-            
             for (int i = 0; i < currentChord.getLength(); i++)
             {
-                notesListInChord = new ArrayList<>();
-
                 String currentChordRef = ((Element) (currentChord.item(i))).getAttribute("event_ref");
-                
                 //System.out.println("currentChordRef: " + currentChordRef); 
                 
                 String xPathPitchForEachChord = "//chord[@event_ref = \""+currentChordRef+"\"]/notehead/pitch"; 
                 NodeList currentPitchInChord = (NodeList) (myXPath.evaluate(xPathPitchForEachChord, myXmlDocument, XPathConstants.NODESET));
-                
                 //System.out.println("xPathPitchForEachChord: " + xPathPitchForEachChord); 
                 
+                notesListInChord = new ArrayList<>();
                 for (int j = 0; j < currentPitchInChord.getLength(); j++)
                 {
                     //System.out.println("currentPitchInChord.getLength(): " + currentPitchInChord.getLength());
@@ -397,10 +395,9 @@ public class testMethod
                         
                         //System.out.println("calculateCNC(note): " + calculateCNC(note));
                         binomialNoteMap.put(note, binomialParameter);
-                    }
-                    
+                    }                   
                 }
-                System.out.println("binomialNoteMap: " + binomialNoteMap);
+                //System.out.println("binomialNoteMap: " + binomialNoteMap);
                 
                 notesListPermutation = new ArrayList<>();
                 
@@ -418,10 +415,10 @@ public class testMethod
                         notesListPermutation.add(singlePermutation);    
                     }
                 }
-                System.out.println("notesListPermutation: " + notesListPermutation); 
+                //System.out.println("notesListPermutation: " + notesListPermutation); 
                 
                 ArrayList<String> pciNameLis = getPciName(calculateInterval(notesListPermutation,binomialNoteMap));
-                System.out.println("getPciName: " + pciNameLis);
+                //System.out.println("getPciName: " + pciNameLis);
                         
                 for(String intervalKey : pciNameLis)
                 {
@@ -559,7 +556,8 @@ public class testMethod
         {
             if(pitchClassMap.get(index).contains(inputNote))
                 pitchClassValue = index;
-        }      
+        }
+        //System.out.println("Inside getPitchClass pitchClassValue: " + pitchClassValue);
         return pitchClassValue;
     }
     
@@ -591,7 +589,8 @@ public class testMethod
             {
                 nameClassValue = index;
             }    
-        }      
+        }
+        //System.out.println("Inside getNameClass nameClassValue: " + nameClassValue);
         return nameClassValue;
     }
 }
