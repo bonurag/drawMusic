@@ -18,14 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import com.google.common.collect.*;
-import com.google.common.collect.Table.Cell;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  *
@@ -332,39 +325,13 @@ public class testMethod
         return rhythmMap;
     }
     
-    public static String calculatePCI(int pitchA, int pitchB)
-    {
-        int pciInt = 0;
-        TreeMap<Integer, String> pciMap = new TreeMap<>();
-        if((pitchA >= 0 || pitchA < 12) && (pitchB >= 0 || pitchB < 12))
-        {
-            pciMap.put(0, "Unisono giusto/Ottava giusta");
-            pciMap.put(1, "Seconda minore");
-            pciMap.put(2, "Seconda maggiore");
-            pciMap.put(3, "Terza minore");
-            pciMap.put(4, "Terza maggiore");
-            pciMap.put(5, "Quarta giusta");
-            pciMap.put(6, "Quarta eccedente/Quinta diminuita");
-            pciMap.put(7, "Quinta giusta");
-            pciMap.put(8, "Sesta minore");
-            pciMap.put(9, "Sesta maggiore");
-            pciMap.put(10, "Settima minore");
-            pciMap.put(11, "Settima maggiore");
-        }
-        pciInt = (pitchB - pitchA) % 12;
-        pciInt = pciInt < 0 ? pciInt + 12 : pciInt;
-        
-        return pciMap.get(pciInt);
-    }
-    
-    public static void getXmlHarmonicInterval()
+    public static TreeMap<String, Integer> getXmlHarmonicInterval()
     {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setValidating(false);
         factory.setIgnoringElementContentWhitespace(true); 
         
-        TreeMap<String, Integer> permutationMap = new TreeMap<>();
-        
+        TreeMap<String, Integer> armonicIntervalMap = new TreeMap<>();
         TreeMap<String, ArrayList<Integer>> binomialNoteMap = new TreeMap<>();
         
         ArrayList<String> notesListInChord;
@@ -394,21 +361,20 @@ public class testMethod
             for (int i = 0; i < currentChord.getLength(); i++)
             {
                 notesListInChord = new ArrayList<>();
-               
-                
+
                 String currentChordRef = ((Element) (currentChord.item(i))).getAttribute("event_ref");
                 
-                System.out.println("currentChordRef: " + currentChordRef); 
+                //System.out.println("currentChordRef: " + currentChordRef); 
                 
                 String xPathPitchForEachChord = "//chord[@event_ref = \""+currentChordRef+"\"]/notehead/pitch"; 
                 NodeList currentPitchInChord = (NodeList) (myXPath.evaluate(xPathPitchForEachChord, myXmlDocument, XPathConstants.NODESET));
                 
-                System.out.println("xPathPitchForEachChord: " + xPathPitchForEachChord); 
+                //System.out.println("xPathPitchForEachChord: " + xPathPitchForEachChord); 
                 
                 for (int j = 0; j < currentPitchInChord.getLength(); j++)
                 {
                     //System.out.println("currentPitchInChord.getLength(): " + currentPitchInChord.getLength());
-                     binomialParameter = new ArrayList<>();
+                    binomialParameter = new ArrayList<>();
                     if(currentPitchInChord.item(j) != null)
                     {
                         String currentStep = ((Element) (currentPitchInChord.item(j))).getAttribute("step");
@@ -421,15 +387,15 @@ public class testMethod
                         NC = getNameClass(currentStep);
                         binomialParameter.add(PC);
                         binomialParameter.add(NC);
-                        System.out.println("------currentNote: " + note);
-                        System.out.println("------Pitch Class Value: " + PC);
+                        //System.out.println("------currentNote: " + note);
+                        //System.out.println("------Pitch Class Value: " + PC);
                         
-                        System.out.println("------currentStep: " + currentStep);
-                        System.out.println("------Name Class Value: " + NC);
+                        //System.out.println("------currentStep: " + currentStep);
+                        //System.out.println("------Name Class Value: " + NC);
                         
                         notesListInChord.add(note);
                         
-                        System.out.println("calculateCNC(note): " + calculateCNC(note));
+                        //System.out.println("calculateCNC(note): " + calculateCNC(note));
                         binomialNoteMap.put(note, binomialParameter);
                     }
                     
@@ -454,27 +420,28 @@ public class testMethod
                 }
                 System.out.println("notesListPermutation: " + notesListPermutation); 
                 
-                calculateInterval(notesListPermutation,binomialNoteMap);
+                ArrayList<String> pciNameLis = getPciName(calculateInterval(notesListPermutation,binomialNoteMap));
+                System.out.println("getPciName: " + pciNameLis);
                         
-                for(String intervalKey : notesListPermutation)
+                for(String intervalKey : pciNameLis)
                 {
-                    if(permutationMap.containsKey(intervalKey))
+                    if(armonicIntervalMap.containsKey(intervalKey))
                     {
-                        int counter = permutationMap.get(intervalKey);
+                        int counter = armonicIntervalMap.get(intervalKey);
                         counter += 1;
-                        permutationMap.put(intervalKey,counter);     
+                        armonicIntervalMap.put(intervalKey,counter);     
                     }
                     else
                     {
-                        permutationMap.put(intervalKey,1);
+                        armonicIntervalMap.put(intervalKey,1);
                     }
                 }    
             }
-            /*
-            permutationMap.forEach((k, v) -> {
+            
+            armonicIntervalMap.forEach((k, v) -> {
 		System.out.println("Occorrenze: " + k + ": " + v);
             });
-            */   
+              
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {
@@ -485,33 +452,65 @@ public class testMethod
         {
             Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return armonicIntervalMap;
+    }
+    
+    public static ArrayList<String> getPciName(ArrayList<Integer> pciInput)
+    {
+        TreeMap<Integer, String> pciMap = new TreeMap<>();
+        ArrayList<String> pciNameList = new ArrayList<>();
+        pciMap.put(0, "Unisono giusto/Ottava giusta");
+        pciMap.put(1, "2a minore");
+        pciMap.put(2, "2a maggiore");
+        pciMap.put(3, "3a minore");
+        pciMap.put(4, "3a maggiore");
+        pciMap.put(5, "4a giusta");
+        pciMap.put(6, "4a eccedente/5a diminuita");
+        pciMap.put(7, "5a giusta");
+        pciMap.put(8, "6a minore");
+        pciMap.put(9, "6a maggiore");
+        pciMap.put(10, "7a minore");
+        pciMap.put(11, "7a maggiore");
+        
+        for(Integer i : pciInput)
+        {
+            if(i >= 0 || i < 12)
+            {
+                pciNameList.add(pciMap.get(i));
+            }
+        }
+        return pciNameList;
     }
     
     //Per determinare l’intervallo tra due note, si sottrae la prima nota dalla
     //seconda. Tale calcolo corrisponde all’operazione di sottrazione
-    public static void calculateInterval(ArrayList<String> inputPermutation, TreeMap<String, ArrayList<Integer>> binomialMap)
+    public static ArrayList<Integer> calculateInterval(ArrayList<String> inputPermutation, TreeMap<String, ArrayList<Integer>> binomialMap)
     {
+        ArrayList<Integer> intervalResult = new ArrayList<>();
         if(inputPermutation.size() > 0)
         {
             for(int y=0; y<inputPermutation.size(); y++)
-            {
+            {  
+                Integer firstElem = 0;
+                Integer secondElem = 0;
                 List<String> singleNote = Arrays.asList(inputPermutation.get(y).split(":"));
-                System.out.println("Inside calculateInterval: " + singleNote.get(0));
-                System.out.println("Inside calculateInterval: " + singleNote.get(1));
-                System.out.println("Inside binomialMap: " + binomialMap.get(singleNote.get(0)));
-                System.out.println("Inside binomialMap: " + binomialMap.get(singleNote.get(1)));
+                
                 ArrayList<Integer> binomialFirstNote = binomialMap.get(singleNote.get(0));
                 ArrayList<Integer> binomialSecondNote = binomialMap.get(singleNote.get(1));
-                Integer var1_FirstNote = binomialFirstNote.get(0);
-                Integer var2_FirstNote = binomialFirstNote.get(1);
                 
-                Integer var1_SecondNote = binomialSecondNote.get(0);
-                Integer var2_SecondNote = binomialSecondNote.get(1);
-                
-                String finalInterval = //<c,d> – <a,b> = <(c – a) mod 12, (d – b) mod 7>
+                Integer pitchClassFirstNote = binomialFirstNote.get(0);
+                Integer NameClassFirstNote = binomialFirstNote.get(1);
 
+                Integer pitchClassSecondNote = binomialSecondNote.get(0);
+                Integer NameClassSecondNote = binomialSecondNote.get(1);
+
+                firstElem = (pitchClassFirstNote-pitchClassSecondNote) < 0 ? ((pitchClassFirstNote-pitchClassSecondNote)+12)%12: (pitchClassFirstNote-pitchClassSecondNote)%12; 
+                secondElem = (NameClassFirstNote-NameClassSecondNote) < 0 ? ((NameClassFirstNote-NameClassSecondNote)+7)%7: (NameClassFirstNote-NameClassSecondNote)%7;
+                System.out.println("Inside calculateInterval final result: <"+firstElem+","+secondElem+">");
+                intervalResult.add(firstElem);
             }
-        }
+        }    
+        return intervalResult;
     }
     
     //Metodo che calcola il CONTINUOUS NAME CODE passanto in input un pitch
@@ -594,51 +593,5 @@ public class testMethod
             }    
         }      
         return nameClassValue;
-    }
-    
-    public static void getAlteration()
-    {
-        Table<Integer, Integer, String> alterationTable = HashBasedTable.create();
-
-        alterationTable.put(0, 0, "C");
-        alterationTable.put(0, 1, "Dbb");
-        alterationTable.put(0, 6, "B#");
-        
-        alterationTable.put(1, 0, "C#");
-        alterationTable.put(1, 1, "Db");
-        alterationTable.put(1, 6, "Bx");
-        
-        alterationTable.put(2, 0, "Cx");
-        alterationTable.put(2, 1, "D");
-        alterationTable.put(2, 2, "Ebb");
-        
-        alterationTable.put(3, 1, "D#");
-        alterationTable.put(3, 2, "Eb");
-        alterationTable.put(3, 3, "Fbb");
-        
-        alterationTable.put(4, 1, "Dx");
-        alterationTable.put(4, 2, "E");
-        alterationTable.put(4, 3, "Fb");
-        
-        
-        
-        Collection<Map<Integer, String>> findRow;
-        Collection<Map<Integer, String>> findColumn;
-        String[] array = null;
-        if(alterationTable.containsValue("B"))
-        {
-            findRow = alterationTable.rowMap().values();
-            findColumn = alterationTable.columnMap().values();
-            System.out.println("findValue: " + findRow);
-            System.out.println("findColumn: " + findColumn);
-            for (Iterator i = findColumn.iterator(); i.hasNext();)
-            {
-              array = i.next().toString().split("=");
-            }
-            System.out.println("array: " + array[0].replace("{", ""));
-            System.out.println("array: " + array[1].replace("}", "")); 
-                 
-            
-        }
     }
 }
