@@ -176,7 +176,7 @@ public class testMethod
     
     public static String getNoteTranscoding(String note)
     {
-        LinkedHashMap<String,String> noteTranscoding = new LinkedHashMap<String,String>();
+        LinkedHashMap<String,String> noteTranscoding = new LinkedHashMap<>();
         noteTranscoding.put("C", "Do");
         noteTranscoding.put("D", "Re");
         noteTranscoding.put("E", "Mi");
@@ -189,7 +189,7 @@ public class testMethod
     
     public static String getNoteAccidental(String accident)
     {
-        LinkedHashMap<String,String> accidentalTranscoding = new LinkedHashMap<String,String>();
+        LinkedHashMap<String,String> accidentalTranscoding = new LinkedHashMap<>();
         accidentalTranscoding.put("FLAT", "b");
         accidentalTranscoding.put("DOUBLE_FLAT", "bb");
         accidentalTranscoding.put("NATURAL", "");
@@ -210,7 +210,7 @@ public class testMethod
         }
         catch (Exception e)
         {
-            System.out.println("Exception:" + e.getStackTrace());
+            System.out.println("Exception:" + Arrays.toString(e.getStackTrace()));
             System.exit(1);
         }
         return finalPitchClassMap;
@@ -228,7 +228,7 @@ public class testMethod
         }
         catch (Exception e)
         {
-            System.out.println("Exception:" + e.getStackTrace());
+            System.out.println("Exception:" + Arrays.toString(e.getStackTrace()));
             System.exit(1);
         }
         return finalPitchNoteMap;
@@ -286,7 +286,7 @@ public class testMethod
     
     public static TreeMap<Integer, Integer> getXmlStatisticsDuration()
     {
-        TreeMap<Integer, Integer> rhythmMap = new TreeMap<Integer, Integer>();
+        TreeMap<Integer, Integer> rhythmMap = new TreeMap<>();
 
         try
         { 
@@ -354,10 +354,10 @@ public class testMethod
             String xPathChordGreaterThanOne = "//chord[count(./notehead)>1]";
             NodeList currentChord = (NodeList) (myXPath.evaluate(xPathChordGreaterThanOne, myXmlDocument, XPathConstants.NODESET));
             
-            String note = "";
+            String note;
             
-            Integer PC = 0;
-            Integer NC = 0;
+            Integer PC;
+            Integer NC;
             
             for (int i = 0; i < currentChord.getLength(); i++)
             {
@@ -405,7 +405,7 @@ public class testMethod
                 {               
                     for(int w=k+1; w<notesListInChord.size(); w++)
                     {
-                        String singlePermutation = "";
+                        String singlePermutation;
                         Integer cncK = calculateCNC(notesListInChord.get(k));
                         Integer cncW = calculateCNC(notesListInChord.get(w));
                         if(cncK > cncW)
@@ -488,8 +488,6 @@ public class testMethod
         {
             for(int y=0; y<inputPermutation.size(); y++)
             {  
-                Integer firstElem = 0;
-                Integer secondElem = 0;
                 List<String> singleNote = Arrays.asList(inputPermutation.get(y).split(":"));
                 
                 ArrayList<Integer> binomialFirstNote = binomialMap.get(singleNote.get(0));
@@ -501,9 +499,9 @@ public class testMethod
                 Integer pitchClassSecondNote = binomialSecondNote.get(0);
                 Integer NameClassSecondNote = binomialSecondNote.get(1);
 
-                firstElem = (pitchClassFirstNote-pitchClassSecondNote) < 0 ? ((pitchClassFirstNote-pitchClassSecondNote)+12)%12: (pitchClassFirstNote-pitchClassSecondNote)%12; 
-                secondElem = (NameClassFirstNote-NameClassSecondNote) < 0 ? ((NameClassFirstNote-NameClassSecondNote)+7)%7: (NameClassFirstNote-NameClassSecondNote)%7;
-                System.out.println("Inside calculateInterval final result: <"+firstElem+","+secondElem+">");
+                Integer firstElem = (pitchClassFirstNote-pitchClassSecondNote) < 0 ? ((pitchClassFirstNote-pitchClassSecondNote)+12)%12: (pitchClassFirstNote-pitchClassSecondNote)%12; 
+                Integer secondElem = (NameClassFirstNote-NameClassSecondNote) < 0 ? ((NameClassFirstNote-NameClassSecondNote)+7)%7: (NameClassFirstNote-NameClassSecondNote)%7;
+                //System.out.println("Inside calculateInterval final result: <"+firstElem+","+secondElem+">");
                 intervalResult.add(firstElem);
             }
         }    
