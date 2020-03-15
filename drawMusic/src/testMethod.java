@@ -34,9 +34,9 @@ public class testMethod
     
     public static void main(String[] args) throws XPathExpressionException 
     {
-        //getPitchClass();
-        //getPitch();
-        //getDuration();
+        getPitchClass();
+        getPitch();
+        getXmlStatisticsDuration();
         getXmlHarmonicInterval();
     }
     
@@ -451,6 +451,13 @@ public class testMethod
         }
         return armonicIntervalMap;
     }
+    
+    public static void getXmlMelodicInterval()
+    {
+        
+        
+    }
+    
     
     public static ArrayList<String> getPciName(ArrayList<Integer> pciInput)
     {
