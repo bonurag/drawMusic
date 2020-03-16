@@ -465,74 +465,43 @@ public class testMethod
             NodeList voiceItemrefList = (NodeList) (myXPath.evaluate(xPathVoiceAttributeSelect, myXmlDocument, XPathConstants.NODESET));
             
             Set<String> voiceItemref_Set = new HashSet<String>(); 
-
             TreeMap<Integer,ArrayList<String>> pitchMap = new TreeMap<>();
-
-            ArrayList<String> singlePitchInChordList = null;
-            ArrayList<String> multiplePitchInChordList = null;
+            ArrayList<String> pitchInChordList = null;
             
             for (int i = 0; i < voiceItemrefList.getLength(); i++)
-            {    
-                
-                
+            {                 
                 if(voiceItemrefList.item(i) != null)
                 {
                     String singleValue_voice_item_ref = ((Element) (voiceItemrefList.item(i))).getAttribute("event_ref");
-                    //System.out.println("singleValue_voice_item_ref: " + singleValue_voice_item_ref);
                     if(!singleValue_voice_item_ref.equals(""))
                         voiceItemref_Set.add(singleValue_voice_item_ref);
-                    
-                    
+
                     String pitchCounterForNotehead = "count(//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch)";
                     String pitchCounter = myXPath.evaluate(pitchCounterForNotehead, myXmlDocument);
                     //System.out.println("pitchCounter: " + pitchCounter);
                     
                     if(Integer.parseInt(pitchCounter) == 1)
                     {
-                        singlePitchInChordList = new ArrayList<>();
+                        pitchInChordList = new ArrayList<>();
                         String xPathChordRefValueSinglePitch = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
                         Node singlePitch = (Node) (myXPath.evaluate(xPathChordRefValueSinglePitch, myXmlDocument, XPathConstants.NODE));
                         NamedNodeMap stepPitchAttribute = singlePitch.getAttributes();
-                        singlePitchInChordList.add(stepPitchAttribute.getNamedItem("step").getNodeValue());
+                        pitchInChordList.add(stepPitchAttribute.getNamedItem("step").getNodeValue());
                     }   
                     else if(Integer.parseInt(pitchCounter) > 1)
                     {
-                        multiplePitchInChordList = new ArrayList<>();
+                        pitchInChordList = new ArrayList<>();
                         String xPathChordRefValueMultiplePitch = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
                         NodeList multiplPitch = (NodeList) (myXPath.evaluate(xPathChordRefValueMultiplePitch, myXmlDocument, XPathConstants.NODESET));
-                        System.out.println("Inside IF maggiore di 1: " + pitchCounter);
-                        getListFromNodeList(multiplPitch);
+                        pitchInChordList = getListFromNodeList(multiplPitch);
                     }
-                    //System.out.println("singlePitchInChordList: " + singlePitchInChordList);
-                    pitchMap.put(i, singlePitchInChordList);
-                    //System.out.println("pitchCounter: " + pitchCounter);
-                    
-                    //System.out.println("pitchMap: " + pitchMap);
-                   
-                    /*
-                    if(multiplePitch.getLength() == 1)
-                    {
-                        singlePitchInChordList.add(pitchValue);
-                        System.out.println("singlePitchInChordList: " + pitchValue);
-                    }
-                    else if(multiplePitch.getLength() > 1)
-                    {
-                        multiplePitchInChordList.add(pitchValue);
-                        System.out.println("multiplePitchInChordList: " + pitchValue);
-                    }
-                    */                    
+                    pitchMap.put(i, pitchInChordList);                  
                 }
             }
-            //System.out.println("singlePitchInChordList: " + singlePitchInChordList.size());
-            //System.out.println("multiplePitchInChordList: " + multiplePitchInChordList.size());
+            
             pitchMap.forEach((k, v) -> {
 		System.out.println("pitchMap: " + k + ": " + v);
             });  
-            
-            for (int j = 0; j < singlePitchInChordList.size(); j++)
-            {
-               
-            }
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {
