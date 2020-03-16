@@ -460,23 +460,43 @@ public class testMethod
             XPathFactory myXPathFactory = XPathFactory.newInstance();
             XPath myXPath = myXPathFactory.newXPath();
             
-            String xPathVoiceAttributeSelect = "//measure/voice[count(./chord) > 1]//..";
+            String xPathVoiceAttributeSelect = "//voice[count(./chord) > 1]/..//chord";
             NodeList voiceItemrefList = (NodeList) (myXPath.evaluate(xPathVoiceAttributeSelect, myXmlDocument, XPathConstants.NODESET));
             
             Set<String> voiceItemref_Set = new HashSet<String>(); 
             ArrayList<String> eventRef_List = new ArrayList<>();
+            TreeMap<Integer,String> armonicIntervalMap = new TreeMap<>();
             
+            NodeList chordList = null;
             for (int i = 0; i < voiceItemrefList.getLength(); i++)
             {
                 if(voiceItemrefList.item(i) != null)
                 {
-                    String singleValue_voice_item_ref = ((Element) (voiceItemrefList.item(i))).getAttribute("voice_item_ref");
+                    String singleValue_voice_item_ref = ((Element) (voiceItemrefList.item(i))).getAttribute("event_ref");
                     //System.out.println("singleValue_voice_item_ref: " + singleValue_voice_item_ref);
                     if(!singleValue_voice_item_ref.equals(""))
                         voiceItemref_Set.add(singleValue_voice_item_ref);
+                    
+                    
+                    String xPathChordRefValue = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
+                    System.out.println("xPathChordRefValue: " + xPathChordRefValue);
+                    chordList = (NodeList) (myXPath.evaluate(xPathChordRefValue, myXmlDocument, XPathConstants.NODESET));
                 }
             }
-            System.out.println("hash_Set: " + voiceItemref_Set);         
+            System.out.println("chordList: " + chordList.getLength());
+            
+            for (int j = 0; j < chordList.getLength(); j++)
+            {
+                if(chordList.item(j) != null)
+                {
+                    String singleValue_voice_item_ref = ((Element) (chordList.item(j))).getAttribute("step");
+                    /*System.out.println("singleValue_voice_item_ref: " + singleValue_voice_item_ref);
+                    if(!singleValue_voice_item_ref.equals(""))
+                        voiceItemref_Set.add(singleValue_voice_item_ref);
+                    */
+                    System.out.println("xPathChordRefValue: "+ j + " - " + singleValue_voice_item_ref);
+                }
+            }
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {
