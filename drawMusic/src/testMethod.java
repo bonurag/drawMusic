@@ -21,6 +21,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import java.util.List;
 import java.util.Set;
+import org.w3c.dom.NamedNodeMap;
 
 /**
  *
@@ -439,7 +440,7 @@ public class testMethod
             });           
         }
         catch (ParserConfigurationException | SAXException | IOException e)
-        {
+        { 
             System.out.println("Errore nell'elaborazione del file");
             System.exit(1);
         }
@@ -464,48 +465,69 @@ public class testMethod
             NodeList voiceItemrefList = (NodeList) (myXPath.evaluate(xPathVoiceAttributeSelect, myXmlDocument, XPathConstants.NODESET));
             
             Set<String> voiceItemref_Set = new HashSet<String>(); 
-            ArrayList<ArrayList<String>> pitchStep_List = null;
-            //TreeMap<Integer,String> armonicIntervalMap = new TreeMap<>();
-            ArrayList<String> singlePitchList = null;
-            ArrayList<Node> singlePitchInChordList = null;
-            ArrayList<NodeList> multiplePitchInChordList = null;
+
+            TreeMap<Integer,ArrayList<String>> pitchMap = new TreeMap<>();
+
+            ArrayList<String> singlePitchInChordList = null;
+            ArrayList<String> multiplePitchInChordList = null;
             
-            Node singlePitch = null;
-            NodeList multiplePitch = null;
-                    
             for (int i = 0; i < voiceItemrefList.getLength(); i++)
-            {
-                singlePitchInChordList = new ArrayList<>();
-                multiplePitchInChordList = new ArrayList<>();
+            {    
+                
+                
                 if(voiceItemrefList.item(i) != null)
                 {
-                    
                     String singleValue_voice_item_ref = ((Element) (voiceItemrefList.item(i))).getAttribute("event_ref");
                     //System.out.println("singleValue_voice_item_ref: " + singleValue_voice_item_ref);
                     if(!singleValue_voice_item_ref.equals(""))
                         voiceItemref_Set.add(singleValue_voice_item_ref);
                     
                     
-                    String xPathChordRefValue = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
-                    System.out.println("xPathChordRefValue: " + xPathChordRefValue);
+                    String pitchCounterForNotehead = "count(//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch)";
+                    String pitchCounter = myXPath.evaluate(pitchCounterForNotehead, myXmlDocument);
+                    //System.out.println("pitchCounter: " + pitchCounter);
                     
-                    multiplePitch = (NodeList) (myXPath.evaluate(xPathChordRefValue, myXmlDocument, XPathConstants.NODESET));
-                    singlePitch = (Node) (myXPath.evaluate(xPathChordRefValue, myXmlDocument, XPathConstants.NODE));
+                    if(Integer.parseInt(pitchCounter) == 1)
+                    {
+                        singlePitchInChordList = new ArrayList<>();
+                        String xPathChordRefValueSinglePitch = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
+                        Node singlePitch = (Node) (myXPath.evaluate(xPathChordRefValueSinglePitch, myXmlDocument, XPathConstants.NODE));
+                        NamedNodeMap stepPitchAttribute = singlePitch.getAttributes();
+                        singlePitchInChordList.add(stepPitchAttribute.getNamedItem("step").getNodeValue());
+                    }   
+                    else if(Integer.parseInt(pitchCounter) > 1)
+                    {
+                        multiplePitchInChordList = new ArrayList<>();
+                        String xPathChordRefValueMultiplePitch = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
+                        NodeList multiplPitch = (NodeList) (myXPath.evaluate(xPathChordRefValueMultiplePitch, myXmlDocument, XPathConstants.NODESET));
+                        System.out.println("Inside IF maggiore di 1: " + pitchCounter);
+                        getListFromNodeList(multiplPitch);
+                    }
+                    //System.out.println("singlePitchInChordList: " + singlePitchInChordList);
+                    pitchMap.put(i, singlePitchInChordList);
+                    //System.out.println("pitchCounter: " + pitchCounter);
                     
+                    //System.out.println("pitchMap: " + pitchMap);
+                   
+                    /*
                     if(multiplePitch.getLength() == 1)
                     {
-                        singlePitchInChordList.add(singlePitch);
+                        singlePitchInChordList.add(pitchValue);
+                        System.out.println("singlePitchInChordList: " + pitchValue);
                     }
                     else if(multiplePitch.getLength() > 1)
                     {
-                        multiplePitchInChordList.add(multiplePitch);
+                        multiplePitchInChordList.add(pitchValue);
+                        System.out.println("multiplePitchInChordList: " + pitchValue);
                     }
-
-                    System.out.println("singleChord: " + multiplePitch.getLength());   
+                    */                    
                 }
             }
-            System.out.println("singlePitchInChordList: " + singlePitchInChordList.size());
-            System.out.println("multiplePitchInChordList: " + multiplePitchInChordList.size());
+            //System.out.println("singlePitchInChordList: " + singlePitchInChordList.size());
+            //System.out.println("multiplePitchInChordList: " + multiplePitchInChordList.size());
+            pitchMap.forEach((k, v) -> {
+		System.out.println("pitchMap: " + k + ": " + v);
+            });  
             
             for (int j = 0; j < singlePitchInChordList.size(); j++)
             {
@@ -522,7 +544,24 @@ public class testMethod
             Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-      
+    
+    public static ArrayList<String> getListFromNodeList(NodeList inputNode)
+    {
+        String[] tempArray = new String [inputNode.getLength()];
+        ArrayList<String> tempList;
+        for (int i = 0; i < inputNode.getLength(); i++)
+        {
+            String multipleStep = null;
+            if(inputNode.item(i) != null)
+            {
+                multipleStep = ((Element) (inputNode.item(i))).getAttribute("step");
+                tempArray[i] = multipleStep;
+            }       
+        }
+        tempList = new ArrayList( Arrays.asList(tempArray));
+        return tempList;
+    }
+    
     public static ArrayList<String> getPciName(ArrayList<Integer> pciInput)
     {
         TreeMap<Integer, String> pciMap = new TreeMap<>();
