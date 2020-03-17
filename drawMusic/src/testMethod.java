@@ -522,28 +522,61 @@ public class testMethod
         }
     }
     
-    public static void testIterator(TreeMap<Integer,ArrayList<String>> inputMap)
+    public static void getMelodicBinomialFromChord(TreeMap<Integer,ArrayList<String>> inputMap)
     {
         ArrayList<String> previousValueList = null;
         ArrayList<String> nextValueList = null;
         for(int k=inputMap.size()-1; k>0; k--)
         {          
-            //System.out.println("K -> " + k);
             previousValueList = inputMap.get(k);
             nextValueList = inputMap.get(k-1);
             //System.out.println("previousValue: " + previousValueList + " and nextValue " + nextValueList);
       
-            if(previousValueList.size() >= 1 || nextValueList.size() >= 1)
+            if(previousValueList.size() > 1 && nextValueList.size() > 1)
             {
                 int w=0;
                 int j=0;
+                
                 for(w=0; w<previousValueList.size(); w++)
                 {
                     for(j=0; j<nextValueList.size(); j++)
                     {
-                        System.out.println("Permutazioni " + previousValueList.get(w)+"*"+nextValueList.get(j));
+                        System.out.println("Permutazioni Primo IF " + previousValueList.get(w) + "*" + nextValueList.get(j));  
                     }
                 }
+            }
+            else if(previousValueList.size() > 1 && nextValueList.size() == 1)
+            {
+                int a=0;
+                for(a=0; a<previousValueList.size(); a++)
+                {
+                    System.out.println("Permutazioni Secondo IF " + previousValueList.get(a) + "*" + nextValueList.get(0));
+                }
+            }
+            else if(previousValueList.size() == 1 && nextValueList.size() > 1)
+            {
+                int b=0;
+                for(b=0; b<nextValueList.size(); b++)
+                {
+                    System.out.println("Permutazioni Terzo IF " + previousValueList.get(0) + "*" + nextValueList.get(b)); 
+                } 
+            }
+            else if(previousValueList.size() == 1 && nextValueList.size() == 1)
+            {
+                int PC_prev = 0;
+                int NC_prev = 0;
+                int PC_next = 0;
+                int NC_next = 0;
+                System.out.println("Permutazioni Quarto IF " + previousValueList.get(0) + "*" + nextValueList.get(0));
+                
+                PC_prev = getPitchClass(previousValueList.get(0).substring(previousValueList.size()-1, previousValueList.size()));
+                NC_prev = getNameClass(nextValueList.get(0).substring(previousValueList.size()-1, previousValueList.size()));
+                PC_next = getPitchClass(nextValueList.get(0).substring(previousValueList.size()-1, previousValueList.size()));
+                NC_next = getNameClass(nextValueList.get(0).substring(previousValueList.size()-1, previousValueList.size()));
+                
+                String result_prev = PC_prev+":"+NC_prev;
+                String result_next = PC_next+":"+NC_next;
+                System.out.println("Result Quarto IF -> " + result_prev + " - " + result_next); 
             }
             previousValueList = new ArrayList<>();
             nextValueList = new ArrayList<>();
