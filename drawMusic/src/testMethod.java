@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -20,6 +21,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.w3c.dom.NamedNodeMap;
 
@@ -455,7 +457,8 @@ public class testMethod
     {
         try
         {
-            String fileName = "gounod_ave_maria.xml";          
+            //String fileName = "gounod_ave_maria.xml";  
+            String fileName = "Ul_parisien.xml";
             Document myXmlDocument = getDoc(readFile(fileName));
             
             XPathFactory myXPathFactory = XPathFactory.newInstance();
@@ -486,7 +489,10 @@ public class testMethod
                         String xPathChordRefValueSinglePitch = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
                         Node singlePitch = (Node) (myXPath.evaluate(xPathChordRefValueSinglePitch, myXmlDocument, XPathConstants.NODE));
                         NamedNodeMap stepPitchAttribute = singlePitch.getAttributes();
-                        pitchInChordList.add(stepPitchAttribute.getNamedItem("step").getNodeValue());
+                        String note = stepPitchAttribute.getNamedItem("step").getNodeValue();
+                        String accidental = getNoteAccidental(stepPitchAttribute.getNamedItem("actual_accidental").getNodeValue());
+                        String octave = stepPitchAttribute.getNamedItem("octave").getNodeValue();
+                        pitchInChordList.add(note+accidental+octave);
                     }   
                     else if(Integer.parseInt(pitchCounter) > 1)
                     {
@@ -498,10 +504,12 @@ public class testMethod
                     pitchMap.put(i, pitchInChordList);                  
                 }
             }
+            testIterator(pitchMap);
             
             pitchMap.forEach((k, v) -> {
 		System.out.println("pitchMap: " + k + ": " + v);
-            });  
+            }); 
+            
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {
@@ -514,20 +522,52 @@ public class testMethod
         }
     }
     
+    public static void testIterator(TreeMap<Integer,ArrayList<String>> inputMap)
+    {
+        ArrayList<String> previousValueList = null;
+        ArrayList<String> nextValueList = null;
+        for(int k=inputMap.size()-1; k>0; k--)
+        {          
+            //System.out.println("K -> " + k);
+            previousValueList = inputMap.get(k);
+            nextValueList = inputMap.get(k-1);
+            //System.out.println("previousValue: " + previousValueList + " and nextValue " + nextValueList);
+      
+            if(previousValueList.size() >= 1 || nextValueList.size() >= 1)
+            {
+                int w=0;
+                int j=0;
+                for(w=0; w<previousValueList.size(); w++)
+                {
+                    for(j=0; j<nextValueList.size(); j++)
+                    {
+                        System.out.println("Permutazioni " + previousValueList.get(w)+"*"+nextValueList.get(j));
+                    }
+                }
+            }
+            previousValueList = new ArrayList<>();
+            nextValueList = new ArrayList<>();
+        }
+    }
+    
     public static ArrayList<String> getListFromNodeList(NodeList inputNode)
     {
         String[] tempArray = new String [inputNode.getLength()];
         ArrayList<String> tempList;
         for (int i = 0; i < inputNode.getLength(); i++)
         {
-            String multipleStep = null;
+            String multipleStepNote = null;
+            String multipleStepAccidental = null;
+            String multipleStepOcatve = null;
             if(inputNode.item(i) != null)
             {
-                multipleStep = ((Element) (inputNode.item(i))).getAttribute("step");
-                tempArray[i] = multipleStep;
+                multipleStepNote = ((Element) (inputNode.item(i))).getAttribute("step");
+                multipleStepAccidental = getNoteAccidental(((Element) (inputNode.item(i))).getAttribute("actual_accidental"));
+                multipleStepOcatve = ((Element) (inputNode.item(i))).getAttribute("octave");
+                tempArray[i] = multipleStepNote+multipleStepAccidental+multipleStepOcatve;
             }       
         }
-        tempList = new ArrayList( Arrays.asList(tempArray));
+        tempList = new ArrayList(Arrays.asList(tempArray));
         return tempList;
     }
     
