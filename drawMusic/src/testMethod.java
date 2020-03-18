@@ -504,7 +504,7 @@ public class testMethod
                     pitchMap.put(i, pitchInChordList);                  
                 }
             }
-            testIterator(pitchMap);
+            getMelodicBinomialFromChord(pitchMap);
             
             pitchMap.forEach((k, v) -> {
 		System.out.println("pitchMap: " + k + ": " + v);
@@ -526,6 +526,7 @@ public class testMethod
     {
         ArrayList<String> previousValueList = null;
         ArrayList<String> nextValueList = null;
+        ArrayList<String> binomialList = null;
         for(int k=inputMap.size()-1; k>0; k--)
         {          
             previousValueList = inputMap.get(k);
@@ -539,18 +540,61 @@ public class testMethod
                 
                 for(w=0; w<previousValueList.size(); w++)
                 {
+                    binomialList = new ArrayList<>();
                     for(j=0; j<nextValueList.size(); j++)
                     {
-                        System.out.println("Permutazioni Primo IF " + previousValueList.get(w) + "*" + nextValueList.get(j));  
+                        int PC_prev = 0;
+                        int NC_prev = 0;
+                        int PC_next = 0;
+                        int NC_next = 0;
+                        
+                        String result_prev = "";
+                        String result_next = "";
+                        String mergeResult = "";
+                        
+                        System.out.println("Permutazioni Primo IF " + previousValueList.get(w) + "*" + nextValueList.get(j));
+                        
+                        PC_prev = getPitchClass(previousValueList.get(w).substring(0, previousValueList.get(w).length()-1));
+                        NC_prev = getNameClass(previousValueList.get(w).substring(0, 1));
+                        
+                        PC_next = getPitchClass(nextValueList.get(j).substring(0, nextValueList.get(j).length()-1));
+                        NC_next = getNameClass(nextValueList.get(j).substring(0, 1));
+                        
+                        result_prev = PC_prev+":"+NC_prev;
+                        result_next = PC_next+":"+NC_next;
+                        mergeResult = result_prev+";"+result_next;
+                        
+                        binomialList.add(mergeResult);
                     }
                 }
             }
             else if(previousValueList.size() > 1 && nextValueList.size() == 1)
             {
                 int a=0;
+                int PC_prev = 0;
+                int NC_prev = 0;
+                int PC_next = 0;
+                int NC_next = 0;
+                
+                String result_prev = "";
+                String result_next = "";
+                String mergeResult = "";
+                
+                binomialList = new ArrayList<>();
                 for(a=0; a<previousValueList.size(); a++)
                 {
                     System.out.println("Permutazioni Secondo IF " + previousValueList.get(a) + "*" + nextValueList.get(0));
+                    PC_prev = getPitchClass(previousValueList.get(a).substring(0, previousValueList.get(a).length()-1));
+                    NC_prev = getNameClass(previousValueList.get(a).substring(0, 1));
+                    
+                    PC_next = getPitchClass(nextValueList.get(0).substring(0, nextValueList.get(0).length()-1));
+                    NC_next = getNameClass(nextValueList.get(0).substring(0, 1));
+                    
+                    result_prev = PC_prev+":"+NC_prev;
+                    result_next = PC_next+":"+NC_next;
+                    mergeResult = result_prev+";"+result_next;
+                    
+                    binomialList.add(mergeResult);
                 }
             }
             else if(previousValueList.size() == 1 && nextValueList.size() > 1)
@@ -563,23 +607,24 @@ public class testMethod
             }
             else if(previousValueList.size() == 1 && nextValueList.size() == 1)
             {
-                int PC_prev = 0;
-                int NC_prev = 0;
-                int PC_next = 0;
-                int NC_next = 0;
+                //int PC_prev = 0;
+                //int NC_prev = 0;
+                //int PC_next = 0;
+                //int NC_next = 0;
                 System.out.println("Permutazioni Quarto IF " + previousValueList.get(0) + "*" + nextValueList.get(0));
                 
-                PC_prev = getPitchClass(previousValueList.get(0).substring(previousValueList.size()-1, previousValueList.size()));
-                NC_prev = getNameClass(nextValueList.get(0).substring(previousValueList.size()-1, previousValueList.size()));
-                PC_next = getPitchClass(nextValueList.get(0).substring(previousValueList.size()-1, previousValueList.size()));
-                NC_next = getNameClass(nextValueList.get(0).substring(previousValueList.size()-1, previousValueList.size()));
+                //PC_prev = getPitchClass(previousValueList.get(0).substring(previousValueList.size()-1, previousValueList.size()));
+                //NC_prev = getNameClass(previousValueList.get(0).substring(previousValueList.size()-1, previousValueList.size()));
+                //PC_next = getPitchClass(nextValueList.get(0).substring(nextValueList.size()-1, nextValueList.size()));
+                //NC_next = getNameClass(nextValueList.get(0).substring(nextValueList.size()-1, nextValueList.size()));
                 
-                String result_prev = PC_prev+":"+NC_prev;
-                String result_next = PC_next+":"+NC_next;
-                System.out.println("Result Quarto IF -> " + result_prev + " - " + result_next); 
+                //String result_prev = PC_prev+":"+NC_prev;
+                //String result_next = PC_next+":"+NC_next;
+                //System.out.println("Result Quarto IF -> " + result_prev + " - " + result_next); 
             }
             previousValueList = new ArrayList<>();
             nextValueList = new ArrayList<>();
+            System.out.println("binomialList " + binomialList);
         }
     }
     
