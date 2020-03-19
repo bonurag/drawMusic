@@ -554,7 +554,6 @@ public class testMethod
                         
                         String result_prev = "";
                         String result_next = "";
-                        String mergeResult = "";
                         
                         singleBinomial = new ArrayList<>();
                         
@@ -573,11 +572,12 @@ public class testMethod
                         result_next = PC_next+":"+NC_next;
                         if(result_next != null && result_next != "")
                             singleBinomial.add(result_next);
-                        mergeResult = result_prev+";"+result_next;
                         
                         if(singlePermutation != null && singlePermutation != "")
+                        {
                             permutationList.put(singlePermutation, singleBinomial);
-                        binomialList.add(singlePermutation);
+                            binomialList.add(singlePermutation);
+                        }
                     }
                 }
             }
@@ -591,8 +591,7 @@ public class testMethod
                 
                 String result_prev = "";
                 String result_next = "";
-                String mergeResult = "";
-                
+
                 for(a=0; a<previousValueList.size(); a++)
                 {
                     singleBinomial = new ArrayList<>();
@@ -612,7 +611,6 @@ public class testMethod
                     result_next = PC_next+":"+NC_next;
                     if(result_next != null && result_next != "")
                         singleBinomial.add(result_next);
-                    mergeResult = result_prev+";"+result_next;
                     
                     if(singlePermutation != null && singlePermutation != "")
                     {
@@ -631,7 +629,6 @@ public class testMethod
                 
                 String result_prev = "";
                 String result_next = "";
-                String mergeResult = "";
                           
                 for(b=0; b<nextValueList.size(); b++)
                 {
@@ -652,7 +649,6 @@ public class testMethod
                     result_next = PC_next+":"+NC_next;
                     if(result_next != null && result_next != "")
                         singleBinomial.add(result_next);
-                    mergeResult = result_prev+";"+result_next;
                     
                     if(singlePermutation != null && singlePermutation != "")
                     {
@@ -670,7 +666,6 @@ public class testMethod
                 
                 String result_prev = "";
                 String result_next = "";
-                String mergeResult = "";
                 
                 singleBinomial = new ArrayList<>();
                 
@@ -688,7 +683,6 @@ public class testMethod
                 result_next = PC_next+":"+NC_next;
                 if(result_next != null && result_next != "")
                     singleBinomial.add(result_next);
-                mergeResult = result_prev+";"+result_next;
 
                 if(singlePermutation != null && singlePermutation != "")
                 {
