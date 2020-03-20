@@ -48,7 +48,7 @@ public class testMethod
     
     public static File readFile(String name)
     {
-        String fileName = "gounod_ave_maria.xml";  
+        String fileName = name;  
         File file = new File(fileName);
         return file;      
     }
@@ -457,19 +457,19 @@ public class testMethod
     {
         try
         {
-            //String fileName = "gounod_ave_maria.xml";  
-            String fileName2 = "TestFile.xml";
-            Document myXmlDocument = getDoc(readFile(fileName2));
+            String fileName = "gounod_ave_maria.xml";  
+            Document myXmlDocument = getDoc(readFile(fileName));
             
             XPathFactory myXPathFactory = XPathFactory.newInstance();
             XPath myXPath = myXPathFactory.newXPath();
             
-            String xPathVoiceAttributeSelect = "//voice[count(./chord) > 1]/..//chord";
+            String xPathVoiceAttributeSelect = "//chord";
             NodeList voiceItemrefList = (NodeList) (myXPath.evaluate(xPathVoiceAttributeSelect, myXmlDocument, XPathConstants.NODESET));
             
             Set<String> voiceItemref_Set = new HashSet<String>(); 
             TreeMap<Integer,ArrayList<String>> pitchMap = new TreeMap<>();
             ArrayList<String> pitchInChordList = null;
+            TreeMap<String, Integer> melodicIntervalMap = new TreeMap<>();
             
             for (int i = 0; i < voiceItemrefList.getLength(); i++)
             {                 
@@ -481,7 +481,7 @@ public class testMethod
 
                     String pitchCounterForNotehead = "count(//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch)";
                     String pitchCounter = myXPath.evaluate(pitchCounterForNotehead, myXmlDocument);
-                    System.out.println("pitchCounter: " + pitchCounter);
+                    //System.out.println("pitchCounter: " + pitchCounter);
                     
                     if(Integer.parseInt(pitchCounter) == 1)
                     {
@@ -504,12 +504,29 @@ public class testMethod
                     pitchMap.put(i, pitchInChordList);                  
                 }
             }
-            //getMelodicBinomialFromChord(pitchMap);
-            /*
-            pitchMap.forEach((k, v) -> {
+              
+            ArrayList<String> pciNameLis = getPciName(getMelodicBinomialFromChord(pitchMap));
+                    
+            System.out.println("getPciName: " + pciNameLis);
+                        
+            for(String intervalKey : pciNameLis)
+            {
+                if(melodicIntervalMap.containsKey(intervalKey))
+                {
+                    int counter = melodicIntervalMap.get(intervalKey);
+                    counter += 1;
+                    melodicIntervalMap.put(intervalKey,counter);     
+                }
+                else
+                {
+                    melodicIntervalMap.put(intervalKey,1);
+                }
+            }
+                
+            melodicIntervalMap.forEach((k, v) -> {
 		System.out.println("pitchMap: " + k + ": " + v);
             });
-            */
+            
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {
@@ -522,23 +539,23 @@ public class testMethod
         }
     }
     
-    public static void getMelodicBinomialFromChord(TreeMap<Integer,ArrayList<String>> inputMap)
+    public static ArrayList<Integer> getMelodicBinomialFromChord(TreeMap<Integer,ArrayList<String>> inputMap)
     {
-        ArrayList<String> previousValueList = null;
-        ArrayList<String> nextValueList = null;
+        ArrayList<String> previousValueList = new ArrayList<>();
+        ArrayList<String> nextValueList = new ArrayList<>();
         
-        ArrayList<String> binomialList = new ArrayList<>();
-        ArrayList<String> singleBinomial = new ArrayList<>();
+        ArrayList<String> permutationList = new ArrayList<>();
+        ArrayList<Integer> singleBinomialPrev = new ArrayList<>();
+        ArrayList<Integer> singleBinomialNext = new ArrayList<>();
         
-        TreeMap<String,ArrayList<String>> permutationList = new TreeMap<>();
+        TreeMap<String,ArrayList<Integer>> binomialMap = new TreeMap<>();
         
         for(int k=inputMap.size()-1; k>0; k--)
         {          
             previousValueList = inputMap.get(k);
             nextValueList = inputMap.get(k-1);
-            //System.out.println("previousValue: " + previousValueList + " and nextValue " + nextValueList);
-      
-            if(previousValueList.size() > 1 && nextValueList.size() > 1)
+            
+            if(previousValueList.size() > 0 && nextValueList.size() > 0)
             {
                 int w=0;
                 int j=0;
@@ -555,148 +572,43 @@ public class testMethod
                         String result_prev = "";
                         String result_next = "";
                         
-                        singleBinomial = new ArrayList<>();
+                        singleBinomialPrev = new ArrayList<>();
+                        singleBinomialNext = new ArrayList<>();
                         
                         String singlePermutation = previousValueList.get(w) + ":" + nextValueList.get(j);
-                        System.out.println("Permutazioni Primo IF " + previousValueList.get(w) + "*" + nextValueList.get(j));
+                        String notePrev = previousValueList.get(w);
+                        String noteNext = nextValueList.get(j);
+                        System.out.println("Permutazioni " + previousValueList.get(w) + "*" + nextValueList.get(j));
                         
                         PC_prev = getPitchClass(previousValueList.get(w).substring(0, previousValueList.get(w).length()-1));
                         NC_prev = getNameClass(previousValueList.get(w).substring(0, 1));
+                        singleBinomialPrev.add(PC_prev);
+                        singleBinomialPrev.add(NC_prev);
                         
                         PC_next = getPitchClass(nextValueList.get(j).substring(0, nextValueList.get(j).length()-1));
                         NC_next = getNameClass(nextValueList.get(j).substring(0, 1));
+                        singleBinomialNext.add(PC_next);
+                        singleBinomialNext.add(NC_next);
                         
                         result_prev = PC_prev+":"+NC_prev;
-                        if(result_prev != null && result_prev != "")
-                            singleBinomial.add(result_prev);
+                        if((notePrev != null && notePrev != "") && singleBinomialPrev.size() > 0)
+                            binomialMap.put(notePrev, singleBinomialPrev);
+                        
                         result_next = PC_next+":"+NC_next;
-                        if(result_next != null && result_next != "")
-                            singleBinomial.add(result_next);
+                        if((noteNext != null && noteNext != "") && singleBinomialPrev.size() > 0)
+                            binomialMap.put(noteNext, singleBinomialNext);
                         
                         if(singlePermutation != null && singlePermutation != "")
-                        {
-                            permutationList.put(singlePermutation, singleBinomial);
-                            binomialList.add(singlePermutation);
-                        }
+                            permutationList.add(singlePermutation);
                     }
                 }
             }
-            else if(previousValueList.size() > 1 && nextValueList.size() == 1)
-            {
-                int a=0;
-                int PC_prev = 0;
-                int NC_prev = 0;
-                int PC_next = 0;
-                int NC_next = 0;
-                
-                String result_prev = "";
-                String result_next = "";
-
-                for(a=0; a<previousValueList.size(); a++)
-                {
-                    singleBinomial = new ArrayList<>();
-                    
-                    String singlePermutation = previousValueList.get(a) + ":" + nextValueList.get(0);
-                    System.out.println("Permutazioni Secondo IF " + previousValueList.get(a) + "*" + nextValueList.get(0));
-                    
-                    PC_prev = getPitchClass(previousValueList.get(a).substring(0, previousValueList.get(a).length()-1));                  
-                    NC_prev = getNameClass(previousValueList.get(a).substring(0, 1));                   
-                    
-                    PC_next = getPitchClass(nextValueList.get(0).substring(0, nextValueList.get(0).length()-1));
-                    NC_next = getNameClass(nextValueList.get(0).substring(0, 1));
-     
-                    result_prev = PC_prev+":"+NC_prev;
-                    if(result_prev != null && result_prev != "")
-                        singleBinomial.add(result_prev);
-                    result_next = PC_next+":"+NC_next;
-                    if(result_next != null && result_next != "")
-                        singleBinomial.add(result_next);
-                    
-                    if(singlePermutation != null && singlePermutation != "")
-                    {
-                        permutationList.put(singlePermutation, singleBinomial);
-                        binomialList.add(singlePermutation);
-                    }
-                }
-            }
-            else if(previousValueList.size() == 1 && nextValueList.size() > 1)
-            {
-                int b=0;
-                int PC_prev = 0;
-                int NC_prev = 0;
-                int PC_next = 0;
-                int NC_next = 0;
-                
-                String result_prev = "";
-                String result_next = "";
-                          
-                for(b=0; b<nextValueList.size(); b++)
-                {
-                    singleBinomial = new ArrayList<>();
-                    
-                    String singlePermutation = previousValueList.get(0) + ":" + nextValueList.get(b);
-                    System.out.println("Permutazioni Terzo IF " + previousValueList.get(0) + "*" + nextValueList.get(b));
-                    
-                    PC_prev = getPitchClass(previousValueList.get(0).substring(0, 1));
-                    NC_prev = getNameClass(previousValueList.get(0).substring(0, 1));
-                    
-                    PC_next = getPitchClass(nextValueList.get(b).substring(0, nextValueList.get(b).length()-1));
-                    NC_next = getNameClass(nextValueList.get(b).substring(0, 1));
-                    
-                    result_prev = PC_prev+":"+NC_prev;
-                    if(result_prev != null && result_prev != "")
-                        singleBinomial.add(result_prev);
-                    result_next = PC_next+":"+NC_next;
-                    if(result_next != null && result_next != "")
-                        singleBinomial.add(result_next);
-                    
-                    if(singlePermutation != null && singlePermutation != "")
-                    {
-                        permutationList.put(singlePermutation, singleBinomial);
-                        binomialList.add(singlePermutation);
-                    }
-                } 
-            }
-            else if(previousValueList.size() == 1 && nextValueList.size() == 1)
-            {
-                int PC_prev = 0;
-                int NC_prev = 0;
-                int PC_next = 0;
-                int NC_next = 0;
-                
-                String result_prev = "";
-                String result_next = "";
-                
-                singleBinomial = new ArrayList<>();
-                
-                String singlePermutation = previousValueList.get(0) + ":" + nextValueList.get(0);  
-                System.out.println("Permutazioni Quarto IF " + previousValueList.get(0) + "*" + nextValueList.get(0));
-                
-                PC_prev = getPitchClass(previousValueList.get(0).substring(previousValueList.size()-1, previousValueList.size()));
-                NC_prev = getNameClass(previousValueList.get(0).substring(previousValueList.size()-1, previousValueList.size()));
-                PC_next = getPitchClass(nextValueList.get(0).substring(nextValueList.size()-1, nextValueList.size()));
-                NC_next = getNameClass(nextValueList.get(0).substring(nextValueList.size()-1, nextValueList.size()));
-                
-                result_prev = PC_prev+":"+NC_prev;
-                if(result_prev != null && result_prev != "")
-                    singleBinomial.add(result_prev);
-                result_next = PC_next+":"+NC_next;
-                if(result_next != null && result_next != "")
-                    singleBinomial.add(result_next);
-
-                if(singlePermutation != null && singlePermutation != "")
-                {
-                    permutationList.put(singlePermutation, singleBinomial);
-                    binomialList.add(singlePermutation);
-                }
-            }
-            previousValueList = new ArrayList<>();
-            nextValueList = new ArrayList<>();
         }
-        System.out.println("binomialList " + binomialList);
-        System.out.println("binomialList Size " + binomialList.size());
-        System.out.println("permutationList " + permutationList);
-        System.out.println("permutationList Size " + permutationList.size());
+        //System.out.println("permutationList " + permutationList);
+        //System.out.println("permutationList Size " + permutationList.size());
+        //System.out.println("binomialMap " + binomialMap);
+        //System.out.println("binomialMap Size " + binomialMap.size());
+        return calculateInterval(permutationList, binomialMap);    
     }
     
     public static ArrayList<String> getListFromNodeList(NodeList inputNode)
