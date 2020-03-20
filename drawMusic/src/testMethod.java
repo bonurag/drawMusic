@@ -458,8 +458,8 @@ public class testMethod
         try
         {
             //String fileName = "gounod_ave_maria.xml";  
-            String fileName = "Ul_parisien.xml";
-            Document myXmlDocument = getDoc(readFile(fileName));
+            String fileName2 = "TestFile.xml";
+            Document myXmlDocument = getDoc(readFile(fileName2));
             
             XPathFactory myXPathFactory = XPathFactory.newInstance();
             XPath myXPath = myXPathFactory.newXPath();
@@ -481,7 +481,7 @@ public class testMethod
 
                     String pitchCounterForNotehead = "count(//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch)";
                     String pitchCounter = myXPath.evaluate(pitchCounterForNotehead, myXmlDocument);
-                    //System.out.println("pitchCounter: " + pitchCounter);
+                    System.out.println("pitchCounter: " + pitchCounter);
                     
                     if(Integer.parseInt(pitchCounter) == 1)
                     {
@@ -504,7 +504,7 @@ public class testMethod
                     pitchMap.put(i, pitchInChordList);                  
                 }
             }
-            getMelodicBinomialFromChord(pitchMap);
+            //getMelodicBinomialFromChord(pitchMap);
             /*
             pitchMap.forEach((k, v) -> {
 		System.out.println("pitchMap: " + k + ": " + v);
