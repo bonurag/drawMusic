@@ -14,16 +14,13 @@ import java.util.TreeMap;
 import javax.swing.JPanel;
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    This Class it was created to manage the contents of the Cartesian diagram
  */
 
 /**
  *
  * @author Giuseppe
  */
-
 public class cartesianGui extends JPanel
 {
     // x-axis coord constants
@@ -36,9 +33,8 @@ public class cartesianGui extends JPanel
     public static final int Y_AXIS_SECOND_Y_COORD = 600;
     public static final int Y_AXIS_X_COORD = 50;
 
-    //arrows of axis are represented with "hipotenuse" of 
-    //triangle
-    // now we are define length of cathetas of that triangle
+    //arrows of axis are represented with "hipotenuse" of triangle
+    //now we are define length of cathetas of that triangle
     public static final int FIRST_LENGHT = 10;
     public static final int SECOND_LENGHT = 5;
 
@@ -48,11 +44,19 @@ public class cartesianGui extends JPanel
     // distance of coordinate strings from axis
     public static final int AXIS_STRING_DISTANCE = 25;
     
+    // width of bar inside the diagram
     public static final int HISTOGRAM_BAR_WIDTH = 30;
     
-    public TreeMap<String, Integer> inputData;
+    // distance from top of panel to the max highest bar
+    public static final int OFFSET_BAR_TO_TOP_PANEL = 100;
     
     public Boolean enableView = false;
+    
+    public String yAxisName = "Y";
+    
+    public String xAxisName = "X";
+    
+    public TreeMap<String, Integer> inputData;
     
     public cartesianGui(TreeMap<String, Integer> inputData)
     {   
@@ -62,6 +66,16 @@ public class cartesianGui extends JPanel
     public void setViewValueOnBar(Boolean enable)
     {
         enableView = enable;
+    }
+    
+    public void setyAxisName(String axisName)
+    {
+        yAxisName = axisName;
+    }
+    
+    public void setxAxisName(String axisName)
+    {
+        xAxisName = axisName;
     }
     
     public void paintComponent(Graphics g)
@@ -75,44 +89,27 @@ public class cartesianGui extends JPanel
         Stroke defaultStroke = g2.getStroke();
         
         // x-axis
-        g2.drawLine(X_AXIS_FIRST_X_COORD, X_AXIS_Y_COORD,
-            X_AXIS_SECOND_X_COORD, X_AXIS_Y_COORD);
+        g2.drawLine(X_AXIS_FIRST_X_COORD, X_AXIS_Y_COORD, X_AXIS_SECOND_X_COORD, X_AXIS_Y_COORD);
         // y-axis
-        g2.drawLine(Y_AXIS_X_COORD, Y_AXIS_FIRST_Y_COORD,
-            Y_AXIS_X_COORD, Y_AXIS_SECOND_Y_COORD);
+        g2.drawLine(Y_AXIS_X_COORD, Y_AXIS_FIRST_Y_COORD, Y_AXIS_X_COORD, Y_AXIS_SECOND_Y_COORD);
 
         // x-axis arrow
-        g2.drawLine(X_AXIS_SECOND_X_COORD - FIRST_LENGHT,
-            X_AXIS_Y_COORD - SECOND_LENGHT,
-            X_AXIS_SECOND_X_COORD, X_AXIS_Y_COORD);
-        g2.drawLine(X_AXIS_SECOND_X_COORD - FIRST_LENGHT,
-            X_AXIS_Y_COORD + SECOND_LENGHT,
-            X_AXIS_SECOND_X_COORD, X_AXIS_Y_COORD);
+        g2.drawLine(X_AXIS_SECOND_X_COORD - FIRST_LENGHT, X_AXIS_Y_COORD - SECOND_LENGHT, X_AXIS_SECOND_X_COORD, X_AXIS_Y_COORD);
+        g2.drawLine(X_AXIS_SECOND_X_COORD - FIRST_LENGHT, X_AXIS_Y_COORD + SECOND_LENGHT, X_AXIS_SECOND_X_COORD, X_AXIS_Y_COORD);
 
         // y-axis arrow
-        g2.drawLine(Y_AXIS_X_COORD - SECOND_LENGHT,
-            Y_AXIS_FIRST_Y_COORD + FIRST_LENGHT,
-            Y_AXIS_X_COORD, Y_AXIS_FIRST_Y_COORD);
-        g2.drawLine(Y_AXIS_X_COORD + SECOND_LENGHT,
-            Y_AXIS_FIRST_Y_COORD + FIRST_LENGHT,
-            Y_AXIS_X_COORD, Y_AXIS_FIRST_Y_COORD);
+        g2.drawLine(Y_AXIS_X_COORD - SECOND_LENGHT, Y_AXIS_FIRST_Y_COORD + FIRST_LENGHT, Y_AXIS_X_COORD, Y_AXIS_FIRST_Y_COORD);
+        g2.drawLine(Y_AXIS_X_COORD + SECOND_LENGHT, Y_AXIS_FIRST_Y_COORD + FIRST_LENGHT, Y_AXIS_X_COORD, Y_AXIS_FIRST_Y_COORD);
 
         // draw origin Point
-        g2.fillOval(
-            X_AXIS_FIRST_X_COORD - (ORIGIN_COORDINATE_LENGHT / 2),
-            Y_AXIS_SECOND_Y_COORD - (ORIGIN_COORDINATE_LENGHT / 2),
-            ORIGIN_COORDINATE_LENGHT, ORIGIN_COORDINATE_LENGHT);
+        g2.fillOval( X_AXIS_FIRST_X_COORD - (ORIGIN_COORDINATE_LENGHT / 2), Y_AXIS_SECOND_Y_COORD - (ORIGIN_COORDINATE_LENGHT / 2), ORIGIN_COORDINATE_LENGHT, ORIGIN_COORDINATE_LENGHT);
 
-        // draw text "X" and draw text "Y"
-        g2.drawString("PITCH", X_AXIS_SECOND_X_COORD - AXIS_STRING_DISTANCE / 2,
-            X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
-        g2.drawString("Q.TY", Y_AXIS_X_COORD - 35,
-            Y_AXIS_FIRST_Y_COORD + AXIS_STRING_DISTANCE / 2);
+        // draw axis name value
+        g2.drawString(yAxisName, X_AXIS_SECOND_X_COORD - AXIS_STRING_DISTANCE / 2, X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
+        g2.drawString(xAxisName, Y_AXIS_X_COORD - 35, Y_AXIS_FIRST_Y_COORD + AXIS_STRING_DISTANCE / 2);
         
-        g2.drawString("(0,0)", X_AXIS_FIRST_X_COORD - AXIS_STRING_DISTANCE,
-            Y_AXIS_SECOND_Y_COORD + AXIS_STRING_DISTANCE);
+        g2.drawString("(0,0)", X_AXIS_FIRST_X_COORD - AXIS_STRING_DISTANCE, Y_AXIS_SECOND_Y_COORD + AXIS_STRING_DISTANCE);
         
-
         ArrayList<String> xCoordList = new ArrayList(inputData.keySet());
         ArrayList<Integer> yCoordList = new ArrayList(inputData.values());
         int maxValuePitch = Collections.max(inputData.values());
@@ -128,19 +125,17 @@ public class cartesianGui extends JPanel
 
         int xCoordValue = xCoordList.size()+1;
         int yCoordValue = ySetValueList.size();
-        
-        System.out.println("xCoordNumbers " + xCoordValue);
-        System.out.println("yCoordNumbers " + yCoordValue);
-        
+
         int xLength = (X_AXIS_SECOND_X_COORD - X_AXIS_FIRST_X_COORD) / xCoordValue;
         
         float[] dash = { 4f, 0f, 2f };
         BasicStroke bs = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f, dash, 2f );
-        // draw x-axis numbers
+        
         int index_X = 0;
         int height = 0;
         
-        for (int i = 1; i < xCoordValue; i++) {        
+        for (int i = 1; i < xCoordValue; i++)
+        {        
             g2.drawLine(X_AXIS_FIRST_X_COORD + (i * xLength),
                 X_AXIS_Y_COORD - SECOND_LENGHT,
                 X_AXIS_FIRST_X_COORD + (i * xLength),
@@ -159,13 +154,10 @@ public class cartesianGui extends JPanel
                 X_AXIS_FIRST_X_COORD + (i * xLength) - 3,
                 X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
             
-            height = Y_AXIS_SECOND_Y_COORD - Y_AXIS_X_COORD - 50;
+            height = Y_AXIS_SECOND_Y_COORD - OFFSET_BAR_TO_TOP_PANEL;
 
             double barHeight = ((double)inputData.get(xCoordList.get(index_X)) / (double) maxValuePitch) * (double)height;
-            System.out.println("height " + height);
-            System.out.println("maxValuePitch " + maxValuePitch);
-            System.out.println("inputData.get(xCoordList.get(i-1) " + (double)inputData.get(xCoordList.get(index_X)));
-            System.out.println("barHeight " + barHeight);
+
             g2.setStroke(defaultStroke);  
             g2.setColor(Color.RED);
             g2.fillRect(X_AXIS_FIRST_X_COORD + (i * xLength) - HISTOGRAM_BAR_WIDTH/2,
