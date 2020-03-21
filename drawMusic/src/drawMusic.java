@@ -1,3 +1,20 @@
+
+import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
+import java.util.TreeMap;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,14 +26,109 @@
  * @author Bibbo
  */
 public class drawMusic extends javax.swing.JFrame {
-
+    
+    JFileChooser chooser = new JFileChooser();
     /**
      * Creates new form drawMusic
      */
     public drawMusic() {
         initComponents();
     }
+    
+    class CartesianFrame extends JFrame
+    {  
+        String graphName = "Graph";
+        cartesianGui panel;
 
+        public CartesianFrame() {
+            String fileName = chooser.getSelectedFile().getName();
+            picthData pd = new picthData();
+            TreeMap<String, Integer> inputData = pd.XmlStatsPitch(fileName);
+            panel = new cartesianGui(inputData);
+            panel.setBackground(Color.WHITE);
+            panel.setViewValueOnBar(false);
+            panel.setxAxisName("PITCH");
+            panel.setyAxisName("Q.TY");
+            add(panel);
+        }
+
+        public void showUI() {
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);    
+            setSize(700, 700);
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
+        }
+
+        public void setGraphName(String newName) {
+            String grapName = "";
+            if(newName == "" && newName == null)
+                grapName = "Graph";
+            else
+                grapName = newName;
+            setTitle(grapName);
+        }
+    }
+    
+    class picthData
+    {
+        public TreeMap<String, Integer> XmlStatsPitch(String nameFile)
+        {
+            TreeMap<String, Integer> pitchStatsMap = new TreeMap<>();
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setValidating(false);
+            factory.setIgnoringElementContentWhitespace(true);
+            try
+            {
+                String fileName = nameFile;
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                File file = new File(fileName);
+                Document doc = (Document) builder.parse(file);
+
+                //Altezza
+                NodeList pitchNodeList = doc.getElementsByTagName("pitch");
+                // Non è possibile usare un foreach perché NodeList non implementa l'interfaccia Iterable
+                Node currentNode;
+                for(int i=0; i<pitchNodeList.getLength(); i++)
+                {
+                    if(pitchNodeList.item(i) != null)
+                    {
+                        currentNode = pitchNodeList.item(i);
+                        Element pitchElem = (Element) currentNode;
+                        if (!pitchElem.getAttribute("step").equals("")) 
+                        {
+                            String currentPitch = pitchElem.getAttribute("step").toUpperCase();
+                            if(pitchStatsMap.containsKey(currentPitch))
+                            {
+                                int counter = pitchStatsMap.get(currentPitch);
+                                counter += 1;
+                                pitchStatsMap.put(currentPitch,counter);     
+                            }
+                            else
+                            {
+                                pitchStatsMap.put(currentPitch,1);
+                            }
+
+                        }
+                    }
+                }
+                /*
+                //Stampa valori contenuti nella mappa pitchStatsMap
+                pitchStatsMap.forEach((k, v) -> {
+                    System.out.println("Occorrenze dell'altezza " + k + ": " + v);
+                });
+                */
+            }
+            catch (ParserConfigurationException | SAXException | IOException e)
+            {
+                System.out.println("Errore nell'elaborazione del file");
+                System.exit(1);
+            }
+            return pitchStatsMap;
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,21 +138,71 @@ public class drawMusic extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        openFileButton = new javax.swing.JButton();
+        openFileName = new javax.swing.JLabel();
+        generateGraphButton = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Music Data Extractor");
+
+        openFileButton.setText("Apri File");
+        openFileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openFileButtonActionPerformed(evt);
+            }
+        });
+
+        openFileName.setText("File Corrente:");
+
+        generateGraphButton.setText("Crea Grafico");
+        generateGraphButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateGraphButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(openFileButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(openFileName))
+                    .addComponent(generateGraphButton))
+                .addContainerGap(239, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(openFileButton)
+                    .addComponent(openFileName))
+                .addGap(73, 73, 73)
+                .addComponent(generateGraphButton)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void openFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileButtonActionPerformed
+        chooser.setFileFilter(new FileNameExtensionFilter("Documenti IEEE 1599", "xml"));  
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+        {
+            openFileName.setText(chooser.getSelectedFile().getName());
+        }
+    }//GEN-LAST:event_openFileButtonActionPerformed
+
+    private void generateGraphButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateGraphButtonActionPerformed
+        CartesianFrame frame = new CartesianFrame();
+        frame.showUI();
+        frame.setGraphName("Pitch Statistics");
+    }//GEN-LAST:event_generateGraphButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +240,8 @@ public class drawMusic extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton generateGraphButton;
+    private javax.swing.JButton openFileButton;
+    private javax.swing.JLabel openFileName;
     // End of variables declaration//GEN-END:variables
 }

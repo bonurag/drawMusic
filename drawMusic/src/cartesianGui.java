@@ -88,9 +88,6 @@ public class cartesianGui extends JPanel
         Font fn = new Font("Comic Sans MS", Font.PLAIN, 12);
         g2.setFont(fn);
         
-        FontMetrics metrics = g2.getFontMetrics(fn);
-        int fontHeight = metrics.getHeight();
-        
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
         Stroke defaultStroke = g2.getStroke();

@@ -2,8 +2,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -21,8 +19,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import org.w3c.dom.NamedNodeMap;
 
 /**
@@ -36,16 +32,16 @@ public class testMethod
         ANGLOSASSONE,
         PITCH_CLASS
     }
-    
+    /*
     public static void main(String[] args) throws XPathExpressionException 
     {
         //getPitchClass();
         //getPitch();
         //getXmlStatisticsDuration();
         //getXmlHarmonicInterval();
-        getXmlMelodicInterval();
+        //getXmlMelodicInterval();
     }
-    
+    */
     public static File readFile(String name)
     {
         String fileName = name;  
@@ -457,7 +453,7 @@ public class testMethod
     {
         try
         {
-            String fileName = "gounod_ave_maria.xml";  
+            String fileName = "gounod_ave_maria.xml";  //TestFile.xml
             Document myXmlDocument = getDoc(readFile(fileName));
             
             XPathFactory myXPathFactory = XPathFactory.newInstance();
@@ -466,7 +462,6 @@ public class testMethod
             String xPathVoiceAttributeSelect = "//chord";
             NodeList voiceItemrefList = (NodeList) (myXPath.evaluate(xPathVoiceAttributeSelect, myXmlDocument, XPathConstants.NODESET));
             
-            Set<String> voiceItemref_Set = new HashSet<String>(); 
             TreeMap<Integer,ArrayList<String>> pitchMap = new TreeMap<>();
             ArrayList<String> pitchInChordList = null;
             TreeMap<String, Integer> melodicIntervalMap = new TreeMap<>();
@@ -477,37 +472,37 @@ public class testMethod
                 {
                     String singleValue_voice_item_ref = ((Element) (voiceItemrefList.item(i))).getAttribute("event_ref");
                     if(!singleValue_voice_item_ref.equals(""))
-                        voiceItemref_Set.add(singleValue_voice_item_ref);
+                    {
+                        String pitchCounterForNotehead = "count(//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch)";
+                        String pitchCounter = myXPath.evaluate(pitchCounterForNotehead, myXmlDocument);
+                        //System.out.println("pitchCounter: " + pitchCounter);
 
-                    String pitchCounterForNotehead = "count(//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch)";
-                    String pitchCounter = myXPath.evaluate(pitchCounterForNotehead, myXmlDocument);
-                    //System.out.println("pitchCounter: " + pitchCounter);
-                    
-                    if(Integer.parseInt(pitchCounter) == 1)
-                    {
-                        pitchInChordList = new ArrayList<>();
-                        String xPathChordRefValueSinglePitch = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
-                        Node singlePitch = (Node) (myXPath.evaluate(xPathChordRefValueSinglePitch, myXmlDocument, XPathConstants.NODE));
-                        NamedNodeMap stepPitchAttribute = singlePitch.getAttributes();
-                        String note = stepPitchAttribute.getNamedItem("step").getNodeValue();
-                        String accidental = getNoteAccidental(stepPitchAttribute.getNamedItem("actual_accidental").getNodeValue());
-                        String octave = stepPitchAttribute.getNamedItem("octave").getNodeValue();
-                        pitchInChordList.add(note+accidental+octave);
-                    }   
-                    else if(Integer.parseInt(pitchCounter) > 1)
-                    {
-                        pitchInChordList = new ArrayList<>();
-                        String xPathChordRefValueMultiplePitch = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
-                        NodeList multiplPitch = (NodeList) (myXPath.evaluate(xPathChordRefValueMultiplePitch, myXmlDocument, XPathConstants.NODESET));
-                        pitchInChordList = getListFromNodeList(multiplPitch);
+                        if(Integer.parseInt(pitchCounter) == 1)
+                        {
+                            pitchInChordList = new ArrayList<>();
+                            String xPathChordRefValueSinglePitch = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
+                            Node singlePitch = (Node) (myXPath.evaluate(xPathChordRefValueSinglePitch, myXmlDocument, XPathConstants.NODE));
+                            NamedNodeMap stepPitchAttribute = singlePitch.getAttributes();
+                            String note = stepPitchAttribute.getNamedItem("step").getNodeValue();
+                            String accidental = getNoteAccidental(stepPitchAttribute.getNamedItem("actual_accidental").getNodeValue());
+                            String octave = stepPitchAttribute.getNamedItem("octave").getNodeValue();
+                            pitchInChordList.add(note+accidental+octave);
+                        }   
+                        else if(Integer.parseInt(pitchCounter) > 1)
+                        {
+                            pitchInChordList = new ArrayList<>();
+                            String xPathChordRefValueMultiplePitch = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
+                            NodeList multiplPitch = (NodeList) (myXPath.evaluate(xPathChordRefValueMultiplePitch, myXmlDocument, XPathConstants.NODESET));
+                            pitchInChordList = getListFromNodeList(multiplPitch);
+                        }
+                        pitchMap.put(i, pitchInChordList); 
                     }
-                    pitchMap.put(i, pitchInChordList);                  
                 }
             }
               
             ArrayList<String> pciNameLis = getPciName(getMelodicBinomialFromChord(pitchMap));
                     
-            System.out.println("getPciName: " + pciNameLis);
+            //System.out.println("getPciName: " + pciNameLis);
                         
             for(String intervalKey : pciNameLis)
             {
