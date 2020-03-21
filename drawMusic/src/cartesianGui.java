@@ -1,6 +1,8 @@
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -83,6 +85,11 @@ public class cartesianGui extends JPanel
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
+        Font fn = new Font("Comic Sans MS", Font.PLAIN, 12);
+        g2.setFont(fn);
+        
+        FontMetrics metrics = g2.getFontMetrics(fn);
+        int fontHeight = metrics.getHeight();
         
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
@@ -105,8 +112,8 @@ public class cartesianGui extends JPanel
         g2.fillOval( X_AXIS_FIRST_X_COORD - (ORIGIN_COORDINATE_LENGHT / 2), Y_AXIS_SECOND_Y_COORD - (ORIGIN_COORDINATE_LENGHT / 2), ORIGIN_COORDINATE_LENGHT, ORIGIN_COORDINATE_LENGHT);
 
         // draw axis name value
-        g2.drawString(yAxisName, X_AXIS_SECOND_X_COORD - AXIS_STRING_DISTANCE / 2, X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
-        g2.drawString(xAxisName, Y_AXIS_X_COORD - 35, Y_AXIS_FIRST_Y_COORD + AXIS_STRING_DISTANCE / 2);
+        g2.drawString(xAxisName, X_AXIS_SECOND_X_COORD - AXIS_STRING_DISTANCE / 2, X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
+        g2.drawString(yAxisName, Y_AXIS_X_COORD - 40, Y_AXIS_FIRST_Y_COORD + AXIS_STRING_DISTANCE / 2);
         
         g2.drawString("(0,0)", X_AXIS_FIRST_X_COORD - AXIS_STRING_DISTANCE, Y_AXIS_SECOND_Y_COORD + AXIS_STRING_DISTANCE);
         
@@ -168,8 +175,8 @@ public class cartesianGui extends JPanel
             if(enableView)
             {
                 g2.setColor(Color.BLACK);
-                int widthvALUE = g.getFontMetrics().stringWidth(Integer.toString(inputData.get(xCoordList.get(index_X))));
-                g2.drawString(Integer.toString(inputData.get(xCoordList.get(index_X))),X_AXIS_FIRST_X_COORD + (i * xLength) - (widthvALUE/2), X_AXIS_SECOND_X_COORD - (int)barHeight + 20);
+                int widthValue = g2.getFontMetrics().stringWidth(Integer.toString(inputData.get(xCoordList.get(index_X))));
+                g2.drawString(Integer.toString(inputData.get(xCoordList.get(index_X))),X_AXIS_FIRST_X_COORD + (i * xLength) - (widthValue/2), X_AXIS_SECOND_X_COORD - (int)barHeight + 20);
             }
             
             g2.setColor(Color.BLACK);
@@ -177,8 +184,10 @@ public class cartesianGui extends JPanel
         }
 
         //draw y-axis numbers
-        for (int i = 1; i < yCoordValue; i++) {
+        for (int i = 1; i < yCoordValue; i++)
+        {
             double barHeight = ((double)ySetValueList.get(i-1) / (double) maxValuePitch) * (double)height;
+
             g2.drawLine(Y_AXIS_X_COORD,
                 Y_AXIS_SECOND_Y_COORD - (int)barHeight,
                 Y_AXIS_X_COORD + SECOND_LENGHT,
@@ -191,10 +200,12 @@ public class cartesianGui extends JPanel
                     X_AXIS_SECOND_X_COORD - (int)barHeight,
                     Y_AXIS_SECOND_Y_COORD,
                     X_AXIS_SECOND_X_COORD - (int)barHeight);
-            g2.setColor(Color.BLACK);           
-            g2.drawString(Integer.toString(ySetValueList.get(i-1)),
-                Y_AXIS_X_COORD - AXIS_STRING_DISTANCE,
-                Y_AXIS_SECOND_Y_COORD - (int)barHeight);
+            g2.setColor(Color.BLACK);       
+            
+            if(i%2 != 0)
+                g2.drawString(Integer.toString(ySetValueList.get(i-1)), 630 - AXIS_STRING_DISTANCE, Y_AXIS_SECOND_Y_COORD - (int)barHeight - 5);               
+            else
+                g2.drawString(Integer.toString(ySetValueList.get(i-1)),Y_AXIS_X_COORD - AXIS_STRING_DISTANCE, Y_AXIS_SECOND_Y_COORD - (int)barHeight + 8);              
         }
     }
 }
