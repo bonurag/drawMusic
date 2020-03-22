@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeMap;
@@ -64,18 +65,18 @@ public class drawMusicData_Utils
         
         if(typeOrder.name().equals("ANGLOSASSONE"))
         {
-            System.out.println("Inside IF ANGLOSASSONE");
+            //System.out.println("Inside IF ANGLOSASSONE");
             listToOrder = anglosaxonClassOrder;
             mergeNote = true;
         }
         else if(typeOrder.name().equals("DIATONICA"))
         {
-            System.out.println("Inside IF DIATONICA");
+            //System.out.println("Inside IF DIATONICA");
             listToOrder = diatonicNoteOrder;
         }
         else if(typeOrder.name().equals("PITCH_CLASS"))
         {
-            System.out.println("Inside IF PITCH_CLASS");
+            //System.out.println("Inside IF PITCH_CLASS");
             listToOrder = anglosaxonClassOrder;
             getIndex = true;
         }
@@ -467,5 +468,17 @@ public class drawMusicData_Utils
             System.exit(1);
         }
         return pitchNoteMap;
+    }
+    
+    public static Integer getMinGapInValue(ArrayList<Integer> inputValue)
+    {
+        Collections.sort(inputValue);
+        Integer minValue = Collections.min(inputValue);
+        Integer succesorOfMinValue = inputValue.get(1);
+        //System.out.println("minValue: " + minValue);
+        //System.out.println("Succesor of minValue: " + succesorOfMinValue);
+        Integer result = Math.abs((succesorOfMinValue - minValue));
+        //System.out.println("Result: " + result);
+        return result;
     }
 }

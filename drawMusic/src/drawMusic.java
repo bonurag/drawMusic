@@ -213,7 +213,6 @@ public class drawMusic extends javax.swing.JFrame {
         fc.setFileFilter(filter);        
         fc.setDialogTitle("Open File");
         String[] fileterExt = filter.getExtensions();
-        System.out.println("fileterExt: " + fileterExt[0]);
         if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
         {
             File f = fc.getSelectedFile();
@@ -226,7 +225,6 @@ public class drawMusic extends javax.swing.JFrame {
                 enableBntpitchClassFrame = true;
                 if(!fileterExt[0].equals(extension))
                     JOptionPane.showMessageDialog(null, "Attenzione estenzione del file non valida! Selezionare file ."+fileterExt[0], "Error", JOptionPane.ERROR_MESSAGE);
-                System.out.println("extension: " + extension);
                 openFileName.setText(fc.getSelectedFile().getName());
             }        
         }

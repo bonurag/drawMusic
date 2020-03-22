@@ -32,6 +32,7 @@ class durationFrame extends JFrame
         panel.setViewValueOnBar(false);
         panel.setxAxisName("DURATION");
         panel.setyAxisName("Q.TY");
+        panel.setViewValueOnBar(false);
         add(panel);
     }
 
@@ -87,7 +88,7 @@ class durationFrame extends JFrame
                     }
                 }
             }  
-            drawMusicData_Utils.getOrderedDurationResult(rhythmMap, true);
+            drawMusicData_Utils.getOrderedDurationResult(rhythmMap, false);
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {

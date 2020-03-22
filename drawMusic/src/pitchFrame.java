@@ -55,7 +55,7 @@ class pitchFrame extends JFrame
         {
             String fileName = inputName;
             pitchNoteMap = drawMusicData_Utils.getXmlStatisticsPitch(fileName, "A");
-            finalPitchNoteMap = drawMusicData_Utils.getOrderedResult(pitchNoteMap, true, testMethod.Rappresentation.ANGLOSASSONE);
+            finalPitchNoteMap = drawMusicData_Utils.getOrderedResult(pitchNoteMap, false, testMethod.Rappresentation.ANGLOSASSONE);
         }
         catch (Exception e)
         {

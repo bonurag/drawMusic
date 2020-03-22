@@ -55,7 +55,7 @@ class pitchClassFrame extends JFrame
         {
             String fileName = inpuName;
             pitchClassMap = drawMusicData_Utils.getXmlStatisticsPitch(fileName, "D");
-            finalPitchClassMap = drawMusicData_Utils.getOrderedResult(pitchClassMap, true, testMethod.Rappresentation.DIATONICA);
+            finalPitchClassMap = drawMusicData_Utils.getOrderedResult(pitchClassMap, false, testMethod.Rappresentation.DIATONICA);
         }
         catch (Exception e)
         {
