@@ -449,8 +449,10 @@ public class testMethod
         return armonicIntervalMap;
     }
     
-    public static void getXmlMelodicInterval()
+    public static TreeMap<String, Integer> getXmlMelodicInterval()
     {
+        TreeMap<String, Integer> melodicIntervalMap = new TreeMap<>();
+        
         try
         {
             String fileName = "gounod_ave_maria.xml";  //TestFile.xml
@@ -464,8 +466,7 @@ public class testMethod
             
             TreeMap<Integer,ArrayList<String>> pitchMap = new TreeMap<>();
             ArrayList<String> pitchInChordList = null;
-            TreeMap<String, Integer> melodicIntervalMap = new TreeMap<>();
-            
+         
             for (int i = 0; i < voiceItemrefList.getLength(); i++)
             {                 
                 if(voiceItemrefList.item(i) != null)
@@ -517,11 +518,11 @@ public class testMethod
                     melodicIntervalMap.put(intervalKey,1);
                 }
             }
-                
+            /*
             melodicIntervalMap.forEach((k, v) -> {
 		System.out.println("pitchMap: " + k + ": " + v);
             });
-            
+            */           
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {
@@ -532,6 +533,7 @@ public class testMethod
         {
             Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return melodicIntervalMap;
     }
     
     public static ArrayList<Integer> getMelodicBinomialFromChord(TreeMap<Integer,ArrayList<String>> inputMap)
