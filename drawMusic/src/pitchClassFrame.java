@@ -25,7 +25,7 @@ class pitchClassFrame extends JFrame
         panel = new cartesianGui(inputData);
         panel.setBackground(Color.WHITE);
         panel.setViewValueOnBar(false);
-        panel.setxAxisName("PITCH");
+        panel.setxAxisName("PITCH CLASS");
         panel.setyAxisName("Q.TY");
         add(panel);
     }

@@ -37,20 +37,52 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="openFileName" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="nomeGraficoTextField_1" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="nomeGraficoStaticLabel" min="-2" max="-2" attributes="0"/>
-                          <Component id="generatePitchClassButton" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="generatePitchClassButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                                      <Component id="pitchClassBntTitle" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="nomeGraficoStaticLabel_1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="nomeGraficoStaticLabel_2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="pitchBntTitle" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="generatePitchButton" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="nomeGraficoTextField_1" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="nomeGraficoTextField_2" min="-2" pref="100" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="durationBntTitle" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="generateDurationButton" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="nomeGraficoTextField_3" min="-2" pref="100" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="419" max="32767" attributes="0"/>
+              <EmptySpace pref="230" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -64,13 +96,29 @@
                   <Component id="openFileName" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="94" max="32767" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="pitchClassBntTitle" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="pitchBntTitle" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="durationBntTitle" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-              <Component id="generatePitchClassButton" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="generatePitchClassButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="generatePitchButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="generateDurationButton" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="nomeGraficoStaticLabel" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="nomeGraficoStaticLabel_1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nomeGraficoStaticLabel_2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-              <Component id="nomeGraficoTextField_1" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="nomeGraficoTextField_1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nomeGraficoTextField_2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nomeGraficoTextField_3" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -92,8 +140,19 @@
     </Component>
     <Component class="javax.swing.JButton" name="generatePitchClassButton">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="2" name="C:\Users\Giuseppe\Documents\NetBeansProjects\Progetto Java\drawMusic\drawMusic\icon\bar-chart-2.png"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Genera grafico Pitch Class"/>
+        <Property name="alignmentY" type="float" value="0.0"/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[48, 48]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[48, 48]"/>
         </Property>
       </Properties>
       <Events>
@@ -110,9 +169,11 @@
     <Component class="javax.swing.JTextField" name="nomeGraficoTextField_1">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="Inserisci il nome del grafico"/>
+        <Property name="alignmentX" type="float" value="0.0"/>
+        <Property name="alignmentY" type="float" value="0.0"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="pitchClassBntTitle">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="12" style="1"/>
@@ -121,7 +182,88 @@
         <Property name="text" type="java.lang.String" value="Pitch Class"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="nomeGraficoStaticLabel">
+    <Component class="javax.swing.JLabel" name="nomeGraficoStaticLabel_1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nome Grafico:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="generatePitchButton">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="C:\Users\Giuseppe\Documents\NetBeansProjects\Progetto Java\drawMusic\drawMusic\icon\graphic.png"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Genera grafico Pitch"/>
+        <Property name="alignmentY" type="float" value="0.0"/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[48, 48]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[48, 48]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="generatePitchButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="pitchBntTitle">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="1"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Pitch"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="nomeGraficoStaticLabel_2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nome Grafico:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="nomeGraficoTextField_2">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Inserisci il nome del grafico"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="generateDurationButton">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="1"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="C:\Users\Giuseppe\Documents\NetBeansProjects\Progetto Java\drawMusic\drawMusic\icon\bar-chart.png"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Genera grafico Durate"/>
+        <Property name="alignmentY" type="float" value="0.0"/>
+        <Property name="label" type="java.lang.String" value=""/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[48, 48]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[48, 48]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="generateDurationButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="durationBntTitle">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="1"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Duration"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="nomeGraficoTextField_3">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Inserisci il nome del grafico"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="text" type="java.lang.String" value="Nome Grafico:"/>
       </Properties>

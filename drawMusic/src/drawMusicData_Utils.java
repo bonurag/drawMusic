@@ -158,7 +158,7 @@ public class drawMusicData_Utils
         return outputMap;
     }
     
-    public static void getOrderedDurationResult(TreeMap<Integer, Integer> inputMap, Boolean debug) {
+    public static void getOrderedDurationResult(LinkedHashMap<String, Integer> inputMap, Boolean debug) {
         
         if(debug)
         {
