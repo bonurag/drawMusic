@@ -66,23 +66,38 @@
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="nomeGraficoTextField_3" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="nomeGraficoTextField_4" min="-2" pref="100" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                                       <Component id="durationBntTitle" alignment="0" max="32767" attributes="0"/>
                                       <Component id="generateDurationButton" alignment="0" max="32767" attributes="0"/>
                                   </Group>
+                                  <Component id="nomeGraficoStaticLabel_3" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                              <Component id="nomeGraficoTextField_3" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="nomeGraficoStaticLabel_4" min="-2" max="-2" attributes="0"/>
+                                          <Component id="generateMelodicIntervalButton" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                                      <Component id="melodiIntervalBntTitle" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="230" max="32767" attributes="0"/>
+              <EmptySpace pref="98" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -95,29 +110,33 @@
                   <Component id="selectedFile" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="openFileName" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="94" max="32767" attributes="0"/>
+              <EmptySpace pref="90" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="pitchClassBntTitle" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="pitchBntTitle" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="durationBntTitle" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="melodiIntervalBntTitle" alignment="0" min="-2" pref="16" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="generatePitchClassButton" min="-2" max="-2" attributes="0"/>
                   <Component id="generatePitchButton" min="-2" max="-2" attributes="0"/>
                   <Component id="generateDurationButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="generateMelodicIntervalButton" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="nomeGraficoStaticLabel_1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="nomeGraficoStaticLabel_2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="nomeGraficoStaticLabel_3" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="nomeGraficoStaticLabel_4" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="nomeGraficoTextField_1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="nomeGraficoTextField_2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="nomeGraficoTextField_3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nomeGraficoTextField_4" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -263,9 +282,49 @@
         <Property name="toolTipText" type="java.lang.String" value="Inserisci il nome del grafico"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="nomeGraficoStaticLabel_3">
       <Properties>
         <Property name="text" type="java.lang.String" value="Nome Grafico:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="generateMelodicIntervalButton">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="C:\Users\Giuseppe\Documents\NetBeansProjects\Progetto Java\drawMusic\drawMusic\icon\pyramid-chart.png"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Genera grafico Intervalli Melodici"/>
+        <Property name="actionCommand" type="java.lang.String" value=""/>
+        <Property name="alignmentY" type="float" value="0.0"/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[48, 48]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[48, 48]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="generateMelodicIntervalButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="melodiIntervalBntTitle">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Melodic Interval"/>
+        <Property name="alignmentY" type="float" value="0.0"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="nomeGraficoStaticLabel_4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nome Grafico:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="nomeGraficoTextField_4">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Inserisci il nome del grafico"/>
+        <Property name="alignmentX" type="float" value="0.0"/>
+        <Property name="alignmentY" type="float" value="0.0"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -39,15 +39,17 @@ class melodicIntervalFrame extends JFrame
         panel = new cartesianGui(inputData);
         panel.setBackground(Color.WHITE);
         panel.setViewValueOnBar(false);
-        panel.setxAxisName("DURATION");
+        panel.setxAxisName("INTERVALLO");
         panel.setyAxisName("Q.TY");
         panel.setViewValueOnBar(false);
+        panel.setVerticalLabel(true);
+        panel.setHorizontalLabel(false);
         add(panel);
     }
 
     public void showUI() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);    
-        setSize(700, 700);
+        setSize(700, 800);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);

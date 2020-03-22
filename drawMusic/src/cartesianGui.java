@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -53,6 +54,10 @@ public class cartesianGui extends JPanel
     
     public Boolean enableView = false;
     
+    public Boolean enableHorizontalLabel = true;
+    
+    public Boolean enableVerticalLabel = false;
+    
     public String yAxisName = "Y";
     
     public String xAxisName = "X";
@@ -68,6 +73,16 @@ public class cartesianGui extends JPanel
     public void setViewValueOnBar(Boolean enable)
     {
         enableView = enable;
+    }
+    
+    public void setVerticalLabel(Boolean enable)
+    {
+        enableVerticalLabel = enable;
+    }
+    
+    public void setHorizontalLabel(Boolean enable)
+    {
+        enableHorizontalLabel = enable;
     }
     
     public void setyAxisName(String axisName)
@@ -182,22 +197,34 @@ public class cartesianGui extends JPanel
             g2.setColor(Color.BLACK);
             String xLabel = !isDurationList ? xCoordList.get(index_X) : "1/"+xCoordList.get(index_X); 
             int widthValueXlabel = g.getFontMetrics().stringWidth(xLabel);
-            
-            g2.drawString(xLabel,
-                X_AXIS_FIRST_X_COORD + (i * xLength) - (widthValueXlabel/2),
-                X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
-            
-            height = Y_AXIS_SECOND_Y_COORD - OFFSET_BAR_TO_TOP_PANEL;
+            int heightValueXlabel = g.getFontMetrics().getAscent();
 
+            if(enableVerticalLabel)
+            {
+                AffineTransform defaultAt = g2.getTransform();
+                AffineTransform at = new AffineTransform();
+                at.rotate(- Math.PI / 2);
+                g2.setTransform(at);
+                g2.drawString(xLabel, -685, X_AXIS_FIRST_X_COORD + (i * xLength) + (heightValueXlabel/2));
+                g2.setTransform(defaultAt);
+            }
+            if(enableHorizontalLabel)
+            {    
+                g2.drawString(xLabel,
+                    X_AXIS_FIRST_X_COORD + (i * xLength) - (widthValueXlabel/2),
+                    X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
+            }
+ 
+            height = Y_AXIS_SECOND_Y_COORD - OFFSET_BAR_TO_TOP_PANEL;
             double barHeight = ((double)inputData.get(xCoordList.get(index_X)) / (double) maxValuePitch) * (double)height;
 
             g2.setStroke(defaultStroke);  
             g2.setColor(Color.RED);
             g2.fillRect(X_AXIS_FIRST_X_COORD + (i * xLength) - HISTOGRAM_BAR_WIDTH/2,
-                    X_AXIS_SECOND_X_COORD - (int)barHeight, 
-                    HISTOGRAM_BAR_WIDTH, 
-                    (int)barHeight);
-            
+                X_AXIS_SECOND_X_COORD - (int)barHeight, 
+                HISTOGRAM_BAR_WIDTH, 
+                (int)barHeight);
+                     
             if(enableView)
             {
                 g2.setColor(Color.BLACK);

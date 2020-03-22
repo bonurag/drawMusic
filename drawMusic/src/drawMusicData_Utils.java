@@ -217,18 +217,18 @@ public class drawMusicData_Utils
     {
         TreeMap<Integer, String> pciMap = new TreeMap<>();
         ArrayList<String> pciNameList = new ArrayList<>();
-        pciMap.put(0, "Unisono giusto/Ottava giusta");
-        pciMap.put(1, "2a minore");
-        pciMap.put(2, "2a maggiore");
-        pciMap.put(3, "3a minore");
-        pciMap.put(4, "3a maggiore");
+        pciMap.put(0, "Uni/8a");
+        pciMap.put(1, "2a min");
+        pciMap.put(2, "2a mag");
+        pciMap.put(3, "3a min");
+        pciMap.put(4, "3a mag");
         pciMap.put(5, "4a giusta");
-        pciMap.put(6, "4a eccedente/5a diminuita");
+        pciMap.put(6, "4a ecc./5a dim");
         pciMap.put(7, "5a giusta");
-        pciMap.put(8, "6a minore");
-        pciMap.put(9, "6a maggiore");
-        pciMap.put(10, "7a minore");
-        pciMap.put(11, "7a maggiore");
+        pciMap.put(8, "6a min");
+        pciMap.put(9, "6a mag");
+        pciMap.put(10, "7a min");
+        pciMap.put(11, "7a mag");
         
         for(Integer i : pciInput)
         {
@@ -389,7 +389,7 @@ public class drawMusicData_Utils
                         String singlePermutation = previousValueList.get(w) + ":" + nextValueList.get(j);
                         String notePrev = previousValueList.get(w);
                         String noteNext = nextValueList.get(j);
-                        System.out.println("Permutazioni " + previousValueList.get(w) + "*" + nextValueList.get(j));
+                        //System.out.println("Permutazioni " + previousValueList.get(w) + "*" + nextValueList.get(j));
                         
                         PC_prev = getPitchClass(previousValueList.get(w).substring(0, previousValueList.get(w).length()-1));
                         NC_prev = getNameClass(previousValueList.get(w).substring(0, 1));
