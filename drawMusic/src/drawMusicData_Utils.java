@@ -32,7 +32,7 @@ public class drawMusicData_Utils
         ANGLOSASSONE,
         PITCH_CLASS
     }
-    
+
     public static File readFile(String name)
     {
         String fileName = name;  

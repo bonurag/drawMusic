@@ -16,6 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class drawMusic extends javax.swing.JFrame {
     
+    Boolean enableBntpitchClassFrame = false;
     JFileChooser fc = new JFileChooser();
     /**
      * Creates new form drawMusic
@@ -35,8 +36,11 @@ public class drawMusic extends javax.swing.JFrame {
 
         openFileButton = new javax.swing.JButton();
         selectedFile = new javax.swing.JLabel();
-        generateGraphButton = new javax.swing.JButton();
+        generatePitchClassButton = new javax.swing.JButton();
         openFileName = new javax.swing.JLabel();
+        nomeGraficoTextField_1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        nomeGraficoStaticLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Music Data Extractor");
@@ -51,14 +55,22 @@ public class drawMusic extends javax.swing.JFrame {
 
         selectedFile.setText("File Selezionato:");
 
-        generateGraphButton.setIcon(new javax.swing.ImageIcon("C:\\Users\\Giuseppe\\Documents\\NetBeansProjects\\Progetto Java\\drawMusic\\drawMusic\\icon\\bar-chart-2.png")); // NOI18N
-        generateGraphButton.addActionListener(new java.awt.event.ActionListener() {
+        generatePitchClassButton.setIcon(new javax.swing.ImageIcon("C:\\Users\\Giuseppe\\Documents\\NetBeansProjects\\Progetto Java\\drawMusic\\drawMusic\\icon\\bar-chart-2.png")); // NOI18N
+        generatePitchClassButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                generateGraphButtonActionPerformed(evt);
+                generatePitchClassButtonActionPerformed(evt);
             }
         });
 
         openFileName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
+        nomeGraficoTextField_1.setToolTipText("Inserisci il nome del grafico");
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Pitch Class");
+
+        nomeGraficoStaticLabel.setText("Nome Grafico:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -73,8 +85,16 @@ public class drawMusic extends javax.swing.JFrame {
                         .addComponent(selectedFile)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(openFileName))
-                    .addComponent(generateGraphButton))
-                .addContainerGap(219, Short.MAX_VALUE))
+                    .addComponent(nomeGraficoTextField_1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nomeGraficoStaticLabel)
+                            .addComponent(generatePitchClassButton))))
+                .addContainerGap(419, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,9 +104,15 @@ public class drawMusic extends javax.swing.JFrame {
                     .addComponent(openFileButton)
                     .addComponent(selectedFile)
                     .addComponent(openFileName))
-                .addGap(73, 73, 73)
-                .addComponent(generateGraphButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(6, 6, 6)
+                .addComponent(generatePitchClassButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nomeGraficoStaticLabel)
+                .addGap(2, 2, 2)
+                .addComponent(nomeGraficoTextField_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -107,6 +133,7 @@ public class drawMusic extends javax.swing.JFrame {
             {
                 String name = f.getName();
                 String extension = name.substring(name.length()-3,name.length());
+                enableBntpitchClassFrame = true;
                 if(!fileterExt[0].equals(extension))
                     JOptionPane.showMessageDialog(null, "Attenzione estenzione del file non valida! Selezionare file ."+fileterExt[0], "Error", JOptionPane.ERROR_MESSAGE);
                 System.out.println("extension: " + extension);
@@ -115,19 +142,42 @@ public class drawMusic extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_openFileButtonActionPerformed
 
-    private void generateGraphButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateGraphButtonActionPerformed
+    private void generatePitchClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generatePitchClassButtonActionPerformed
         try
-        {
+        {   
             pitchClassFrame pitchClassFrame = new pitchClassFrame(fc.getSelectedFile().getName());
             pitchClassFrame.showUI();
-            pitchClassFrame.setGraphName("Pitch Class Statistics");
+            String graphName = nomeGraficoTextField_1.getText();
+            if(!graphName.equals("") && !graphName.equals(null))
+                pitchClassFrame.setGraphName(graphName);
+            else
+                pitchClassFrame.setGraphName("Default Graph Name");
+            pitchClassFrame.addWindowListener(new java.awt.event.WindowAdapter()
+            {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent windowEvent)
+                {
+                    Object[] options = {"Si","No"};
+                    if (JOptionPane.showOptionDialog(pitchClassFrame, 
+                        "Sei sicuro di voler chiudere questa finestra?",
+                        "Chiudi Finestra?", 
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE, null, options, null) == JOptionPane.YES_OPTION){
+                        generatePitchClassButton.setEnabled(true);
+                        nomeGraficoTextField_1.setEnabled(true);
+                        nomeGraficoTextField_1.setText("");
+                    }
+                }
+            });
+            generatePitchClassButton.setEnabled(false);
+            nomeGraficoTextField_1.setEnabled(false);
         }
         catch(Exception e)
         {
             String errorMessage = "Prima di generare un grafico selezionare un file!";
             JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_generateGraphButtonActionPerformed
+    }//GEN-LAST:event_generatePitchClassButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,7 +215,10 @@ public class drawMusic extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton generateGraphButton;
+    private javax.swing.JButton generatePitchClassButton;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel nomeGraficoStaticLabel;
+    private javax.swing.JTextField nomeGraficoTextField_1;
     private javax.swing.JButton openFileButton;
     private javax.swing.JLabel openFileName;
     private javax.swing.JLabel selectedFile;
