@@ -2,7 +2,6 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -11,8 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Set;
-import java.util.TreeMap;
 import javax.swing.JPanel;
 
 /*
@@ -58,9 +57,9 @@ public class cartesianGui extends JPanel
     
     public String xAxisName = "X";
     
-    public TreeMap<String, Integer> inputData;
+    public LinkedHashMap<String, Integer> inputData;
     
-    public cartesianGui(TreeMap<String, Integer> inputData)
+    public cartesianGui(LinkedHashMap<String, Integer> inputData)
     {   
         this.inputData = inputData;
     }

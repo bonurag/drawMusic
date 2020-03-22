@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -416,5 +417,55 @@ public class drawMusicData_Utils
         //System.out.println("binomialMap " + binomialMap);
         //System.out.println("binomialMap Size " + binomialMap.size());
         return calculateInterval(permutationList, binomialMap);    
+    }
+    
+    public static TreeMap<String, Integer> getXmlStatisticsPitch(String xmlToOpen, String typeOfNotes)
+    {
+        TreeMap<String, Integer> pitchNoteMap = new TreeMap<>();
+        try
+        {
+            String fileName = xmlToOpen;
+            Document doc = getDoc(readFile(fileName));
+            
+            //Altezza
+            NodeList pitchNodeList = doc.getElementsByTagName("pitch");
+            // Non è possibile usare un foreach perché NodeList non implementa l'interfaccia Iterable
+            Node currentNode;
+            for(int i=0; i<pitchNodeList.getLength(); i++)
+            {
+                if(pitchNodeList.item(i) != null)
+                {
+                    currentNode = pitchNodeList.item(i);
+                    Element pitchElem = (Element) currentNode;
+                    if (!pitchElem.getAttribute("step").equals("")) 
+                    {
+                        String currentPitch = "";
+                        if(typeOfNotes.equals("A")) //Anglosassone
+                            currentPitch = pitchElem.getAttribute("step").toUpperCase();
+                        else if(typeOfNotes.equals("D")) //Diatonica
+                            currentPitch = getNoteTranscoding(pitchElem.getAttribute("step"));
+                        
+                        String currentAccidental = getNoteAccidental(pitchElem.getAttribute("actual_accidental"));
+                        
+                        if(pitchNoteMap.containsKey(currentPitch+currentAccidental))
+                        {
+                            int counter = pitchNoteMap.get(currentPitch+currentAccidental);
+                            counter += 1;
+                            pitchNoteMap.put(currentPitch+currentAccidental,counter);
+                        }
+                        else
+                        {
+                            pitchNoteMap.put(currentPitch+currentAccidental,1);
+                        }
+                    }
+                }
+            }
+        }
+        catch (ParserConfigurationException | SAXException | IOException e)
+        {
+            System.out.println("Errore nell'elaborazione del file");
+            System.exit(1);
+        }
+        return pitchNoteMap;
     }
 }
