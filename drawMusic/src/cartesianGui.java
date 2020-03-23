@@ -47,7 +47,7 @@ public class cartesianGui extends JPanel
     public static final int AXIS_STRING_DISTANCE = 25;
     
     // width of bar inside the diagram
-    public static final int HISTOGRAM_BAR_WIDTH = 30;
+    public static final int HISTOGRAM_BAR_WIDTH = 25;
     
     // distance from top of panel to the max highest bar
     public static final int OFFSET_BAR_TO_TOP_PANEL = 100;
