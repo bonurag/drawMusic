@@ -53,7 +53,7 @@ class melodicIntervalFrame extends JFrame
     }
 
     public void showUI() {
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);    
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);    
         setSize(700, 800);
         setLocationRelativeTo(null);
         setVisible(true);

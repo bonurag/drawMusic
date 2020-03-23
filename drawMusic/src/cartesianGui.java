@@ -137,9 +137,8 @@ public class cartesianGui extends JPanel
         Boolean disableYLabelView = true;
         if(xCoordList.size() > 1 && !xCoordList.isEmpty())
         {
-             System.out.println("Inside xCoordList.contains: " + xCoordList.size());
-            if(xCoordList.equals("1")|| xCoordList.equals("2") || xCoordList.equals("4") || xCoordList.equals("8") || xCoordList.equals("16") ||
-               xCoordList.equals("32") || xCoordList.equals("64") || xCoordList.equals("128") || xCoordList.equals("256") || xCoordList.equals("512"))   
+            if(xCoordList.contains("1")|| xCoordList.contains("2") || xCoordList.contains("4") || xCoordList.contains("8") || xCoordList.contains("16") ||
+               xCoordList.contains("32") || xCoordList.contains("64") || xCoordList.contains("128") || xCoordList.contains("256") || xCoordList.contains("512"))   
             {
                 ArrayList<Integer> tmpList = new ArrayList<>();
                 isDurationList = true;

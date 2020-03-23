@@ -1,7 +1,10 @@
 
+import java.awt.Color;
 import java.io.File;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /*
@@ -17,17 +20,19 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class drawMusic extends javax.swing.JFrame {
     
     //Boolean enableBntpitchClassFrame = false;
-    JFileChooser fc = new JFileChooser();
+    JFileChooser openFileChoseer = new JFileChooser();
     /**
      * Creates new form drawMusic
      */
     public drawMusic() {
         initComponents();
+        getContentPane().setBackground(Color.white);
         generatePitchClassButton.setEnabled(false);
         generatePitchButton.setEnabled(false);
         generateDurationButton.setEnabled(false);
         generateMelodicIntervalButton.setEnabled(false);
         generateHarmonicIntervalButton.setEnabled(false);
+        openFileName.setText("Nessun file selezionato!");
     }
  
     /**
@@ -61,7 +66,8 @@ public class drawMusic extends javax.swing.JFrame {
         generateHarmonicIntervalButton = new javax.swing.JButton();
         harmonicIntervalBntTitle = new javax.swing.JLabel();
         nomeGraficoTextField_5 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        nomeGraficoStaticLabel_5 = new javax.swing.JLabel();
+        selectedFileIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Music Data Extractor");
@@ -181,7 +187,9 @@ public class drawMusic extends javax.swing.JFrame {
         nomeGraficoTextField_5.setAlignmentX(0.0F);
         nomeGraficoTextField_5.setAlignmentY(0.0F);
 
-        jLabel1.setText("Nome Grafico:");
+        nomeGraficoStaticLabel_5.setText("Nome Grafico:");
+
+        selectedFileIcon.setIcon(new javax.swing.ImageIcon("C:\\Users\\Giuseppe\\Documents\\NetBeansProjects\\Progetto Java\\drawMusic\\drawMusic\\icon\\red_cross.png")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -193,8 +201,10 @@ public class drawMusic extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(openFileButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(selectedFileIcon)
+                        .addGap(12, 12, 12)
                         .addComponent(selectedFile)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(20, 20, 20)
                         .addComponent(openFileName))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,8 +243,7 @@ public class drawMusic extends javax.swing.JFrame {
                                         .addGap(54, 54, 54)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(generateHarmonicIntervalButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel1))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(nomeGraficoStaticLabel_5)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(46, 46, 46)
                                         .addComponent(melodicIntervalBntTitle)
@@ -254,12 +263,17 @@ public class drawMusic extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(openFileButton)
-                    .addComponent(selectedFile)
-                    .addComponent(openFileName))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(openFileButton)
+                            .addComponent(selectedFile)
+                            .addComponent(openFileName)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(selectedFileIcon)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(melodicIntervalBntTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -282,7 +296,7 @@ public class drawMusic extends javax.swing.JFrame {
                         .addComponent(nomeGraficoStaticLabel_1)
                         .addComponent(nomeGraficoStaticLabel_2)
                         .addComponent(nomeGraficoStaticLabel_4)
-                        .addComponent(jLabel1)))
+                        .addComponent(nomeGraficoStaticLabel_5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nomeGraficoTextField_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -298,16 +312,18 @@ public class drawMusic extends javax.swing.JFrame {
 
     private void openFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileButtonActionPerformed
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Documenti IEEE 1599", "xml");
-        fc.setFileFilter(filter);        
-        fc.setDialogTitle("Open File");
+        openFileChoseer.setFileFilter(filter);        
+        openFileChoseer.setDialogTitle("Open File");
         String[] fileterExt = filter.getExtensions();
-        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+        if (openFileChoseer.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
         {
-            File f = fc.getSelectedFile();
+            File f = openFileChoseer.getSelectedFile();
             if (f == null || !f.exists())
                 JOptionPane.showMessageDialog(null, "File selezionato non esistente!", "Error", JOptionPane.ERROR_MESSAGE);
             else if(f.exists())
             {
+                ImageIcon trueIcon = new ImageIcon("icon\\green_check.png");
+                selectedFileIcon.setIcon(trueIcon);
                 String name = f.getName();
                 String extension = name.substring(name.length()-3,name.length());
                 //enableBntpitchClassFrame = true;
@@ -318,7 +334,7 @@ public class drawMusic extends javax.swing.JFrame {
                 generateHarmonicIntervalButton.setEnabled(true);
                 if(!fileterExt[0].equals(extension))
                     JOptionPane.showMessageDialog(null, "Attenzione estenzione del file non valida! Selezionare file ."+fileterExt[0], "Error", JOptionPane.ERROR_MESSAGE);
-                openFileName.setText(fc.getSelectedFile().getName());
+                openFileName.setText(openFileChoseer.getSelectedFile().getName());
             }        
         }
     }//GEN-LAST:event_openFileButtonActionPerformed
@@ -327,9 +343,8 @@ public class drawMusic extends javax.swing.JFrame {
         try
         {   
             int dataSize = 0;
-            pitchClassFrame pitchClassFrame = new pitchClassFrame(fc.getSelectedFile().getName());
+            pitchClassFrame pitchClassFrame = new pitchClassFrame(openFileChoseer.getSelectedFile().getName());
             dataSize = pitchClassFrame.getInputDataSize();
-            
             if(dataSize > 0)
             {
                 generatePitchClassButton.setEnabled(false);
@@ -371,7 +386,7 @@ public class drawMusic extends javax.swing.JFrame {
         try
         {   
             int dataSize = 0;
-            pitchFrame pitchFrame = new pitchFrame(fc.getSelectedFile().getName());
+            pitchFrame pitchFrame = new pitchFrame(openFileChoseer.getSelectedFile().getName());
             dataSize = pitchFrame.getInputDataSize();
             
             if(dataSize > 0)
@@ -415,7 +430,7 @@ public class drawMusic extends javax.swing.JFrame {
         try
         {   
             int dataSize = 0;
-            durationFrame durationFrame = new durationFrame(fc.getSelectedFile().getName());
+            durationFrame durationFrame = new durationFrame(openFileChoseer.getSelectedFile().getName());
             dataSize = durationFrame.getInputDataSize();
             
             if(dataSize > 0)
@@ -459,7 +474,7 @@ public class drawMusic extends javax.swing.JFrame {
         try
         {   
             int dataSize = 0;
-            melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(fc.getSelectedFile().getName());
+            melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(openFileChoseer.getSelectedFile().getName());
             dataSize = melodicIntervalFrame.getInputDataSize();
             
             if(dataSize > 0)
@@ -503,7 +518,7 @@ public class drawMusic extends javax.swing.JFrame {
         try
         {   
             int dataSize = 0;
-            harmonicIntervalFrame harmonicIntervalFrame = new harmonicIntervalFrame(fc.getSelectedFile().getName());
+            harmonicIntervalFrame harmonicIntervalFrame = new harmonicIntervalFrame(openFileChoseer.getSelectedFile().getName());
             dataSize = harmonicIntervalFrame.getInputDataSize();
             
             if(dataSize > 0)
@@ -587,12 +602,12 @@ public class drawMusic extends javax.swing.JFrame {
     private javax.swing.JButton generatePitchButton;
     private javax.swing.JButton generatePitchClassButton;
     private javax.swing.JLabel harmonicIntervalBntTitle;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel melodicIntervalBntTitle;
     private javax.swing.JLabel nomeGraficoStaticLabel_1;
     private javax.swing.JLabel nomeGraficoStaticLabel_2;
     private javax.swing.JLabel nomeGraficoStaticLabel_3;
     private javax.swing.JLabel nomeGraficoStaticLabel_4;
+    private javax.swing.JLabel nomeGraficoStaticLabel_5;
     private javax.swing.JTextField nomeGraficoTextField_1;
     private javax.swing.JTextField nomeGraficoTextField_2;
     private javax.swing.JTextField nomeGraficoTextField_3;
@@ -603,5 +618,6 @@ public class drawMusic extends javax.swing.JFrame {
     private javax.swing.JLabel pitchBntTitle;
     private javax.swing.JLabel pitchClassBntTitle;
     private javax.swing.JLabel selectedFile;
+    private javax.swing.JLabel selectedFileIcon;
     // End of variables declaration//GEN-END:variables
 }
