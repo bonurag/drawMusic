@@ -38,7 +38,7 @@ public class testMethod
         //getPitchClass();
         //getPitch();
         //getXmlStatisticsDuration();
-        //getXmlHarmonicInterval();
+        getXmlHarmonicInterval();
         //getXmlMelodicInterval();
     }
     */
@@ -343,7 +343,7 @@ public class testMethod
         
         try
         {
-            String fileName = "gounod_ave_maria.xml";          
+            String fileName = "Ul_parisien.xml";          
             Document myXmlDocument = getDoc(readFile(fileName));
             
             XPathFactory myXPathFactory = XPathFactory.newInstance();

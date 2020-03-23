@@ -19,10 +19,15 @@ class pitchFrame extends JFrame
 {
     String graphName = "Graph";
     cartesianGui panel;
+    int inputDataSize = 0;
 
     public pitchFrame(String inputName) {
         LinkedHashMap<String, Integer> inputData = getPitch(inputName);
-        panel = new cartesianGui(inputData);
+        if(!inputData.isEmpty())
+        {
+            inputDataSize = inputData.size();
+            panel = new cartesianGui(inputData);
+        }
         panel.setBackground(Color.WHITE);
         panel.setViewValueOnBar(false);
         panel.setxAxisName("PITCH");
@@ -36,6 +41,10 @@ class pitchFrame extends JFrame
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
+    }
+    
+    public int getInputDataSize() {
+        return inputDataSize;
     }
 
     public void setGraphName(String newName) {

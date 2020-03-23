@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<MEMBERS>
+  <MEMBER>
+    <NAME>Tom</NAME>
+    <STATUS>GOLD</STATUS>
+  </MEMBER>
+  <MEMBER>
+    <NAME>Bob</NAME>
+    <STATUS>GOLD</STATUS>
+  </MEMBER>
+  <MEMBER>
+    <NAME>Sue</NAME>
+    <STATUS>SILVER</STATUS>
+  </MEMBER>
+</MEMBERS>

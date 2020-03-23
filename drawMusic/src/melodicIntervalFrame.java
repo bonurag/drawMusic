@@ -33,10 +33,15 @@ class melodicIntervalFrame extends JFrame
 {
     String graphName = "Graph";
     cartesianGui panel;
+    int inputDataSize = 0;
 
     public melodicIntervalFrame(String inputName) {
         LinkedHashMap<String, Integer> inputData = getXmlMelodicInterval(inputName);
-        panel = new cartesianGui(inputData);
+        if(!inputData.isEmpty())
+        {
+            inputDataSize = inputData.size();
+            panel = new cartesianGui(inputData);
+        }
         panel.setBackground(Color.WHITE);
         panel.setViewValueOnBar(false);
         panel.setxAxisName("INTERVALLO");
@@ -53,6 +58,10 @@ class melodicIntervalFrame extends JFrame
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
+    }
+    
+    public int getInputDataSize() {
+        return inputDataSize;
     }
 
     public void setGraphName(String newName) {

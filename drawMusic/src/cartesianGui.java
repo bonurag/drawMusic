@@ -128,29 +128,38 @@ public class cartesianGui extends JPanel
         g2.drawString(yAxisName, Y_AXIS_X_COORD - 40, Y_AXIS_FIRST_Y_COORD + AXIS_STRING_DISTANCE / 2);
         
         g2.drawString("(0,0)", X_AXIS_FIRST_X_COORD - AXIS_STRING_DISTANCE, Y_AXIS_SECOND_Y_COORD + AXIS_STRING_DISTANCE);
-
-        ArrayList<String> xCoordList = new ArrayList(inputData.keySet());
+            
+        ArrayList<String> xCoordList = null; 
+        if(!inputData.keySet().isEmpty())
+            xCoordList = new ArrayList(inputData.keySet());
         
         Boolean isDurationList = false;
         Boolean disableYLabelView = true;
-        if(xCoordList.contains("1") || xCoordList.contains("2") || xCoordList.contains("4") || xCoordList.contains("8") || xCoordList.contains("16") ||
-           xCoordList.contains("32") || xCoordList.contains("64") || xCoordList.contains("128") || xCoordList.contains("256") || xCoordList.contains("512"))
+        if(xCoordList.size() > 1 && !xCoordList.isEmpty())
         {
-            ArrayList<Integer> tmpList = new ArrayList<>();
-            isDurationList = true;
-            for(int i=0; i<xCoordList.size(); i++)
+             System.out.println("Inside xCoordList.contains: " + xCoordList.size());
+            if(xCoordList.equals("1")|| xCoordList.equals("2") || xCoordList.equals("4") || xCoordList.equals("8") || xCoordList.equals("16") ||
+               xCoordList.equals("32") || xCoordList.equals("64") || xCoordList.equals("128") || xCoordList.equals("256") || xCoordList.equals("512"))   
             {
-                tmpList.add(Integer.parseInt(xCoordList.get(i)));
-            }
-            Collections.sort(tmpList);
-            xCoordList = new ArrayList<>();
-            for(int j=0; j<tmpList.size(); j++)
-            {
-                xCoordList.add(Integer.toString(tmpList.get(j)));
+                ArrayList<Integer> tmpList = new ArrayList<>();
+                isDurationList = true;
+                for(int i=0; i<xCoordList.size(); i++)
+                {
+                    tmpList.add(Integer.parseInt(xCoordList.get(i)));
+                }
+                Collections.sort(tmpList);
+                xCoordList = new ArrayList<>();
+                for(int j=0; j<tmpList.size(); j++)
+                {
+                    xCoordList.add(Integer.toString(tmpList.get(j)));
+                }
             }
         }
-           
-        ArrayList<Integer> yCoordList = new ArrayList(inputData.values());
+        
+        ArrayList<Integer> yCoordList = null; 
+        if(!inputData.keySet().isEmpty())
+            yCoordList = new ArrayList(inputData.values());
+        
         Integer yGapValue = drawMusicData_Utils.getMinGapInValue(yCoordList);
         if(yGapValue <= 5)
         {
@@ -168,18 +177,18 @@ public class cartesianGui extends JPanel
         }
         ySetValueList.add(0);
 
-        int xCoordValue = xCoordList.size()+1;
-        int yCoordValue = ySetValueList.size();
+        //int xCoordValue = xCoordList.size()+1;
+        //int yCoordValue = ySetValueList.size();
 
-        int xLength = (X_AXIS_SECOND_X_COORD - X_AXIS_FIRST_X_COORD) / xCoordValue;
+        int xLength = (X_AXIS_SECOND_X_COORD - X_AXIS_FIRST_X_COORD) / (xCoordList.size()+1);
         
         float[] dash = { 4f, 0f, 2f };
         BasicStroke bs = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f, dash, 2f );
         
         int index_X = 0;
         int height = 0;
-
-        for (int i = 1; i < xCoordValue; i++)
+        System.out.println("Inside Cartesian Class");
+        for (int i = 1; i < xCoordList.size()+1; i++)
         {                
             g2.drawLine(X_AXIS_FIRST_X_COORD + (i * xLength),
                 X_AXIS_Y_COORD - SECOND_LENGHT,
@@ -237,7 +246,7 @@ public class cartesianGui extends JPanel
         }
 
         //draw y-axis numbers
-        for (int i = 1; i < yCoordValue; i++)
+        for (int i = 1; i < ySetValueList.size(); i++)
         {
             double barHeight = ((double)ySetValueList.get(i-1) / (double) maxValuePitch) * (double)height;
             
