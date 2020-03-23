@@ -4,7 +4,6 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /*
@@ -20,7 +19,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class drawMusic extends javax.swing.JFrame {
     
     //Boolean enableBntpitchClassFrame = false;
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("Documenti IEEE 1599", "xml");
     JFileChooser openFileChoseer = new JFileChooser();
+    ImageIcon trueIcon = new ImageIcon("icon\\green_check.png");
+    ImageIcon falseIcon = new ImageIcon("icon\\red_cross.png");
     /**
      * Creates new form drawMusic
      */
@@ -311,21 +313,23 @@ public class drawMusic extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void openFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileButtonActionPerformed
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Documenti IEEE 1599", "xml");
         openFileChoseer.setFileFilter(filter);        
         openFileChoseer.setDialogTitle("Open File");
         String[] fileterExt = filter.getExtensions();
         if (openFileChoseer.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
         {
             File f = openFileChoseer.getSelectedFile();
-            if (f == null || !f.exists())
+            if (f == null)
+            {
+                openFileName.setText("Nessun file selezionato!");
                 JOptionPane.showMessageDialog(null, "File selezionato non esistente!", "Error", JOptionPane.ERROR_MESSAGE);
+            }      
             else if(f.exists())
             {
-                ImageIcon trueIcon = new ImageIcon("icon\\green_check.png");
-                selectedFileIcon.setIcon(trueIcon);
                 String name = f.getName();
                 String extension = name.substring(name.length()-3,name.length());
+                selectedFileIcon.setIcon(trueIcon);  
+                openFileName.setText(name);
                 //enableBntpitchClassFrame = true;
                 generatePitchClassButton.setEnabled(true);
                 generatePitchButton.setEnabled(true);
@@ -333,8 +337,11 @@ public class drawMusic extends javax.swing.JFrame {
                 generateMelodicIntervalButton.setEnabled(true);
                 generateHarmonicIntervalButton.setEnabled(true);
                 if(!fileterExt[0].equals(extension))
+                {
+                    selectedFileIcon.setIcon(falseIcon);
+                    openFileName.setText("File selezionato non riconosciuto!");
                     JOptionPane.showMessageDialog(null, "Attenzione estenzione del file non valida! Selezionare file ."+fileterExt[0], "Error", JOptionPane.ERROR_MESSAGE);
-                openFileName.setText(openFileChoseer.getSelectedFile().getName());
+                }      
             }        
         }
     }//GEN-LAST:event_openFileButtonActionPerformed
