@@ -500,6 +500,7 @@ public class drawMusic extends javax.swing.JFrame {
                                 JOptionPane.INFORMATION_MESSAGE, null, options, null);
                     if(state == JOptionPane.YES_OPTION)
                     {
+                        windowEvent.getWindow().dispose();
                         generateDurationButton.setEnabled(true);
                         nomeGraficoTextField_3.setEnabled(true);
                         nomeGraficoTextField_3.setText("");
@@ -546,6 +547,7 @@ public class drawMusic extends javax.swing.JFrame {
                                 JOptionPane.INFORMATION_MESSAGE, null, options, null);
                     if(state == JOptionPane.YES_OPTION)
                     {
+                        windowEvent.getWindow().dispose();
                         generateMelodicIntervalButton.setEnabled(true);
                         nomeGraficoTextField_4.setEnabled(true);
                         nomeGraficoTextField_4.setText("");
@@ -593,6 +595,7 @@ public class drawMusic extends javax.swing.JFrame {
                                 JOptionPane.INFORMATION_MESSAGE, null, options, null);
                     if(state == JOptionPane.YES_OPTION)
                     {
+                        windowEvent.getWindow().dispose();
                         generateHarmonicIntervalButton.setEnabled(true);
                         nomeGraficoTextField_5.setEnabled(true);
                         nomeGraficoTextField_5.setText("");

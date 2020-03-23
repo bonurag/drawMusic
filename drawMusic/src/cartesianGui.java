@@ -186,7 +186,7 @@ public class cartesianGui extends JPanel
         
         int index_X = 0;
         int height = 0;
-        System.out.println("Inside Cartesian Class");
+
         for (int i = 1; i < xCoordList.size()+1; i++)
         {                
             g2.drawLine(X_AXIS_FIRST_X_COORD + (i * xLength),
