@@ -144,9 +144,9 @@ class melodicIntervalFrame extends JFrame
             }
             /*
             melodicIntervalMap.forEach((k, v) -> {
-		System.out.println("pitchMap: " + k + ": " + v);
+		System.out.println("melodicIntervalMap: " + k + ": " + v);
             });
-            */           
+            */          
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {

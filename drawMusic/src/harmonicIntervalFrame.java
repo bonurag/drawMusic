@@ -73,7 +73,7 @@ class harmonicIntervalFrame extends JFrame
     
     public static LinkedHashMap<String, Integer> getXmlHarmonicInterval(String inputName)
     {        
-        LinkedHashMap<String, Integer> armonicIntervalMap = new LinkedHashMap<>();
+        LinkedHashMap<String, Integer> harmonicIntervalMap = new LinkedHashMap<>();
         TreeMap<String, ArrayList<Integer>> binomialNoteMap = new TreeMap<>();
         
         ArrayList<String> notesListInChord;
@@ -159,23 +159,23 @@ class harmonicIntervalFrame extends JFrame
                         
                 for(String intervalKey : pciNameLis)
                 {
-                    if(armonicIntervalMap.containsKey(intervalKey))
+                    if(harmonicIntervalMap.containsKey(intervalKey))
                     {
-                        int counter = armonicIntervalMap.get(intervalKey);
+                        int counter = harmonicIntervalMap.get(intervalKey);
                         counter += 1;
-                        armonicIntervalMap.put(intervalKey,counter);     
+                        harmonicIntervalMap.put(intervalKey,counter);     
                     }
                     else
                     {
-                        armonicIntervalMap.put(intervalKey,1);
+                        harmonicIntervalMap.put(intervalKey,1);
                     }
                 }    
             }
-            /*
-            armonicIntervalMap.forEach((k, v) -> {
-		System.out.println("Occorrenze: " + k + ": " + v);
+            
+            harmonicIntervalMap.forEach((k, v) -> {
+		System.out.println("harmonicIntervalMap: " + k + ": " + v);
             });
-            */
+            
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         { 
@@ -186,6 +186,6 @@ class harmonicIntervalFrame extends JFrame
         {
             Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return armonicIntervalMap;
+        return harmonicIntervalMap;
     }   
 }
