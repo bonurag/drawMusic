@@ -441,13 +441,17 @@ public class drawMusicData_Utils
                     if (!pitchElem.getAttribute("step").equals("")) 
                     {
                         String currentPitch = "";
+                        String currentAccidental = "";
                         if(typeOfNotes.equals("A")) //Anglosassone
+                        {
                             currentPitch = pitchElem.getAttribute("step").toUpperCase();
+                        }     
                         else if(typeOfNotes.equals("D")) //Diatonica
+                        {
                             currentPitch = getNoteTranscoding(pitchElem.getAttribute("step"));
-                        
-                        String currentAccidental = getNoteAccidental(pitchElem.getAttribute("actual_accidental"));
-                        
+                            currentAccidental = getNoteAccidental(pitchElem.getAttribute("actual_accidental"));
+                        }
+
                         if(pitchNoteMap.containsKey(currentPitch+currentAccidental))
                         {
                             int counter = pitchNoteMap.get(currentPitch+currentAccidental);
