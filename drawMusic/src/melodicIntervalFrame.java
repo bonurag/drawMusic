@@ -47,8 +47,6 @@ class melodicIntervalFrame extends JFrame
         panel.setxAxisName("INTERVALLO");
         panel.setyAxisName("Q.TY");
         panel.setViewValueOnBar(false);
-        panel.setVerticalLabel(true);
-        panel.setHorizontalLabel(false);
         add(panel);
     }
 
