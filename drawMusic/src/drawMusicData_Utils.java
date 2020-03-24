@@ -227,12 +227,12 @@ public class drawMusicData_Utils
                 int PC = tmpListPci.get(0);
                 int NC = tmpListPci.get(1);
 
-                System.out.println("tmpListPci: " + tmpListPci);
-                System.out.println("PC: " + PC);
-                System.out.println("NC: " + NC);
+                //System.out.println("tmpListPci: " + tmpListPci);
+                //System.out.println("PC: " + PC);
+                //System.out.println("NC: " + NC);
 
                 String intervalValue = intervalMatrix.get(PC).get(NC);
-                System.out.println("intervalValue: " + intervalValue);
+                //System.out.println("intervalValue: " + intervalValue);
 
                 pciNameList.add(intervalValue);
             }
@@ -269,7 +269,7 @@ public class drawMusicData_Utils
                 intervalForSinglePermutation.add(secondElem);
                 intervalResult.add(intervalForSinglePermutation);
             }
-            System.out.println("calculateInterval: " + intervalResult);
+            //System.out.println("calculateInterval: " + intervalResult);
         }    
         return intervalResult;
     }
@@ -498,9 +498,9 @@ public class drawMusicData_Utils
 	
 	for(int i=0; i<12; i++)
 	{
+            r = new Vector<>();
             if(i == 0)
-            {
-                r = new Vector<String>();
+            {  
                 r.add(0, "P1");
                 r.add(1, "d2");
                 r.add(2, "3d3");
@@ -512,7 +512,6 @@ public class drawMusicData_Utils
 
             if(i == 1)
             {
-                r = new Vector<String>();
                 r.add(0, "A1");
                 r.add(1, "m2");
                 r.add(2, "2d3");
@@ -524,7 +523,6 @@ public class drawMusicData_Utils
 
             if(i == 2)
             {
-                r = new Vector<String>();
                 r.add(0, "2A1");
                 r.add(1, "M2");
                 r.add(2, "d3");
@@ -536,7 +534,6 @@ public class drawMusicData_Utils
 
             if(i == 3)
             {
-                r = new Vector<String>(); 
                 r.add(0, "3A1");
                 r.add(1, "A2");
                 r.add(2, "m3");
@@ -548,7 +545,6 @@ public class drawMusicData_Utils
 
             if(i == 4)
             {
-                r = new Vector<String>(); 
                 r.add(0, "4A1");
                 r.add(1, "2A2");
                 r.add(2, "M3");
@@ -560,7 +556,6 @@ public class drawMusicData_Utils
 
             if(i == 5)
             {
-                r = new Vector<String>(); 
                 r.add(0, "5A1");
                 r.add(1, "3A2");
                 r.add(2, "A3");
@@ -572,7 +567,6 @@ public class drawMusicData_Utils
 
             if(i == 6)
             {
-                r = new Vector<String>(); 
                 r.add(0, "6A1");
                 r.add(1, "4A2");
                 r.add(2, "2A3");
@@ -584,7 +578,6 @@ public class drawMusicData_Utils
 
             if(i == 7)
             {
-                r = new Vector<String>(); 
                 r.add(0, "5d1");
                 r.add(1, "5A2");
                 r.add(2, "3A3");
@@ -596,7 +589,6 @@ public class drawMusicData_Utils
 
             if(i == 8)
             {
-                r = new Vector<String>(); 
                 r.add(0, "4d1");
                 r.add(1, "5d2");
                 r.add(2, "4A3");
@@ -608,7 +600,6 @@ public class drawMusicData_Utils
 
             if(i == 9)
             {
-                r = new Vector<String>(); 
                 r.add(0, "3d1");
                 r.add(1, "4d2");
                 r.add(2, "5A3");
@@ -620,7 +611,6 @@ public class drawMusicData_Utils
 
             if(i == 10)
             {
-                r = new Vector<String>(); 
                 r.add(0, "2d1");
                 r.add(1, "3d2");
                 r.add(2, "5d3");
@@ -632,7 +622,6 @@ public class drawMusicData_Utils
 
             if(i == 11)
             {
-                r = new Vector<String>(); 
                 r.add(0, "d1");
                 r.add(1, "2d2");
                 r.add(2, "4d3");

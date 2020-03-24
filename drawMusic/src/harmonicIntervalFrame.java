@@ -171,11 +171,11 @@ class harmonicIntervalFrame extends JFrame
                     }
                 }    
             }
-            
+            /*
             harmonicIntervalMap.forEach((k, v) -> {
 		System.out.println("harmonicIntervalMap: " + k + ": " + v);
             });
-            
+            */
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         { 
