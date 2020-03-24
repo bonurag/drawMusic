@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.Vector;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -213,28 +214,27 @@ public class drawMusicData_Utils
         return tempList;
     }
     
-    public static ArrayList<String> getPciName(ArrayList<Integer> pciInput)
+    public static ArrayList<String> getPciName(ArrayList<ArrayList<Integer>> pciInput)
     {
-        TreeMap<Integer, String> pciMap = new TreeMap<>();
         ArrayList<String> pciNameList = new ArrayList<>();
-        pciMap.put(0, "Uni/8a");
-        pciMap.put(1, "2a min");
-        pciMap.put(2, "2a mag");
-        pciMap.put(3, "3a min");
-        pciMap.put(4, "3a mag");
-        pciMap.put(5, "4a giusta");
-        pciMap.put(6, "4a ecc./5a dim");
-        pciMap.put(7, "5a giusta");
-        pciMap.put(8, "6a min");
-        pciMap.put(9, "6a mag");
-        pciMap.put(10, "7a min");
-        pciMap.put(11, "7a mag");
-        
-        for(Integer i : pciInput)
+        ArrayList<Integer> tmpListPci = new ArrayList<>();
+        Vector<Vector<String>> intervalMatrix = generateMatrixBRI();
+        if(!pciInput.isEmpty())
         {
-            if(i >= 0 || i < 12)
+            for(int k=0; k<pciInput.size(); k++)
             {
-                pciNameList.add(pciMap.get(i));
+                tmpListPci = pciInput.get(k);
+                int PC = tmpListPci.get(0);
+                int NC = tmpListPci.get(1);
+
+                System.out.println("tmpListPci: " + tmpListPci);
+                System.out.println("PC: " + PC);
+                System.out.println("NC: " + NC);
+
+                String intervalValue = intervalMatrix.get(PC).get(NC);
+                System.out.println("intervalValue: " + intervalValue);
+
+                pciNameList.add(intervalValue);
             }
         }
         return pciNameList;
@@ -242,13 +242,15 @@ public class drawMusicData_Utils
     
     //Per determinare l’intervallo tra due note, si sottrae la prima nota dalla
     //seconda. Tale calcolo corrisponde all’operazione di sottrazione
-    public static ArrayList<Integer> calculateInterval(ArrayList<String> inputPermutation, TreeMap<String, ArrayList<Integer>> binomialMap)
+    public static ArrayList<ArrayList<Integer>> calculateInterval(ArrayList<String> inputPermutation, TreeMap<String, ArrayList<Integer>> binomialMap)
     {
-        ArrayList<Integer> intervalResult = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> intervalResult = new ArrayList<>();
+        ArrayList<Integer> intervalForSinglePermutation = new ArrayList<>();
         if(inputPermutation.size() > 0)
         {
             for(int y=0; y<inputPermutation.size(); y++)
             {  
+                intervalForSinglePermutation = new ArrayList<>();
                 List<String> singleNote = Arrays.asList(inputPermutation.get(y).split(":"));
                 
                 ArrayList<Integer> binomialFirstNote = binomialMap.get(singleNote.get(0));
@@ -263,8 +265,11 @@ public class drawMusicData_Utils
                 Integer firstElem = (pitchClassFirstNote-pitchClassSecondNote) < 0 ? ((pitchClassFirstNote-pitchClassSecondNote)+12)%12: (pitchClassFirstNote-pitchClassSecondNote)%12; 
                 Integer secondElem = (NameClassFirstNote-NameClassSecondNote) < 0 ? ((NameClassFirstNote-NameClassSecondNote)+7)%7: (NameClassFirstNote-NameClassSecondNote)%7;
                 //System.out.println("Inside calculateInterval final result: <"+firstElem+","+secondElem+">");
-                intervalResult.add(firstElem);
+                intervalForSinglePermutation.add(firstElem);
+                intervalForSinglePermutation.add(secondElem);
+                intervalResult.add(intervalForSinglePermutation);
             }
+            System.out.println("calculateInterval: " + intervalResult);
         }    
         return intervalResult;
     }
@@ -353,7 +358,7 @@ public class drawMusicData_Utils
         return nameClassValue;
     }
     
-    public static ArrayList<Integer> getMelodicBinomialFromChord(TreeMap<Integer,ArrayList<String>> inputMap)
+    public static ArrayList<ArrayList<Integer>> getMelodicBinomialFromChord(TreeMap<Integer,ArrayList<String>> inputMap)
     {
         ArrayList<String> previousValueList = new ArrayList<>();
         ArrayList<String> nextValueList = new ArrayList<>();
@@ -484,5 +489,160 @@ public class drawMusicData_Utils
         Integer result = Math.abs((succesorOfMinValue - minValue));
         //System.out.println("Result: " + result);
         return result;
+    }
+    
+    public static Vector<Vector<String>> generateMatrixBRI()
+    {
+	Vector<Vector<String>> binomialRapInterval = new Vector<Vector<String>>();
+	Vector<String> r = null;
+	
+	for(int i=0; i<12; i++)
+	{
+            if(i == 0)
+            {
+                r = new Vector<String>();
+                r.add(0, "P1");
+                r.add(1, "d2");
+                r.add(2, "3d3");
+                r.add(3, "5d4");
+                r.add(4, "5A5");
+                r.add(5, "3A6");
+                r.add(6, "A7");
+            }
+
+            if(i == 1)
+            {
+                r = new Vector<String>();
+                r.add(0, "A1");
+                r.add(1, "m2");
+                r.add(2, "2d3");
+                r.add(3, "4d4");
+                r.add(4, "6A5");
+                r.add(5, "4A6");
+                r.add(6, "2A7");
+            }
+
+            if(i == 2)
+            {
+                r = new Vector<String>();
+                r.add(0, "2A1");
+                r.add(1, "M2");
+                r.add(2, "d3");
+                r.add(3, "3d4");
+                r.add(4, "5d5");
+                r.add(5, "5A6");
+                r.add(6, "3A7");
+            }
+
+            if(i == 3)
+            {
+                r = new Vector<String>(); 
+                r.add(0, "3A1");
+                r.add(1, "A2");
+                r.add(2, "m3");
+                r.add(3, "2d4");
+                r.add(4, "4d5");
+                r.add(5, "5d6");
+                r.add(6, "4A7");
+            }
+
+            if(i == 4)
+            {
+                r = new Vector<String>(); 
+                r.add(0, "4A1");
+                r.add(1, "2A2");
+                r.add(2, "M3");
+                r.add(3, "d4");
+                r.add(4, "3d5");
+                r.add(5, "4d6");
+                r.add(6, "5A7");
+            }
+
+            if(i == 5)
+            {
+                r = new Vector<String>(); 
+                r.add(0, "5A1");
+                r.add(1, "3A2");
+                r.add(2, "A3");
+                r.add(3, "P4");
+                r.add(4, "2d5");
+                r.add(5, "3d6");
+                r.add(6, "5d7");
+            }
+
+            if(i == 6)
+            {
+                r = new Vector<String>(); 
+                r.add(0, "6A1");
+                r.add(1, "4A2");
+                r.add(2, "2A3");
+                r.add(3, "A4");
+                r.add(4, "d5");
+                r.add(5, "2d6");
+                r.add(6, "4d7");
+            }
+
+            if(i == 7)
+            {
+                r = new Vector<String>(); 
+                r.add(0, "5d1");
+                r.add(1, "5A2");
+                r.add(2, "3A3");
+                r.add(3, "2A4");
+                r.add(4, "P5");
+                r.add(5, "d6");
+                r.add(6, "3d7");
+            }
+
+            if(i == 8)
+            {
+                r = new Vector<String>(); 
+                r.add(0, "4d1");
+                r.add(1, "5d2");
+                r.add(2, "4A3");
+                r.add(3, "3A4");
+                r.add(4, "A5");
+                r.add(5, "m6");
+                r.add(6, "2d7");
+            }
+
+            if(i == 9)
+            {
+                r = new Vector<String>(); 
+                r.add(0, "3d1");
+                r.add(1, "4d2");
+                r.add(2, "5A3");
+                r.add(3, "4A4");
+                r.add(4, "2A5");
+                r.add(5, "M6");
+                r.add(6, "d7");
+            }
+
+            if(i == 10)
+            {
+                r = new Vector<String>(); 
+                r.add(0, "2d1");
+                r.add(1, "3d2");
+                r.add(2, "5d3");
+                r.add(3, "5A4");
+                r.add(4, "3A5");
+                r.add(5, "A6");
+                r.add(6, "m7");
+            }
+
+            if(i == 11)
+            {
+                r = new Vector<String>(); 
+                r.add(0, "d1");
+                r.add(1, "2d2");
+                r.add(2, "4d3");
+                r.add(3, "6A4");
+                r.add(4, "4A5");
+                r.add(5, "2A6");
+                r.add(6, "M7");
+            }
+            binomialRapInterval.add(r);
+	}
+	return binomialRapInterval;
     }
 }
