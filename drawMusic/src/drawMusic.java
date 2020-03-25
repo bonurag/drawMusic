@@ -2,6 +2,7 @@
 import java.awt.Color;
 import java.io.File;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -23,6 +24,7 @@ public class drawMusic extends javax.swing.JFrame {
     JFileChooser openFileChoseer = new JFileChooser();
     ImageIcon trueIcon = new ImageIcon("icon\\green_check.png");
     ImageIcon falseIcon = new ImageIcon("icon\\red_cross.png");
+    JButton startButton;
     /**
      * Creates new form drawMusic
      */
@@ -516,6 +518,7 @@ public class drawMusic extends javax.swing.JFrame {
     }                                                      
 
     private void generateMelodicIntervalButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                              
+        
         try
         {   
             int dataSize = 0;
@@ -559,7 +562,7 @@ public class drawMusic extends javax.swing.JFrame {
         {
             String informationMessage = "Non sono presenti dati da elaborare!";
             JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
-        }
+        }       
     }                                                             
 
     private void generateHarmonicIntervalButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                               

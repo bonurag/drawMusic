@@ -6,6 +6,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -22,13 +23,14 @@ public class programGui extends javax.swing.JFrame
     JFileChooser openFileChoseer = new JFileChooser();
     ImageIcon trueIcon = new ImageIcon("icon\\green_check.png");
     ImageIcon falseIcon = new ImageIcon("icon\\red_cross.png");
+    
     /**
      * Creates new form programGui
      */
     public programGui()
     {
         initComponents();
-        getContentPane().setBackground(Color.white);
+        getContentPane().setBackground(Color.WHITE);
         lockIcon();
         lockTextBox();
         openFileName.setText("Nessun file selezionato!");
@@ -76,31 +78,33 @@ public class programGui extends javax.swing.JFrame
     private void initComponents() {
 
         openFileButton = new javax.swing.JButton();
-        selectedFile = new javax.swing.JLabel();
         generatePitchClassButton = new javax.swing.JButton();
-        openFileName = new javax.swing.JLabel();
+        generatePitchButton = new javax.swing.JButton();
+        generateDurationButton = new javax.swing.JButton();
+        generateMelodicIntervalButton = new javax.swing.JButton();
+        generateHarmonicIntervalButton = new javax.swing.JButton();
         nomeGraficoTextField_1 = new javax.swing.JTextField();
+        nomeGraficoTextField_2 = new javax.swing.JTextField();
+        nomeGraficoTextField_3 = new javax.swing.JTextField();
+        nomeGraficoTextField_4 = new javax.swing.JTextField();
+        nomeGraficoTextField_5 = new javax.swing.JTextField();
+        selectedFileIcon = new javax.swing.JLabel();
+        selectedFile = new javax.swing.JLabel();
+        openFileName = new javax.swing.JLabel();
         pitchClassBntTitle = new javax.swing.JLabel();
         nomeGraficoStaticLabel_1 = new javax.swing.JLabel();
-        generatePitchButton = new javax.swing.JButton();
         pitchBntTitle = new javax.swing.JLabel();
         nomeGraficoStaticLabel_2 = new javax.swing.JLabel();
-        nomeGraficoTextField_2 = new javax.swing.JTextField();
-        generateDurationButton = new javax.swing.JButton();
         durationBntTitle = new javax.swing.JLabel();
-        nomeGraficoTextField_3 = new javax.swing.JTextField();
         nomeGraficoStaticLabel_3 = new javax.swing.JLabel();
-        generateMelodicIntervalButton = new javax.swing.JButton();
         melodicIntervalBntTitle = new javax.swing.JLabel();
         nomeGraficoStaticLabel_4 = new javax.swing.JLabel();
-        nomeGraficoTextField_4 = new javax.swing.JTextField();
-        generateHarmonicIntervalButton = new javax.swing.JButton();
         harmonicIntervalBntTitle = new javax.swing.JLabel();
-        nomeGraficoTextField_5 = new javax.swing.JTextField();
         nomeGraficoStaticLabel_5 = new javax.swing.JLabel();
-        selectedFileIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Music Data Extractor");
+        setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(650, 300));
 
         openFileButton.setText("Apri File");
@@ -110,8 +114,7 @@ public class programGui extends javax.swing.JFrame
             }
         });
 
-        selectedFile.setText("File Selezionato:");
-
+        generatePitchClassButton.setBackground(new java.awt.Color(255, 255, 255));
         generatePitchClassButton.setForeground(new java.awt.Color(255, 255, 255));
         generatePitchClassButton.setIcon(new javax.swing.ImageIcon("C:\\Users\\Giuseppe\\Documents\\NetBeansProjects\\Progetto Java\\drawMusic\\drawMusic\\icon\\bar-chart-2.png")); // NOI18N
         generatePitchClassButton.setToolTipText("Genera grafico Pitch Class");
@@ -122,18 +125,7 @@ public class programGui extends javax.swing.JFrame
             }
         });
 
-        openFileName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-
-        nomeGraficoTextField_1.setToolTipText("Inserisci il nome del grafico");
-        nomeGraficoTextField_1.setAlignmentX(0.0F);
-        nomeGraficoTextField_1.setAlignmentY(0.0F);
-
-        pitchClassBntTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        pitchClassBntTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        pitchClassBntTitle.setText("Pitch Class");
-
-        nomeGraficoStaticLabel_1.setText("Nome Grafico:");
-
+        generatePitchButton.setBackground(new java.awt.Color(255, 255, 255));
         generatePitchButton.setForeground(new java.awt.Color(255, 255, 255));
         generatePitchButton.setIcon(new javax.swing.ImageIcon("C:\\Users\\Giuseppe\\Documents\\NetBeansProjects\\Progetto Java\\drawMusic\\drawMusic\\icon\\graphic.png")); // NOI18N
         generatePitchButton.setToolTipText("Genera grafico Pitch");
@@ -144,15 +136,8 @@ public class programGui extends javax.swing.JFrame
             }
         });
 
-        pitchBntTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        pitchBntTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        pitchBntTitle.setText("Pitch");
-
-        nomeGraficoStaticLabel_2.setText("Nome Grafico:");
-
-        nomeGraficoTextField_2.setToolTipText("Inserisci il nome del grafico");
-
-        generateDurationButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        generateDurationButton.setBackground(new java.awt.Color(255, 255, 255));
+        generateDurationButton.setForeground(new java.awt.Color(255, 255, 255));
         generateDurationButton.setIcon(new javax.swing.ImageIcon("C:\\Users\\Giuseppe\\Documents\\NetBeansProjects\\Progetto Java\\drawMusic\\drawMusic\\icon\\bar-chart.png")); // NOI18N
         generateDurationButton.setToolTipText("Genera grafico Durate");
         generateDurationButton.setAlignmentY(0.0F);
@@ -162,14 +147,7 @@ public class programGui extends javax.swing.JFrame
             }
         });
 
-        durationBntTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        durationBntTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        durationBntTitle.setText("Duration");
-
-        nomeGraficoTextField_3.setToolTipText("Inserisci il nome del grafico");
-
-        nomeGraficoStaticLabel_3.setText("Nome Grafico:");
-
+        generateMelodicIntervalButton.setBackground(new java.awt.Color(255, 255, 255));
         generateMelodicIntervalButton.setIcon(new javax.swing.ImageIcon("C:\\Users\\Giuseppe\\Documents\\NetBeansProjects\\Progetto Java\\drawMusic\\drawMusic\\icon\\pyramid-chart.png")); // NOI18N
         generateMelodicIntervalButton.setToolTipText("Genera grafico Intervalli Melodici");
         generateMelodicIntervalButton.setAlignmentY(0.0F);
@@ -179,16 +157,7 @@ public class programGui extends javax.swing.JFrame
             }
         });
 
-        melodicIntervalBntTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        melodicIntervalBntTitle.setText("Melodic Interval");
-        melodicIntervalBntTitle.setAlignmentY(0.0F);
-
-        nomeGraficoStaticLabel_4.setText("Nome Grafico:");
-
-        nomeGraficoTextField_4.setToolTipText("Inserisci il nome del grafico");
-        nomeGraficoTextField_4.setAlignmentX(0.0F);
-        nomeGraficoTextField_4.setAlignmentY(0.0F);
-
+        generateHarmonicIntervalButton.setBackground(new java.awt.Color(255, 255, 255));
         generateHarmonicIntervalButton.setIcon(new javax.swing.ImageIcon("C:\\Users\\Giuseppe\\Documents\\NetBeansProjects\\Progetto Java\\drawMusic\\drawMusic\\icon\\line-chart-4.png")); // NOI18N
         generateHarmonicIntervalButton.setToolTipText("Genera grafico Intervalli Armonici");
         generateHarmonicIntervalButton.setAlignmentY(0.0F);
@@ -198,25 +167,77 @@ public class programGui extends javax.swing.JFrame
             }
         });
 
-        harmonicIntervalBntTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        harmonicIntervalBntTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        harmonicIntervalBntTitle.setText("Harmonic Interval");
-        harmonicIntervalBntTitle.setAlignmentY(0.0F);
+        nomeGraficoTextField_1.setToolTipText("Inserisci il nome del grafico");
+        nomeGraficoTextField_1.setAlignmentX(0.0F);
+        nomeGraficoTextField_1.setAlignmentY(0.0F);
+
+        nomeGraficoTextField_2.setToolTipText("Inserisci il nome del grafico");
+
+        nomeGraficoTextField_3.setToolTipText("Inserisci il nome del grafico");
+
+        nomeGraficoTextField_4.setToolTipText("Inserisci il nome del grafico");
+        nomeGraficoTextField_4.setAlignmentX(0.0F);
+        nomeGraficoTextField_4.setAlignmentY(0.0F);
 
         nomeGraficoTextField_5.setToolTipText("Inserisci il nome del grafico");
         nomeGraficoTextField_5.setAlignmentX(0.0F);
         nomeGraficoTextField_5.setAlignmentY(0.0F);
 
-        nomeGraficoStaticLabel_5.setText("Nome Grafico:");
-
         selectedFileIcon.setIcon(new javax.swing.ImageIcon("C:\\Users\\Giuseppe\\Documents\\NetBeansProjects\\Progetto Java\\drawMusic\\drawMusic\\icon\\red_cross.png")); // NOI18N
+
+        selectedFile.setText("File Selezionato:");
+
+        openFileName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        openFileName.setText("text");
+
+        pitchClassBntTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pitchClassBntTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pitchClassBntTitle.setText("Pitch Class");
+
+        nomeGraficoStaticLabel_1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        nomeGraficoStaticLabel_1.setLabelFor(nomeGraficoTextField_1);
+        nomeGraficoStaticLabel_1.setText("Nome Grafico");
+
+        pitchBntTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pitchBntTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pitchBntTitle.setText("Pitch");
+
+        nomeGraficoStaticLabel_2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        nomeGraficoStaticLabel_2.setLabelFor(nomeGraficoTextField_2);
+        nomeGraficoStaticLabel_2.setText("Nome Grafico");
+
+        durationBntTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        durationBntTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        durationBntTitle.setText("Duration");
+
+        nomeGraficoStaticLabel_3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        nomeGraficoStaticLabel_3.setLabelFor(nomeGraficoTextField_3);
+        nomeGraficoStaticLabel_3.setText("Nome Grafico");
+
+        melodicIntervalBntTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        melodicIntervalBntTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        melodicIntervalBntTitle.setText("Melodic");
+        melodicIntervalBntTitle.setAlignmentY(0.0F);
+
+        nomeGraficoStaticLabel_4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        nomeGraficoStaticLabel_4.setLabelFor(nomeGraficoTextField_4);
+        nomeGraficoStaticLabel_4.setText("Nome Grafico");
+
+        harmonicIntervalBntTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        harmonicIntervalBntTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        harmonicIntervalBntTitle.setText("Harmonic");
+        harmonicIntervalBntTitle.setAlignmentY(0.0F);
+
+        nomeGraficoStaticLabel_5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        nomeGraficoStaticLabel_5.setLabelFor(nomeGraficoTextField_5);
+        nomeGraficoStaticLabel_5.setText("Nome Grafico");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(openFileButton)
@@ -226,80 +247,58 @@ public class programGui extends javax.swing.JFrame
                         .addComponent(selectedFile)
                         .addGap(20, 20, 20)
                         .addComponent(openFileName))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pitchClassBntTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(generatePitchClassButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(nomeGraficoStaticLabel_1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(nomeGraficoTextField_1))
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nomeGraficoTextField_2, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(nomeGraficoStaticLabel_2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(generatePitchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pitchBntTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(durationBntTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(nomeGraficoTextField_3, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(generateDurationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(nomeGraficoStaticLabel_3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(generatePitchClassButton)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(11, 11, 11)
-                                        .addComponent(pitchClassBntTitle))
-                                    .addComponent(nomeGraficoStaticLabel_1))
-                                .addGap(54, 54, 54)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nomeGraficoStaticLabel_2)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(pitchBntTitle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(generatePitchButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(nomeGraficoTextField_1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(nomeGraficoTextField_2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(durationBntTitle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(generateDurationButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(nomeGraficoStaticLabel_3))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(54, 54, 54)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(nomeGraficoStaticLabel_4)
-                                            .addComponent(generateMelodicIntervalButton))
-                                        .addGap(54, 54, 54)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(generateHarmonicIntervalButton)
-                                            .addComponent(nomeGraficoStaticLabel_5)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(46, 46, 46)
-                                        .addComponent(melodicIntervalBntTitle)
-                                        .addGap(42, 42, 42)
-                                        .addComponent(harmonicIntervalBntTitle))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(nomeGraficoTextField_3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
                                 .addComponent(nomeGraficoTextField_4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(32, 32, 32)
-                                .addComponent(nomeGraficoTextField_5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(nomeGraficoTextField_5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(generateMelodicIntervalButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(nomeGraficoStaticLabel_4, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
+                                .addGap(32, 32, 32)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(harmonicIntervalBntTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(generateHarmonicIntervalButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(nomeGraficoStaticLabel_5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(melodicIntervalBntTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(openFileButton)
-                            .addComponent(selectedFile)
-                            .addComponent(openFileName)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(selectedFileIcon)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(melodicIntervalBntTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(harmonicIntervalBntTitle))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(pitchClassBntTitle)
-                        .addComponent(pitchBntTitle)
-                        .addComponent(durationBntTitle)))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(openFileName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(openFileButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(selectedFileIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(selectedFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pitchBntTitle)
+                    .addComponent(durationBntTitle)
+                    .addComponent(melodicIntervalBntTitle)
+                    .addComponent(harmonicIntervalBntTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pitchClassBntTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(generatePitchClassButton)
@@ -309,20 +308,21 @@ public class programGui extends javax.swing.JFrame
                     .addComponent(generateHarmonicIntervalButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nomeGraficoStaticLabel_3)
+                    .addComponent(nomeGraficoStaticLabel_1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nomeGraficoStaticLabel_2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(nomeGraficoStaticLabel_1)
-                        .addComponent(nomeGraficoStaticLabel_2)
-                        .addComponent(nomeGraficoStaticLabel_4)
-                        .addComponent(nomeGraficoStaticLabel_5)))
+                        .addComponent(nomeGraficoStaticLabel_4, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nomeGraficoStaticLabel_5)
+                        .addComponent(nomeGraficoStaticLabel_3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nomeGraficoTextField_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nomeGraficoTextField_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nomeGraficoTextField_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nomeGraficoTextField_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nomeGraficoTextField_5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(nomeGraficoTextField_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nomeGraficoTextField_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nomeGraficoTextField_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nomeGraficoTextField_5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nomeGraficoTextField_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -348,7 +348,6 @@ public class programGui extends javax.swing.JFrame
                 String extension = name.substring(name.length()-3,name.length());
                 selectedFileIcon.setIcon(trueIcon);  
                 openFileName.setText(name);
-                //enableBntpitchClassFrame = true;
                 unLockIcon();
                 unLockTextBox();
                 if(!fileterExt[0].equals(extension))
@@ -380,9 +379,10 @@ public class programGui extends javax.swing.JFrame
     }//GEN-LAST:event_generateMelodicIntervalButtonActionPerformed
 
     private void generateHarmonicIntervalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateHarmonicIntervalButtonActionPerformed
-        // TODO add your handling code here:
+        
+        //melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(openFileChoseer.getSelectedFile().getName());
     }//GEN-LAST:event_generateHarmonicIntervalButtonActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */
@@ -422,7 +422,7 @@ public class programGui extends javax.swing.JFrame
     private javax.swing.JLabel durationBntTitle;
     private javax.swing.JButton generateDurationButton;
     private javax.swing.JButton generateHarmonicIntervalButton;
-    private javax.swing.JButton generateMelodicIntervalButton;
+    public javax.swing.JButton generateMelodicIntervalButton;
     private javax.swing.JButton generatePitchButton;
     private javax.swing.JButton generatePitchClassButton;
     private javax.swing.JLabel harmonicIntervalBntTitle;
@@ -435,7 +435,7 @@ public class programGui extends javax.swing.JFrame
     private javax.swing.JTextField nomeGraficoTextField_1;
     private javax.swing.JTextField nomeGraficoTextField_2;
     private javax.swing.JTextField nomeGraficoTextField_3;
-    private javax.swing.JTextField nomeGraficoTextField_4;
+    public javax.swing.JTextField nomeGraficoTextField_4;
     private javax.swing.JTextField nomeGraficoTextField_5;
     private javax.swing.JButton openFileButton;
     private javax.swing.JLabel openFileName;

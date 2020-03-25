@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.SwingWorker;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -35,8 +37,25 @@ class melodicIntervalFrame extends JFrame
     cartesianGui panel;
     int inputDataSize = 0;
 
-    public melodicIntervalFrame(String inputName) {
-        LinkedHashMap<String, Integer> inputData = getXmlMelodicInterval(inputName);
+    public melodicIntervalFrame(String inputName) throws InterruptedException, ExecutionException {
+        LoadMaster l = new LoadMaster();
+        SwingWorker work = l.createWorker(inputName);
+        work.execute();
+        while (!work.isDone())
+        {
+            // Show Progress
+            try
+            {
+                int iProgress = work.getProgress();
+                System.out.println("Progress % " + iProgress);
+                Thread.sleep(500);
+            }
+            catch (Exception ex)
+            {
+                System.err.println(ex);
+            }
+        }
+        LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) work.get();
         if(!inputData.isEmpty())
         {
             inputDataSize = inputData.size();
@@ -70,7 +89,7 @@ class melodicIntervalFrame extends JFrame
             grapName = newName;
         setTitle(grapName);
     }
-    
+    /*
     public static LinkedHashMap<String, Integer> getXmlMelodicInterval(String inputName)
     {
         LinkedHashMap<String, Integer> melodicIntervalMap = new LinkedHashMap<>();
@@ -140,11 +159,11 @@ class melodicIntervalFrame extends JFrame
                     melodicIntervalMap.put(intervalKey,1);
                 }
             }
-            /*
+            
             melodicIntervalMap.forEach((k, v) -> {
 		System.out.println("melodicIntervalMap: " + k + ": " + v);
             });
-            */    
+                
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {
@@ -156,5 +175,5 @@ class melodicIntervalFrame extends JFrame
             Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
         }
         return melodicIntervalMap;
-    }
+    }*/
 }
