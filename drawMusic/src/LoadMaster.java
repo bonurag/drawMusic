@@ -2,7 +2,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -131,7 +130,7 @@ public class LoadMaster
                 }
                 return melodicIntervalMap;
             }
-            
+            /*
             @Override
             protected void process(List<Integer> chunks)
             {
@@ -141,7 +140,7 @@ public class LoadMaster
                     System.out.println("Found even number: " + number);
                 }
             }
-            
+            */
             @Override
             protected void done()
             {
@@ -151,7 +150,7 @@ public class LoadMaster
                     ex.printStackTrace();
                 }
                 System.out.println("Finished with status " + calculateData);
-            }
-        };
+            }                     
+        };      
     }    
 }

@@ -1,25 +1,7 @@
 
 import java.awt.Color;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.TreeMap;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.SwingWorker;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -36,26 +18,11 @@ class melodicIntervalFrame extends JFrame
     String graphName = "Graph";
     cartesianGui panel;
     int inputDataSize = 0;
+    int currentPercent = 0;
 
-    public melodicIntervalFrame(String inputName) throws InterruptedException, ExecutionException {
-        LoadMaster l = new LoadMaster();
-        SwingWorker work = l.createWorker(inputName);
-        work.execute();
-        while (!work.isDone())
-        {
-            // Show Progress
-            try
-            {
-                int iProgress = work.getProgress();
-                System.out.println("Progress % " + iProgress);
-                Thread.sleep(500);
-            }
-            catch (Exception ex)
-            {
-                System.err.println(ex);
-            }
-        }
-        LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) work.get();
+    public melodicIntervalFrame(Object inputDataWork)
+    {       
+        LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
         if(!inputData.isEmpty())
         {
             inputDataSize = inputData.size();
@@ -65,13 +32,12 @@ class melodicIntervalFrame extends JFrame
         panel.setViewValueOnBar(false);
         panel.setxAxisName("INTERVALLO");
         panel.setyAxisName("Q.TY");
-        panel.setViewValueOnBar(false);
         add(panel);
     }
 
     public void showUI() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);    
-        setSize(700, 800);
+        setSize(700, 700);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
@@ -80,7 +46,7 @@ class melodicIntervalFrame extends JFrame
     public int getInputDataSize() {
         return inputDataSize;
     }
-
+    
     public void setGraphName(String newName) {
         String grapName = "";
         if(newName == "" && newName == null)

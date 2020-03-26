@@ -1,4 +1,5 @@
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 import javax.xml.parsers.DocumentBuilder;

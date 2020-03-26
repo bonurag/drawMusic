@@ -1,9 +1,15 @@
 
 import java.awt.Color;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 
@@ -21,8 +27,9 @@ public class programGui extends javax.swing.JFrame
 {   
     FileNameExtensionFilter filter = new FileNameExtensionFilter("Documenti IEEE 1599", "xml");
     JFileChooser openFileChoseer = new JFileChooser();
-    ImageIcon trueIcon = new ImageIcon("icon\\green_check.png");
-    ImageIcon falseIcon = new ImageIcon("icon\\red_cross.png");
+   
+    ImageIcon trueIcon = new ImageIcon("icon/green_check.png");
+    ImageIcon falseIcon = new ImageIcon("red_cross.png");
     
     /**
      * Creates new form programGui
@@ -68,6 +75,15 @@ public class programGui extends javax.swing.JFrame
         nomeGraficoTextField_5.setEnabled(true);
     }
     
+    public void setProgressBarValue(int inputValue){
+        System.out.println("setProgressBarValue " + inputValue);
+        loadDataProgressBar.setValue(inputValue);
+    }
+    
+    public void setProgressBarVisibleint(Boolean inputValue){
+        System.out.println("setProgressBarVisibleint " + inputValue); 
+        loadDataProgressBar.setVisible(inputValue);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -187,11 +203,6 @@ public class programGui extends javax.swing.JFrame
         getContentPane().add(nomeGraficoTextField_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 100, -1));
 
         nomeGraficoTextField_3.setToolTipText("Inserisci il nome del grafico");
-        nomeGraficoTextField_3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nomeGraficoTextField_3ActionPerformed(evt);
-            }
-        });
         getContentPane().add(nomeGraficoTextField_3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, 100, -1));
 
         nomeGraficoTextField_4.setToolTipText("Inserisci il nome del grafico");
@@ -248,7 +259,7 @@ public class programGui extends javax.swing.JFrame
         melodicIntervalBntTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         melodicIntervalBntTitle.setText("Melodic");
         melodicIntervalBntTitle.setAlignmentY(0.0F);
-        getContentPane().add(melodicIntervalBntTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 170, -1, -1));
+        getContentPane().add(melodicIntervalBntTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 170, -1, -1));
 
         nomeGraficoStaticLabel_4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         nomeGraficoStaticLabel_4.setLabelFor(nomeGraficoTextField_4);
@@ -270,7 +281,8 @@ public class programGui extends javax.swing.JFrame
         getContentPane().add(openFileIconDescriptioon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
 
         loadDataProgressBar.setBackground(new java.awt.Color(51, 153, 255));
-        loadDataProgressBar.setForeground(new java.awt.Color(255, 255, 255));
+        loadDataProgressBar.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        loadDataProgressBar.setForeground(new java.awt.Color(0, 0, 0));
         loadDataProgressBar.setStringPainted(true);
         getContentPane().add(loadDataProgressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 20, 180, 20));
 
@@ -324,17 +336,100 @@ public class programGui extends javax.swing.JFrame
     }//GEN-LAST:event_generateDurationButtonActionPerformed
 
     private void generateMelodicIntervalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateMelodicIntervalButtonActionPerformed
-        // TODO add your handling code here:
+        try
+        {              
+            LoadMaster l = new LoadMaster();
+            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile().getName());
+            //melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame();
+           
+            work.execute();
+            
+            System.out.println("progress" + work.getProgress());
+            work.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if ("state".equals(evt.getPropertyName())) {
+
+                    SwingWorker.StateValue state = (SwingWorker.StateValue) evt.getNewValue();
+                    switch (state) {
+                        case DONE:
+                        {
+                            try {
+                                melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(work.get());
+                                int dataSize = melodicIntervalFrame.getInputDataSize();
+                                if(dataSize > 0)
+                                {
+                                    generateMelodicIntervalButton.setEnabled(false);
+                                    nomeGraficoTextField_4.setEnabled(false);
+                                    melodicIntervalFrame.showUI();
+                                }
+
+                                String graphName = nomeGraficoTextField_4.getText();
+                                if(!graphName.equals("") && !graphName.equals(null))
+                                    melodicIntervalFrame.setGraphName(graphName);
+                                else
+                                    melodicIntervalFrame.setGraphName("Default Graph Name");
+                                melodicIntervalFrame.addWindowListener(new java.awt.event.WindowAdapter()
+                                {
+                                    @Override
+                                    public void windowClosing(java.awt.event.WindowEvent windowEvent)
+                                    {
+                                        Object[] options = {"Si","No"};
+                                        int state = JOptionPane.showOptionDialog(melodicIntervalFrame, 
+                                                    "Sei sicuro di voler chiudere questa finestra?",
+                                                    "Chiudi Finestra?", 
+                                                    JOptionPane.YES_NO_OPTION,
+                                                    JOptionPane.INFORMATION_MESSAGE, null, options, null);
+                                        if(state == JOptionPane.YES_OPTION)
+                                        {
+                                            windowEvent.getWindow().dispose();
+                                            generateMelodicIntervalButton.setEnabled(true);
+                                            nomeGraficoTextField_4.setEnabled(true);
+                                            nomeGraficoTextField_4.setText("");
+                                            loadDataProgressBar.setValue(0);
+                                            loadDataProgressBar.setVisible(false);
+                                        }
+                                    }
+                                });
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (ExecutionException ex) {
+                                Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                            System.out.println("Inside DONE");
+                            break;
+
+                        case STARTED:
+                            System.out.println("Inside STARTED");
+                            loadDataProgressBar.setVisible(true);
+                            loadDataProgressBar.setValue(0);
+                            break;
+                    }
+
+                } else if ("progress".equals(evt.getPropertyName())) {
+                    
+                    generateMelodicIntervalButton.setEnabled(false);
+                    nomeGraficoTextField_4.setEnabled(false);
+                    System.out.println("Inside progress");
+                    int progress = (Integer)evt.getNewValue();
+                    loadDataProgressBar.setValue(progress);
+
+                }
+            }
+        });         
+        }
+        catch(Exception e)
+        {
+            String informationMessage = "Non sono presenti dati da elaborare!";
+            JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
+        }  
     }//GEN-LAST:event_generateMelodicIntervalButtonActionPerformed
 
     private void generateHarmonicIntervalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateHarmonicIntervalButtonActionPerformed
         
         //melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(openFileChoseer.getSelectedFile().getName());
     }//GEN-LAST:event_generateHarmonicIntervalButtonActionPerformed
-
-    private void nomeGraficoTextField_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeGraficoTextField_3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nomeGraficoTextField_3ActionPerformed
     
     /**
      * @param args the command line arguments
