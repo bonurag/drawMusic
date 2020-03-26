@@ -38,7 +38,7 @@
     <Component class="javax.swing.JButton" name="openFileButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Giuseppe\Documents\NetBeansProjects\Progetto Java\drawMusic\drawMusic\icon\open_doc.jpg"/>
+          <Image iconType="3" name="/icon/open_doc.jpg"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Apri File"/>
       </Properties>
@@ -60,7 +60,7 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Giuseppe\Documents\NetBeansProjects\Progetto Java\drawMusic\drawMusic\icon\bar-chart-2.png"/>
+          <Image iconType="3" name="/icon/bar-chart-2.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Genera grafico Pitch Class"/>
         <Property name="alignmentY" type="float" value="0.0"/>
@@ -83,7 +83,7 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Giuseppe\Documents\NetBeansProjects\Progetto Java\drawMusic\drawMusic\icon\graphic.png"/>
+          <Image iconType="3" name="/icon/graphic.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Genera grafico Pitch"/>
         <Property name="alignmentY" type="float" value="0.0"/>
@@ -106,7 +106,7 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Giuseppe\Documents\NetBeansProjects\Progetto Java\drawMusic\drawMusic\icon\bar-chart.png"/>
+          <Image iconType="3" name="/icon/bar-chart.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Genera grafico Durate"/>
         <Property name="alignmentY" type="float" value="0.0"/>
@@ -126,7 +126,7 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Giuseppe\Documents\NetBeansProjects\Progetto Java\drawMusic\drawMusic\icon\pyramid-chart.png"/>
+          <Image iconType="3" name="/icon/pyramid-chart.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Genera grafico Intervalli Melodici"/>
         <Property name="alignmentY" type="float" value="0.0"/>
@@ -149,7 +149,7 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Giuseppe\Documents\NetBeansProjects\Progetto Java\drawMusic\drawMusic\icon\line-chart-4.png"/>
+          <Image iconType="3" name="/icon/line-chart-4.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Genera grafico Intervalli Armonici"/>
         <Property name="alignmentY" type="float" value="0.0"/>
@@ -228,7 +228,7 @@
     <Component class="javax.swing.JLabel" name="selectedFileIcon">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Giuseppe\Documents\NetBeansProjects\Progetto Java\drawMusic\drawMusic\icon\red_cross.png"/>
+          <Image iconType="3" name="/icon/red_cross.png"/>
         </Property>
       </Properties>
       <Constraints>
