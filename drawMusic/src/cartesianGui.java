@@ -42,11 +42,16 @@ public class cartesianGui extends JPanel
     // size of start coordinate lenght
     public static final int ORIGIN_COORDINATE_LENGHT = 6;
 
-    // distance of coordinate strings from axis
+    // normal distance of coordinate strings from axis
     public static final int AXIS_STRING_DISTANCE = 25;
+    
+    // use if number of element is greater than certain number
+    public static final int AXIS_STRING_MAJOR_DISTANCE = 40;
     
     // width of bar inside the diagram
     public static final int HISTOGRAM_BAR_WIDTH = 30;
+    
+    public static final int HISTOGRAM_BAR_WIDTH_MIN = 12;
     
     // distance from top of panel to the max highest bar
     public static final int OFFSET_BAR_TO_TOP_PANEL = 100;
@@ -191,21 +196,34 @@ public class cartesianGui extends JPanel
             g2.setColor(Color.BLACK);
             String xLabel = !isDurationList ? xCoordList.get(index_X) : "1/"+xCoordList.get(index_X); 
             int widthValueXlabel = g.getFontMetrics().stringWidth(xLabel);
-  
-            g2.drawString(xLabel,
-                X_AXIS_FIRST_X_COORD + (i * xLength) - (widthValueXlabel/2),
-                X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
-
+            
             height = Y_AXIS_SECOND_Y_COORD - OFFSET_BAR_TO_TOP_PANEL;
             double barHeight = ((double)inputData.get(xCoordList.get(index_X)) / (double) maxValuePitch) * (double)height;
-
-            g2.setStroke(defaultStroke);  
-            g2.setColor(Color.RED);
-            g2.fillRect(X_AXIS_FIRST_X_COORD + (i * xLength) - (HISTOGRAM_BAR_WIDTH/2),
-                X_AXIS_SECOND_X_COORD - (int)barHeight, 
-                HISTOGRAM_BAR_WIDTH, 
-                (int)barHeight);
-            
+                
+            if(xCoordList.size() <= 15)
+            {
+                g2.drawString(xLabel, X_AXIS_FIRST_X_COORD + (i * xLength) - (widthValueXlabel/2), X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
+                g2.setStroke(defaultStroke);  
+                g2.setColor(Color.RED);
+                g2.fillRect(X_AXIS_FIRST_X_COORD + (i * xLength) - (HISTOGRAM_BAR_WIDTH/2), X_AXIS_SECOND_X_COORD - (int)barHeight, HISTOGRAM_BAR_WIDTH, (int)barHeight);
+            }
+            else
+            {
+                if(i % 2 == 0)
+                {
+                    
+                    g2.drawString(xLabel, X_AXIS_FIRST_X_COORD + (i * xLength) - (widthValueXlabel/2), X_AXIS_Y_COORD + AXIS_STRING_MAJOR_DISTANCE);
+                }
+                else
+                {
+                    g2.drawString(xLabel, X_AXIS_FIRST_X_COORD + (i * xLength) - (widthValueXlabel/2), X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
+                }
+                
+                g2.setStroke(defaultStroke);  
+                g2.setColor(Color.RED);
+                g2.fillRect(X_AXIS_FIRST_X_COORD + (i * xLength) - (HISTOGRAM_BAR_WIDTH_MIN/2), X_AXIS_SECOND_X_COORD - (int)barHeight, HISTOGRAM_BAR_WIDTH_MIN, (int)barHeight);
+            }
+        
             if(enableView)
             {
                 g2.setColor(Color.BLACK);

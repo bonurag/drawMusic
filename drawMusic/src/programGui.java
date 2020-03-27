@@ -463,28 +463,39 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
-                                    melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(work.get());
-                                    int dataSize = melodicIntervalFrame.getInputDataSize();
+                                    harmonicIntervalFrame harmonicIntervalFrame = new harmonicIntervalFrame(work.get());
+                                    int dataSize = harmonicIntervalFrame.getInputDataSize();
                                     if(dataSize > 0)
                                     {
                                         statusProgressBarText.setText("Caricamento Completato!");
                                         generateHarmonicIntervalButton.setEnabled(false);
                                         nomeGraficoTextField_5.setEnabled(false);
-                                        melodicIntervalFrame.showUI();
+                                        harmonicIntervalFrame.showUI();
+                                    }
+                                    else
+                                    {
+                                        statusProgressBarText.setText("");
+                                        generateHarmonicIntervalButton.setEnabled(true);
+                                        nomeGraficoTextField_5.setEnabled(true);
+                                        nomeGraficoTextField_5.setText("");
+                                        loadDataProgressBar.setValue(0);
+                                        loadDataProgressBar.setVisible(false);
+                                        String informationMessage = "Non sono presenti dati da elaborare!";
+                                        JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);    
                                     }
 
                                     String graphName = nomeGraficoTextField_5.getText();
                                     if(!graphName.equals(""))
-                                        melodicIntervalFrame.setGraphName(graphName);
+                                        harmonicIntervalFrame.setGraphName(graphName);
                                     else
-                                        melodicIntervalFrame.setGraphName("Default Graph Name");
-                                    melodicIntervalFrame.addWindowListener(new java.awt.event.WindowAdapter()
+                                        harmonicIntervalFrame.setGraphName("Default Graph Name");
+                                    harmonicIntervalFrame.addWindowListener(new java.awt.event.WindowAdapter()
                                     {
                                         @Override
                                         public void windowClosing(java.awt.event.WindowEvent windowEvent)
                                         {
                                             Object[] options = {"Si","No"};
-                                            int state = JOptionPane.showOptionDialog(melodicIntervalFrame, 
+                                            int state = JOptionPane.showOptionDialog(harmonicIntervalFrame, 
                                                         "Sei sicuro di voler chiudere questa finestra?",
                                                         "Chiudi Finestra?", 
                                                         JOptionPane.YES_NO_OPTION,

@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
@@ -117,14 +118,10 @@ public class melodicIntervallSwingWorker
                     });
                     */
                 }
-                catch (ParserConfigurationException | SAXException | IOException e)
+                catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException ex)
                 {
                     System.out.println("Errore nell'elaborazione del file");
                     System.exit(1);
-                }
-                catch (XPathExpressionException ex)
-                {
-                    Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return melodicIntervalMap;
             }
@@ -132,10 +129,13 @@ public class melodicIntervallSwingWorker
             @Override
             protected void done()
             {
-                try {
+                try
+                {
                     calculateData = get();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                }
+                catch (InterruptedException | ExecutionException ex)
+                {
+                    Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 //System.out.println("Finished with status " + calculateData);
             }                     
