@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
  *
  * @author Giuseppe
  */
-public class LoadMaster
+public class melodicIntervallSwingWorker
 {
     public SwingWorker createWorker(String inputName)
     {
@@ -140,5 +140,5 @@ public class LoadMaster
                 //System.out.println("Finished with status " + calculateData);
             }                     
         };      
-    }    
+    }
 }

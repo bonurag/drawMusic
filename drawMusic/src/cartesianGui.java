@@ -46,7 +46,7 @@ public class cartesianGui extends JPanel
     public static final int AXIS_STRING_DISTANCE = 25;
     
     // width of bar inside the diagram
-    public static final int HISTOGRAM_BAR_WIDTH = 25;
+    public static final int HISTOGRAM_BAR_WIDTH = 30;
     
     // distance from top of panel to the max highest bar
     public static final int OFFSET_BAR_TO_TOP_PANEL = 100;
@@ -201,11 +201,11 @@ public class cartesianGui extends JPanel
 
             g2.setStroke(defaultStroke);  
             g2.setColor(Color.RED);
-            g2.fillRect(X_AXIS_FIRST_X_COORD + (i * xLength) - HISTOGRAM_BAR_WIDTH/2,
+            g2.fillRect(X_AXIS_FIRST_X_COORD + (i * xLength) - (HISTOGRAM_BAR_WIDTH/2),
                 X_AXIS_SECOND_X_COORD - (int)barHeight, 
                 HISTOGRAM_BAR_WIDTH, 
                 (int)barHeight);
-                     
+            
             if(enableView)
             {
                 g2.setColor(Color.BLACK);

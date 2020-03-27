@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 
@@ -30,7 +31,7 @@ public class programGui extends javax.swing.JFrame
    
     ImageIcon trueIcon = new ImageIcon("icon/green_check.png");
     ImageIcon falseIcon = new ImageIcon("red_cross.png");
-    
+
     /**
      * Creates new form programGui
      */
@@ -40,6 +41,7 @@ public class programGui extends javax.swing.JFrame
         getContentPane().setBackground(Color.WHITE);
         lockIcon();
         lockTextBox();
+        loadDataProgressBar.setVisible(false);
         openFileName.setText("Nessun file selezionato!");
     }
     
@@ -119,6 +121,7 @@ public class programGui extends javax.swing.JFrame
         nomeGraficoStaticLabel_5 = new javax.swing.JLabel();
         openFileIconDescriptioon = new javax.swing.JLabel();
         loadDataProgressBar = new javax.swing.JProgressBar();
+        statusProgressBarText = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Music Data Extractor");
@@ -216,10 +219,10 @@ public class programGui extends javax.swing.JFrame
         getContentPane().add(nomeGraficoTextField_5, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 270, 100, -1));
 
         selectedFileIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/red_cross.png"))); // NOI18N
-        getContentPane().add(selectedFileIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, -1, -1));
+        getContentPane().add(selectedFileIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(105, 20, -1, -1));
 
         selectedFile.setText("File Selezionato:");
-        getContentPane().add(selectedFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, -1, 20));
+        getContentPane().add(selectedFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, -1, 20));
 
         openFileName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         openFileName.setText("text");
@@ -278,13 +281,12 @@ public class programGui extends javax.swing.JFrame
         getContentPane().add(nomeGraficoStaticLabel_5, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, 100, -1));
 
         openFileIconDescriptioon.setText("Apri File");
-        getContentPane().add(openFileIconDescriptioon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
+        getContentPane().add(openFileIconDescriptioon, new org.netbeans.lib.awtextra.AbsoluteConstraints(38, 60, -1, -1));
 
-        loadDataProgressBar.setBackground(new java.awt.Color(51, 153, 255));
         loadDataProgressBar.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
-        loadDataProgressBar.setForeground(new java.awt.Color(0, 0, 0));
         loadDataProgressBar.setStringPainted(true);
-        getContentPane().add(loadDataProgressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 20, 180, 20));
+        getContentPane().add(loadDataProgressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 15, 210, 30));
+        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 50, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -332,92 +334,100 @@ public class programGui extends javax.swing.JFrame
     }//GEN-LAST:event_generatePitchButtonActionPerformed
 
     private void generateDurationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateDurationButtonActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_generateDurationButtonActionPerformed
 
     private void generateMelodicIntervalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateMelodicIntervalButtonActionPerformed
         try
-        {              
-            LoadMaster l = new LoadMaster();
+        {                        
+            melodicIntervallSwingWorker l = new melodicIntervallSwingWorker();
             SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile().getName());
-            //melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame();
-           
-            work.execute();
-            
-            System.out.println("progress" + work.getProgress());
-            work.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if ("state".equals(evt.getPropertyName())) {
-
-                    SwingWorker.StateValue state = (SwingWorker.StateValue) evt.getNewValue();
-                    switch (state) {
-                        case DONE:
-                        {
-                            try {
-                                melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(work.get());
-                                int dataSize = melodicIntervalFrame.getInputDataSize();
-                                if(dataSize > 0)
-                                {
-                                    generateMelodicIntervalButton.setEnabled(false);
-                                    nomeGraficoTextField_4.setEnabled(false);
-                                    melodicIntervalFrame.showUI();
-                                }
-
-                                String graphName = nomeGraficoTextField_4.getText();
-                                if(!graphName.equals("") && !graphName.equals(null))
-                                    melodicIntervalFrame.setGraphName(graphName);
-                                else
-                                    melodicIntervalFrame.setGraphName("Default Graph Name");
-                                melodicIntervalFrame.addWindowListener(new java.awt.event.WindowAdapter()
-                                {
-                                    @Override
-                                    public void windowClosing(java.awt.event.WindowEvent windowEvent)
-                                    {
-                                        Object[] options = {"Si","No"};
-                                        int state = JOptionPane.showOptionDialog(melodicIntervalFrame, 
-                                                    "Sei sicuro di voler chiudere questa finestra?",
-                                                    "Chiudi Finestra?", 
-                                                    JOptionPane.YES_NO_OPTION,
-                                                    JOptionPane.INFORMATION_MESSAGE, null, options, null);
-                                        if(state == JOptionPane.YES_OPTION)
-                                        {
-                                            windowEvent.getWindow().dispose();
-                                            generateMelodicIntervalButton.setEnabled(true);
-                                            nomeGraficoTextField_4.setEnabled(true);
-                                            nomeGraficoTextField_4.setText("");
-                                            loadDataProgressBar.setValue(0);
-                                            loadDataProgressBar.setVisible(false);
-                                        }
-                                    }
-                                });
-                            } catch (InterruptedException ex) {
-                                Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (ExecutionException ex) {
-                                Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                            System.out.println("Inside DONE");
-                            break;
-
-                        case STARTED:
-                            System.out.println("Inside STARTED");
-                            loadDataProgressBar.setVisible(true);
-                            loadDataProgressBar.setValue(0);
-                            break;
-                    }
-
-                } else if ("progress".equals(evt.getPropertyName())) {
-                    
-                    generateMelodicIntervalButton.setEnabled(false);
-                    nomeGraficoTextField_4.setEnabled(false);
-                    System.out.println("Inside progress");
-                    int progress = (Integer)evt.getNewValue();
-                    loadDataProgressBar.setValue(progress);
-
-                }
+            Object[] options = {"Si","No"};
+            int state = JOptionPane.showOptionDialog(null, 
+                        "Sei sicuro di voler procedere con l'elaborazione dei dati?",
+                        "Informazione", 
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE, null, options, null);
+            if(state == JOptionPane.YES_OPTION)
+            {
+                work.execute();
             }
-        });         
+
+            work.addPropertyChangeListener(new PropertyChangeListener()
+            {
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    if ("state".equals(evt.getPropertyName())) {
+                        SwingWorker.StateValue state = (SwingWorker.StateValue) evt.getNewValue();
+                        switch (state) {
+                            case DONE:
+                            {
+                                try 
+                                {
+                                    melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(work.get());
+                                    int dataSize = melodicIntervalFrame.getInputDataSize();
+                                    if(dataSize > 0)
+                                    {
+                                        statusProgressBarText.setText("Caricamento Completato!");
+                                        generateMelodicIntervalButton.setEnabled(false);
+                                        nomeGraficoTextField_4.setEnabled(false);
+                                        melodicIntervalFrame.showUI();
+                                    }
+
+                                    String graphName = nomeGraficoTextField_4.getText();
+                                    if(!graphName.equals(""))
+                                        melodicIntervalFrame.setGraphName(graphName);
+                                    else
+                                        melodicIntervalFrame.setGraphName("Default Graph Name");
+                                    melodicIntervalFrame.addWindowListener(new java.awt.event.WindowAdapter()
+                                    {
+                                        @Override
+                                        public void windowClosing(java.awt.event.WindowEvent windowEvent)
+                                        {
+                                            Object[] options = {"Si","No"};
+                                            int state = JOptionPane.showOptionDialog(melodicIntervalFrame, 
+                                                        "Sei sicuro di voler chiudere questa finestra?",
+                                                        "Chiudi Finestra?", 
+                                                        JOptionPane.YES_NO_OPTION,
+                                                        JOptionPane.INFORMATION_MESSAGE, null, options, null);
+                                            if(state == JOptionPane.YES_OPTION)
+                                            {
+                                                windowEvent.getWindow().dispose();
+                                                statusProgressBarText.setText("");
+                                                generateMelodicIntervalButton.setEnabled(true);
+                                                nomeGraficoTextField_4.setEnabled(true);
+                                                nomeGraficoTextField_4.setText("");
+                                                loadDataProgressBar.setValue(0);
+                                                loadDataProgressBar.setVisible(false);
+                                            }
+                                        }
+                                    });
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (ExecutionException ex) {
+                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                                break;
+
+                            case STARTED:
+                                loadDataProgressBar.setVisible(true);
+                                generateMelodicIntervalButton.setEnabled(false);
+                                nomeGraficoTextField_4.setEnabled(false);
+                                loadDataProgressBar.setForeground(Color.BLACK);                               
+                                loadDataProgressBar.setValue(0);
+                                statusProgressBarText.setText("Caricamento in corso");
+                                break;
+                        }
+                    } else if ("progress".equals(evt.getPropertyName())) {
+                        statusProgressBarText.setText("Caricamento in corso");
+                        int progress = (Integer)evt.getNewValue();
+                        generateMelodicIntervalButton.setEnabled(false);
+                        nomeGraficoTextField_4.setEnabled(false);
+                        loadDataProgressBar.setValue(progress);
+                    }
+                }
+            });         
         }
         catch(Exception e)
         {
@@ -427,8 +437,7 @@ public class programGui extends javax.swing.JFrame
     }//GEN-LAST:event_generateMelodicIntervalButtonActionPerformed
 
     private void generateHarmonicIntervalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateHarmonicIntervalButtonActionPerformed
-        
-        //melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(openFileChoseer.getSelectedFile().getName());
+
     }//GEN-LAST:event_generateHarmonicIntervalButtonActionPerformed
     
     /**
@@ -493,5 +502,6 @@ public class programGui extends javax.swing.JFrame
     private javax.swing.JLabel pitchClassBntTitle;
     private javax.swing.JLabel selectedFile;
     private javax.swing.JLabel selectedFileIcon;
+    private javax.swing.JLabel statusProgressBarText;
     // End of variables declaration//GEN-END:variables
 }
