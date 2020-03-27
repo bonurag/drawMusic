@@ -373,7 +373,18 @@ public class programGui extends javax.swing.JFrame
                                         nomeGraficoTextField_4.setEnabled(false);
                                         melodicIntervalFrame.showUI();
                                     }
-
+                                    else
+                                    {
+                                        statusProgressBarText.setText("");
+                                        generateMelodicIntervalButton.setEnabled(true);
+                                        nomeGraficoTextField_4.setEnabled(true);
+                                        nomeGraficoTextField_4.setText("");
+                                        loadDataProgressBar.setValue(0);
+                                        loadDataProgressBar.setVisible(false);
+                                        String informationMessage = "Non sono presenti dati da elaborare!";
+                                        JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);    
+                                    }
+                                    
                                     String graphName = nomeGraficoTextField_4.getText();
                                     if(!graphName.equals(""))
                                         melodicIntervalFrame.setGraphName(graphName);

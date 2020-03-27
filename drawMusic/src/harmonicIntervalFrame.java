@@ -32,12 +32,10 @@ class harmonicIntervalFrame extends JFrame
             inputDataSize = inputData.size();
             panel = new cartesianGui(inputData);
             panel.setBackground(Color.WHITE);
-            panel.setViewValueOnBar(false);
             panel.setxAxisName("INTERVALLO");
             panel.setyAxisName("Q.TY");
             add(panel);
-        }
-        
+        }   
     }
 
     public void showUI() {

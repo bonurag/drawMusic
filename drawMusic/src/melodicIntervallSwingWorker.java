@@ -14,8 +14,6 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -34,13 +32,14 @@ public class melodicIntervallSwingWorker
     public SwingWorker createWorker(String inputName)
     {
         return new SwingWorker<LinkedHashMap<String, Integer>, Void>()
-        {
-            double stepForProgress = 0;
+        { 
             LinkedHashMap<String, Integer> calculateData = null;
             @Override
             protected LinkedHashMap<String, Integer> doInBackground()
             {
                 LinkedHashMap<String, Integer> melodicIntervalMap = new LinkedHashMap<>();
+                
+                double stepForProgress = 0;
                 setProgress(0);
                 try
                 {
@@ -55,72 +54,90 @@ public class melodicIntervallSwingWorker
 
                     TreeMap<Integer,ArrayList<String>> pitchMap = new TreeMap<>();
                     ArrayList<String> pitchInChordList = null;
-                                      
-                    for (int i = 0; i < voiceItemrefList.getLength(); i++)
-                    {                      
-                        if(voiceItemrefList.item(i) != null)
-                        {
-                            String singleValue_voice_item_ref = ((Element) (voiceItemrefList.item(i))).getAttribute("event_ref");
-                            if(!singleValue_voice_item_ref.equals(""))
+                    
+                    if(voiceItemrefList.getLength() > 0)
+                    {
+                        for (int i = 0; i < voiceItemrefList.getLength(); i++)
+                        {                      
+                            if(voiceItemrefList.item(i) != null)
                             {
-                                String pitchCounterForNotehead = "count(//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch)";
-                                String pitchCounter = myXPath.evaluate(pitchCounterForNotehead, myXmlDocument);
-                                //System.out.println("pitchCounter: " + pitchCounter);
+                                String singleValue_voice_item_ref = ((Element) (voiceItemrefList.item(i))).getAttribute("event_ref");
+                                if(!singleValue_voice_item_ref.equals(""))
+                                {
+                                    String pitchCounterForNotehead = "count(//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch)";
+                                    String pitchCounter = myXPath.evaluate(pitchCounterForNotehead, myXmlDocument);
+                                    //System.out.println("pitchCounter: " + pitchCounter);
 
-                                if(Integer.parseInt(pitchCounter) == 1)
-                                {
-                                    pitchInChordList = new ArrayList<>();
-                                    String xPathChordRefValueSinglePitch = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
-                                    Node singlePitch = (Node) (myXPath.evaluate(xPathChordRefValueSinglePitch, myXmlDocument, XPathConstants.NODE));
-                                    NamedNodeMap stepPitchAttribute = singlePitch.getAttributes();
-                                    String note = stepPitchAttribute.getNamedItem("step").getNodeValue();
-                                    String accidental = drawMusicData_Utils.getNoteAccidental(stepPitchAttribute.getNamedItem("actual_accidental").getNodeValue());
-                                    String octave = stepPitchAttribute.getNamedItem("octave").getNodeValue();
-                                    pitchInChordList.add(note+accidental+octave);
-                                }   
-                                else if(Integer.parseInt(pitchCounter) > 1)
-                                {
-                                    pitchInChordList = new ArrayList<>();
-                                    String xPathChordRefValueMultiplePitch = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
-                                    NodeList multiplPitch = (NodeList) (myXPath.evaluate(xPathChordRefValueMultiplePitch, myXmlDocument, XPathConstants.NODESET));
-                                    pitchInChordList = drawMusicData_Utils.getListFromNodeList(multiplPitch);
+                                    if(Integer.parseInt(pitchCounter) == 1)
+                                    {                                       
+                                        pitchInChordList = new ArrayList<>();
+                                        String myStringExpression_1 = "string(//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch/@step)";
+                                        String note = myXPath.evaluate(myStringExpression_1, myXmlDocument);
+                                        //System.out.println("note: " + note);
+                                        String myStringExpression_2 = "string(//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch/@actual_accidental)";
+                                        String accidental = drawMusicData_Utils.getNoteAccidental(myXPath.evaluate(myStringExpression_2, myXmlDocument));
+                                        //System.out.println("accidental: " + accidental);
+                                        String myStringExpression_3 = "string(//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch/@octave)";
+                                        String octave = myXPath.evaluate(myStringExpression_3, myXmlDocument);
+                                        //System.out.println("octave: " + octave);
+ 
+                                        pitchInChordList.add(note+accidental+octave);
+                                    }   
+                                    else if(Integer.parseInt(pitchCounter) > 1)
+                                    {
+                                        pitchInChordList = new ArrayList<>();
+                                        String xPathChordRefValueMultiplePitch = "//chord[@event_ref=\""+singleValue_voice_item_ref+"\"]/notehead/pitch";
+                                        NodeList multiplPitch = (NodeList) (myXPath.evaluate(xPathChordRefValueMultiplePitch, myXmlDocument, XPathConstants.NODESET));
+                                        pitchInChordList = drawMusicData_Utils.getListFromNodeList(multiplPitch);
+                                    }
+                                    pitchMap.put(i, pitchInChordList); 
                                 }
-                                pitchMap.put(i, pitchInChordList); 
+                            }
+                            stepForProgress = (double)(i*100)/(double)voiceItemrefList.getLength();
+                            if(stepForProgress > (double) 100)
+                                stepForProgress = 100;
+                            //System.out.println("stepForProgress " + stepForProgress);
+                            setProgress((int)Math.ceil(stepForProgress));
+                        }
+                        if(stepForProgress < (double) 100)
+                                stepForProgress = 100;
+                            //System.out.println("stepForProgress Final Value: % " + stepForProgress);
+                            setProgress(100);
+                        ArrayList<String> pciNameLis = drawMusicData_Utils.getPciName(drawMusicData_Utils.getMelodicBinomialFromChord(pitchMap));
+
+                        //System.out.println("getPciName: " + pciNameLis);
+
+                        for(String intervalKey : pciNameLis)
+                        {
+                            if(melodicIntervalMap.containsKey(intervalKey))
+                            {
+                                int counter = melodicIntervalMap.get(intervalKey);
+                                counter += 1;
+                                melodicIntervalMap.put(intervalKey,counter);     
+                            }
+                            else
+                            {
+                                melodicIntervalMap.put(intervalKey,1);
                             }
                         }
-                        stepForProgress = (double)(i*100)/(double)voiceItemrefList.getLength();
-                        if(stepForProgress > (double) 100)
-                            stepForProgress = 100;
-                        //System.out.println("stepForProgress " + stepForProgress);
-                        setProgress((int)Math.ceil(stepForProgress));
+                        /*
+                        melodicIntervalMap.forEach((k, v) -> {
+                            System.out.println("melodicIntervalMap: " + k + ": " + v);
+                        });
+                        */
+                        if(!melodicIntervalMap.isEmpty())
+                            return melodicIntervalMap;
                     }
-
-                    ArrayList<String> pciNameLis = drawMusicData_Utils.getPciName(drawMusicData_Utils.getMelodicBinomialFromChord(pitchMap));
-
-                    //System.out.println("getPciName: " + pciNameLis);
-
-                    for(String intervalKey : pciNameLis)
+                    else
                     {
-                        if(melodicIntervalMap.containsKey(intervalKey))
-                        {
-                            int counter = melodicIntervalMap.get(intervalKey);
-                            counter += 1;
-                            melodicIntervalMap.put(intervalKey,counter);     
-                        }
-                        else
-                        {
-                            melodicIntervalMap.put(intervalKey,1);
-                        }
+                        melodicIntervalMap.put("Empty", -1);
+                        System.out.println("Nessun File da elaborare");
                     }
-                    /*
-                    melodicIntervalMap.forEach((k, v) -> {
-                        System.out.println("melodicIntervalMap: " + k + ": " + v);
-                    });
-                    */
                 }
-                catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException ex)
+                catch (ParserConfigurationException | SAXException | IOException | NullPointerException | XPathExpressionException e)
                 {
                     System.out.println("Errore nell'elaborazione del file");
+                    Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, e);
                     System.exit(1);
                 }
                 return melodicIntervalMap;

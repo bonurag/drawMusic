@@ -49,7 +49,7 @@ public class cartesianGui extends JPanel
     public static final int AXIS_STRING_MAJOR_DISTANCE = 40;
     
     // width of bar inside the diagram
-    public static final int HISTOGRAM_BAR_WIDTH = 30;
+    public static final int HISTOGRAM_BAR_WIDTH = 24;
     
     public static final int HISTOGRAM_BAR_WIDTH_MIN = 12;
     
@@ -200,7 +200,7 @@ public class cartesianGui extends JPanel
             height = Y_AXIS_SECOND_Y_COORD - OFFSET_BAR_TO_TOP_PANEL;
             double barHeight = ((double)inputData.get(xCoordList.get(index_X)) / (double) maxValuePitch) * (double)height;
                 
-            if(xCoordList.size() <= 15)
+            if(xCoordList.size() <= 18)
             {
                 g2.drawString(xLabel, X_AXIS_FIRST_X_COORD + (i * xLength) - (widthValueXlabel/2), X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
                 g2.setStroke(defaultStroke);  

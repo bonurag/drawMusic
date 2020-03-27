@@ -184,13 +184,19 @@ public class drawMusicData_Utils
     
     public static String getNoteAccidental(String accident)
     {
-        LinkedHashMap<String,String> accidentalTranscoding = new LinkedHashMap<>();
-        accidentalTranscoding.put("FLAT", "b");
-        accidentalTranscoding.put("DOUBLE_FLAT", "bb");
-        accidentalTranscoding.put("NATURAL", "");
-        accidentalTranscoding.put("SHARP", "#");
-        accidentalTranscoding.put("DOUBLE_SHARP", "##");
-        return accidentalTranscoding.get(accident.toUpperCase());
+        String emptyValue = "";
+        if(accident != null && accident != "")
+        {
+            LinkedHashMap<String,String> accidentalTranscoding = new LinkedHashMap<>();
+            accidentalTranscoding.put("FLAT", "b");
+            accidentalTranscoding.put("DOUBLE_FLAT", "bb");
+            accidentalTranscoding.put("NATURAL", "");
+            accidentalTranscoding.put("SHARP", "#");
+            accidentalTranscoding.put("DOUBLE_SHARP", "##");
+            return accidentalTranscoding.get(accident.toUpperCase());
+        }
+        else
+            return emptyValue;
     }
     
     public static ArrayList<String> getListFromNodeList(NodeList inputNode)

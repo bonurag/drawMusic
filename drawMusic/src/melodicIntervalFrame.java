@@ -23,16 +23,19 @@ class melodicIntervalFrame extends JFrame
     public melodicIntervalFrame(Object inputDataWork)
     {       
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
-        if(!inputData.isEmpty())
+        if(inputData.containsKey("Empty"))
+        {
+            inputDataSize = 0;
+        }
+        else if(inputData.size() > 0 && inputData != null)
         {
             inputDataSize = inputData.size();
             panel = new cartesianGui(inputData);
+            panel.setBackground(Color.WHITE);
+            panel.setxAxisName("INTERVALLO");
+            panel.setyAxisName("Q.TY");
+            add(panel);
         }
-        panel.setBackground(Color.WHITE);
-        panel.setViewValueOnBar(false);
-        panel.setxAxisName("INTERVALLO");
-        panel.setyAxisName("Q.TY");
-        add(panel);
     }
 
     public void showUI() {
