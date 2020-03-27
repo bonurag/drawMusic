@@ -437,7 +437,102 @@ public class programGui extends javax.swing.JFrame
     }//GEN-LAST:event_generateMelodicIntervalButtonActionPerformed
 
     private void generateHarmonicIntervalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateHarmonicIntervalButtonActionPerformed
+        try
+        {                        
+            harmonicIntervallSwingWorker l = new harmonicIntervallSwingWorker();
+            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile().getName());
+            Object[] options = {"Si","No"};
+            int state = JOptionPane.showOptionDialog(null, 
+                        "Sei sicuro di voler procedere con l'elaborazione dei dati?",
+                        "Informazione", 
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE, null, options, null);
+            if(state == JOptionPane.YES_OPTION)
+            {
+                work.execute();
+            }
 
+            work.addPropertyChangeListener(new PropertyChangeListener()
+            {
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    if ("state".equals(evt.getPropertyName())) {
+                        SwingWorker.StateValue state = (SwingWorker.StateValue) evt.getNewValue();
+                        switch (state) {
+                            case DONE:
+                            {
+                                try 
+                                {
+                                    melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(work.get());
+                                    int dataSize = melodicIntervalFrame.getInputDataSize();
+                                    if(dataSize > 0)
+                                    {
+                                        statusProgressBarText.setText("Caricamento Completato!");
+                                        generateHarmonicIntervalButton.setEnabled(false);
+                                        nomeGraficoTextField_5.setEnabled(false);
+                                        melodicIntervalFrame.showUI();
+                                    }
+
+                                    String graphName = nomeGraficoTextField_5.getText();
+                                    if(!graphName.equals(""))
+                                        melodicIntervalFrame.setGraphName(graphName);
+                                    else
+                                        melodicIntervalFrame.setGraphName("Default Graph Name");
+                                    melodicIntervalFrame.addWindowListener(new java.awt.event.WindowAdapter()
+                                    {
+                                        @Override
+                                        public void windowClosing(java.awt.event.WindowEvent windowEvent)
+                                        {
+                                            Object[] options = {"Si","No"};
+                                            int state = JOptionPane.showOptionDialog(melodicIntervalFrame, 
+                                                        "Sei sicuro di voler chiudere questa finestra?",
+                                                        "Chiudi Finestra?", 
+                                                        JOptionPane.YES_NO_OPTION,
+                                                        JOptionPane.INFORMATION_MESSAGE, null, options, null);
+                                            if(state == JOptionPane.YES_OPTION)
+                                            {
+                                                windowEvent.getWindow().dispose();
+                                                statusProgressBarText.setText("");
+                                                generateHarmonicIntervalButton.setEnabled(true);
+                                                nomeGraficoTextField_5.setEnabled(true);
+                                                nomeGraficoTextField_5.setText("");
+                                                loadDataProgressBar.setValue(0);
+                                                loadDataProgressBar.setVisible(false);
+                                            }
+                                        }
+                                    });
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (ExecutionException ex) {
+                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                                break;
+
+                            case STARTED:
+                                loadDataProgressBar.setVisible(true);
+                                generateHarmonicIntervalButton.setEnabled(false);
+                                nomeGraficoTextField_5.setEnabled(false);
+                                loadDataProgressBar.setForeground(Color.BLACK);                               
+                                loadDataProgressBar.setValue(0);
+                                statusProgressBarText.setText("Caricamento in corso");
+                                break;
+                        }
+                    } else if ("progress".equals(evt.getPropertyName())) {
+                        statusProgressBarText.setText("Caricamento in corso");
+                        int progress = (Integer)evt.getNewValue();
+                        generateHarmonicIntervalButton.setEnabled(false);
+                        nomeGraficoTextField_5.setEnabled(false);
+                        loadDataProgressBar.setValue(progress);
+                    }
+                }
+            });         
+        }
+        catch(Exception e)
+        {
+            String informationMessage = "Non sono presenti dati da elaborare!";
+            JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
+        } 
     }//GEN-LAST:event_generateHarmonicIntervalButtonActionPerformed
     
     /**

@@ -1,21 +1,7 @@
 
 import java.awt.Color;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -33,8 +19,9 @@ class harmonicIntervalFrame extends JFrame
     cartesianGui panel;
     int inputDataSize = 0;
     
-    public harmonicIntervalFrame(String inputName) {
-        LinkedHashMap<String, Integer> inputData = getXmlHarmonicInterval(inputName);
+    public harmonicIntervalFrame(Object inputDataWork)
+    {
+        LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
         if(!inputData.isEmpty())
         {
             inputDataSize = inputData.size();
@@ -44,13 +31,12 @@ class harmonicIntervalFrame extends JFrame
         panel.setViewValueOnBar(false);
         panel.setxAxisName("INTERVALLO");
         panel.setyAxisName("Q.TY");
-        panel.setViewValueOnBar(false);
         add(panel);
     }
 
     public void showUI() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);    
-        setSize(700, 800);
+        setSize(700, 700);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
@@ -68,7 +54,7 @@ class harmonicIntervalFrame extends JFrame
             grapName = newName;
         setTitle(grapName);
     }
-    
+    /*
     public static LinkedHashMap<String, Integer> getXmlHarmonicInterval(String inputName)
     {        
         LinkedHashMap<String, Integer> harmonicIntervalMap = new LinkedHashMap<>();
@@ -169,11 +155,11 @@ class harmonicIntervalFrame extends JFrame
                     }
                 }    
             }
-            /*
+            
             harmonicIntervalMap.forEach((k, v) -> {
 		System.out.println("harmonicIntervalMap: " + k + ": " + v);
             });
-            */
+            
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         { 
@@ -185,5 +171,5 @@ class harmonicIntervalFrame extends JFrame
             Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
         }
         return harmonicIntervalMap;
-    }   
+    } */  
 }
