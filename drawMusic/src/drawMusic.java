@@ -471,6 +471,7 @@ public class drawMusic extends javax.swing.JFrame {
     }                                                   
 
     private void generateDurationButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                       
+        /*
         try
         {   
             int dataSize = 0;
@@ -514,7 +515,7 @@ public class drawMusic extends javax.swing.JFrame {
         {
             String informationMessage = "Non sono presenti dati da elaborare!";
             JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
-        }
+        }*/
     }                                                      
 
     private void generateMelodicIntervalButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                              

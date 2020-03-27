@@ -41,11 +41,13 @@ public class programGui extends javax.swing.JFrame
         getContentPane().setBackground(Color.WHITE);
         lockIcon();
         lockTextBox();
+        lockComboBox();
         loadDataProgressBar.setVisible(false);
         openFileName.setText("Nessun file selezionato!");
     }
     
-    public void lockIcon() {
+    public void lockIcon()
+    {
         generatePitchClassButton.setEnabled(false);
         generatePitchButton.setEnabled(false);
         generateDurationButton.setEnabled(false);
@@ -53,7 +55,8 @@ public class programGui extends javax.swing.JFrame
         generateHarmonicIntervalButton.setEnabled(false);
     }
     
-    public void lockTextBox() {
+    public void lockTextBox()
+    {
         nomeGraficoTextField_1.setEnabled(false);
         nomeGraficoTextField_2.setEnabled(false);
         nomeGraficoTextField_3.setEnabled(false);
@@ -61,7 +64,8 @@ public class programGui extends javax.swing.JFrame
         nomeGraficoTextField_5.setEnabled(false);
     }
     
-    public void unLockIcon() {
+    public void unLockIcon()
+    {
         generatePitchClassButton.setEnabled(true);
         generatePitchButton.setEnabled(true);
         generateDurationButton.setEnabled(true);
@@ -69,7 +73,8 @@ public class programGui extends javax.swing.JFrame
         generateHarmonicIntervalButton.setEnabled(true);
     }
     
-    public void unLockTextBox() {
+    public void unLockTextBox()
+    {
         nomeGraficoTextField_1.setEnabled(true);
         nomeGraficoTextField_2.setEnabled(true);
         nomeGraficoTextField_3.setEnabled(true);
@@ -77,15 +82,16 @@ public class programGui extends javax.swing.JFrame
         nomeGraficoTextField_5.setEnabled(true);
     }
     
-    public void setProgressBarValue(int inputValue){
-        System.out.println("setProgressBarValue " + inputValue);
-        loadDataProgressBar.setValue(inputValue);
+    public void lockComboBox()
+    {
+        durationTypeComboBox.setEnabled(false);
     }
     
-    public void setProgressBarVisibleint(Boolean inputValue){
-        System.out.println("setProgressBarVisibleint " + inputValue); 
-        loadDataProgressBar.setVisible(inputValue);
+    public void unLockComboBox()
+    {
+        durationTypeComboBox.setEnabled(true);
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -122,6 +128,7 @@ public class programGui extends javax.swing.JFrame
         openFileIconDescriptioon = new javax.swing.JLabel();
         loadDataProgressBar = new javax.swing.JProgressBar();
         statusProgressBarText = new javax.swing.JLabel();
+        durationTypeComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Music Data Extractor");
@@ -288,6 +295,10 @@ public class programGui extends javax.swing.JFrame
         getContentPane().add(loadDataProgressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 15, 210, 30));
         getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 50, -1, -1));
 
+        durationTypeComboBox.setMaximumRowCount(3);
+        durationTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CHORD", "REST", "BOTH" }));
+        getContentPane().add(durationTypeComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, 100, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -302,6 +313,7 @@ public class programGui extends javax.swing.JFrame
             {
                 lockIcon();
                 lockTextBox();
+                lockComboBox();
                 openFileName.setText("Nessun file selezionato!");
                 JOptionPane.showMessageDialog(null, "File selezionato non esistente!", "Error", JOptionPane.ERROR_MESSAGE);
             }      
@@ -313,10 +325,12 @@ public class programGui extends javax.swing.JFrame
                 openFileName.setText(name);
                 unLockIcon();
                 unLockTextBox();
+                unLockComboBox();
                 if(!fileterExt[0].equals(extension))
                 {
                     lockIcon();
                     lockTextBox();
+                    lockComboBox();
                     selectedFileIcon.setIcon(falseIcon);
                     openFileName.setText("File selezionato non riconosciuto!");
                     JOptionPane.showMessageDialog(null, "Attenzione estenzione del file non valida! Selezionare file ."+fileterExt[0], "Error", JOptionPane.ERROR_MESSAGE);
@@ -334,7 +348,119 @@ public class programGui extends javax.swing.JFrame
     }//GEN-LAST:event_generatePitchButtonActionPerformed
 
     private void generateDurationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateDurationButtonActionPerformed
-        
+        try
+        {          
+            String inputDurationType = (String) durationTypeComboBox.getSelectedItem();
+            durationSwingWorker l = new durationSwingWorker();
+            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile().getName(), inputDurationType);
+            Object[] options = {"Si","No"};
+            int state = JOptionPane.showOptionDialog(null, 
+                        "Sei sicuro di voler procedere con l'elaborazione dei dati?",
+                        "Informazione", 
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE, null, options, null);
+            if(state == JOptionPane.YES_OPTION)
+            {
+                work.execute();
+            }
+
+            work.addPropertyChangeListener(new PropertyChangeListener()
+            {
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    if ("state".equals(evt.getPropertyName())) {
+                        SwingWorker.StateValue state = (SwingWorker.StateValue) evt.getNewValue();
+                        switch (state) {
+                            case DONE:
+                            {
+                                try 
+                                {
+                                    durationFrame durationFrame = new durationFrame(work.get());
+                                    int dataSize = durationFrame.getInputDataSize();
+                                    if(dataSize > 0)
+                                    {
+                                        statusProgressBarText.setText("Caricamento Completato!");
+                                        generateDurationButton.setEnabled(false);
+                                        nomeGraficoTextField_3.setEnabled(false);
+                                        durationTypeComboBox.setEnabled(false);
+                                        durationFrame.showUI();
+                                    }
+                                    else
+                                    {
+                                        statusProgressBarText.setText("");
+                                        generateDurationButton.setEnabled(true);
+                                        nomeGraficoTextField_3.setEnabled(true);
+                                        durationTypeComboBox.setEnabled(true);
+                                        nomeGraficoTextField_3.setText("");
+                                        loadDataProgressBar.setValue(0);
+                                        loadDataProgressBar.setVisible(false);
+                                        String informationMessage = "Non sono presenti dati da elaborare!";
+                                        JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);    
+                                    }
+                                    
+                                    String graphName = nomeGraficoTextField_3.getText();
+                                    if(!graphName.equals(""))
+                                        durationFrame.setGraphName(graphName);
+                                    else
+                                        durationFrame.setGraphName("Default Graph Name");
+                                    durationFrame.addWindowListener(new java.awt.event.WindowAdapter()
+                                    {
+                                        @Override
+                                        public void windowClosing(java.awt.event.WindowEvent windowEvent)
+                                        {
+                                            Object[] options = {"Si","No"};
+                                            int state = JOptionPane.showOptionDialog(durationFrame, 
+                                                        "Sei sicuro di voler chiudere questa finestra?",
+                                                        "Chiudi Finestra?", 
+                                                        JOptionPane.YES_NO_OPTION,
+                                                        JOptionPane.INFORMATION_MESSAGE, null, options, null);
+                                            if(state == JOptionPane.YES_OPTION)
+                                            {
+                                                windowEvent.getWindow().dispose();
+                                                statusProgressBarText.setText("");
+                                                generateDurationButton.setEnabled(true);
+                                                nomeGraficoTextField_3.setEnabled(true);
+                                                durationTypeComboBox.setEnabled(true);
+                                                nomeGraficoTextField_3.setText("");
+                                                loadDataProgressBar.setValue(0);
+                                                loadDataProgressBar.setVisible(false);
+                                            }
+                                        }
+                                    });
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (ExecutionException ex) {
+                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                                break;
+
+                            case STARTED:
+                                loadDataProgressBar.setVisible(true);
+                                generateDurationButton.setEnabled(false);
+                                nomeGraficoTextField_3.setEnabled(false);
+                                durationTypeComboBox.setEnabled(false);
+                                loadDataProgressBar.setForeground(Color.BLACK);                               
+                                loadDataProgressBar.setValue(0);
+                                statusProgressBarText.setText("Caricamento in corso");
+                                break;
+                        }
+                    } else if ("progress".equals(evt.getPropertyName())) {
+                        statusProgressBarText.setText("Caricamento in corso");
+                        int progress = (Integer)evt.getNewValue();
+                        generateDurationButton.setEnabled(false);
+                        nomeGraficoTextField_3.setEnabled(false);
+                        durationTypeComboBox.setEnabled(false);
+                        loadDataProgressBar.setValue(progress);
+                    }
+                }
+            });         
+        }
+        catch(Exception e)
+        {
+            String informationMessage = "Non sono presenti dati da elaborare!";
+            JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
+        } 
     }//GEN-LAST:event_generateDurationButtonActionPerformed
 
     private void generateMelodicIntervalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateMelodicIntervalButtonActionPerformed
@@ -594,6 +720,7 @@ public class programGui extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel durationBntTitle;
+    private javax.swing.JComboBox<String> durationTypeComboBox;
     private javax.swing.JButton generateDurationButton;
     private javax.swing.JButton generateHarmonicIntervalButton;
     public javax.swing.JButton generateMelodicIntervalButton;

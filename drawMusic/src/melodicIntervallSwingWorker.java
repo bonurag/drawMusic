@@ -100,9 +100,8 @@ public class melodicIntervallSwingWorker
                             setProgress((int)Math.ceil(stepForProgress));
                         }
                         if(stepForProgress < (double) 100)
-                                stepForProgress = 100;
-                            //System.out.println("stepForProgress Final Value: % " + stepForProgress);
                             setProgress(100);
+
                         ArrayList<String> pciNameLis = drawMusicData_Utils.getPciName(drawMusicData_Utils.getMelodicBinomialFromChord(pitchMap));
 
                         //System.out.println("getPciName: " + pciNameLis);

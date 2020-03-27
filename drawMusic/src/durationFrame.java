@@ -1,14 +1,7 @@
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import javax.swing.JFrame;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,19 +19,22 @@ class durationFrame extends JFrame
     cartesianGui panel;
     int inputDataSize = 0;
 
-    public durationFrame(String inputName) {
-        LinkedHashMap<String, Integer> inputData = getXmlStatisticsDuration(inputName);
-        if(!inputData.isEmpty())
+    public durationFrame(Object inputDataWork)
+    {
+        LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
+        if(inputData.containsKey("Empty"))
+        {
+            inputDataSize = 0;
+        }
+        else if(inputData.size() > 0 && inputData != null)
         {
             inputDataSize = inputData.size();
             panel = new cartesianGui(inputData);
+            panel.setBackground(Color.WHITE);
+            panel.setxAxisName("DURATA");
+            panel.setyAxisName("Q.TY");
+            add(panel);
         }
-        panel.setBackground(Color.WHITE);
-        panel.setViewValueOnBar(false);
-        panel.setxAxisName("DURATION");
-        panel.setyAxisName("Q.TY");
-        panel.setViewValueOnBar(false);
-        add(panel);
     }
 
     public void showUI() {
@@ -61,7 +57,7 @@ class durationFrame extends JFrame
             grapName = newName;
         setTitle(grapName);
     }
-    
+    /*
     public static LinkedHashMap<String, Integer> getXmlStatisticsDuration(String inputName)
     {
         LinkedHashMap<String, Integer> rhythmMap = new LinkedHashMap<>();
@@ -106,4 +102,5 @@ class durationFrame extends JFrame
         }
         return rhythmMap;
     }
+    */
 }

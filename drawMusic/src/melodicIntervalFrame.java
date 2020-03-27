@@ -18,11 +18,11 @@ class melodicIntervalFrame extends JFrame
     String graphName = "Graph";
     cartesianGui panel;
     int inputDataSize = 0;
-    int currentPercent = 0;
-
+    
     public melodicIntervalFrame(Object inputDataWork)
     {       
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
+        
         if(inputData.containsKey("Empty"))
         {
             inputDataSize = 0;
