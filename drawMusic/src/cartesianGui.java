@@ -47,7 +47,7 @@ public class cartesianGui extends JPanel
     
     // use if number of element is greater than certain number
     public static final int AXIS_STRING_MAJOR_DISTANCE = 40;
-    
+
     // width of bar inside the diagram
     public static final int HISTOGRAM_BAR_WIDTH = 24;
     
@@ -61,6 +61,8 @@ public class cartesianGui extends JPanel
     private String yAxisName = "Y";
     
     private String xAxisName = "X";
+    
+    private Color AXIS_COLOR;
     
     private LinkedHashMap<String, Integer> inputData;
 
@@ -83,6 +85,11 @@ public class cartesianGui extends JPanel
     public void setxAxisName(String axisName)
     {
         xAxisName = axisName;
+    }
+    
+    public void setBarColor(Color inputColor)
+    {
+        AXIS_COLOR = inputColor;    
     }
     
     public void paintComponent(Graphics g)
@@ -125,11 +132,15 @@ public class cartesianGui extends JPanel
         
         Boolean isDurationList = false;
         Boolean disableYLabelView = true;
-        if(xCoordList.size() > 1 && !xCoordList.isEmpty())
+        System.out.println("xCoordList: " + xCoordList);
+        System.out.println("xCoordList Size: " + xCoordList.size());
+        if(xCoordList.size() >= 1 && !xCoordList.isEmpty())
         {
+            System.out.println("Inside First IF xCoordList");
             if(xCoordList.contains("1")|| xCoordList.contains("2") || xCoordList.contains("4") || xCoordList.contains("8") || xCoordList.contains("16") ||
                xCoordList.contains("32") || xCoordList.contains("64") || xCoordList.contains("128") || xCoordList.contains("256") || xCoordList.contains("512"))   
             {
+                System.out.println("Inside First IF xCoordList");
                 ArrayList<Integer> tmpList = new ArrayList<>();
                 isDurationList = true;
                 for(int i=0; i<xCoordList.size(); i++)
@@ -142,6 +153,7 @@ public class cartesianGui extends JPanel
                 {
                     xCoordList.add(Integer.toString(tmpList.get(j)));
                 }
+                System.out.println("Inside First IF tmpList " + tmpList);
             }
         }
         
@@ -200,7 +212,7 @@ public class cartesianGui extends JPanel
             {
                 g2.drawString(xLabel, X_AXIS_FIRST_X_COORD + (i * xLength) - (widthValueXlabel/2), X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
                 g2.setStroke(defaultStroke);  
-                g2.setColor(Color.RED);
+                g2.setColor(AXIS_COLOR);
                 g2.fillRect(X_AXIS_FIRST_X_COORD + (i * xLength) - (HISTOGRAM_BAR_WIDTH/2), X_AXIS_SECOND_X_COORD - (int)barHeight, HISTOGRAM_BAR_WIDTH, (int)barHeight);
             }
             else
@@ -216,7 +228,7 @@ public class cartesianGui extends JPanel
                 }
                 
                 g2.setStroke(defaultStroke);  
-                g2.setColor(Color.RED);
+                g2.setColor(AXIS_COLOR);
                 g2.fillRect(X_AXIS_FIRST_X_COORD + (i * xLength) - (HISTOGRAM_BAR_WIDTH_MIN/2), X_AXIS_SECOND_X_COORD - (int)barHeight, HISTOGRAM_BAR_WIDTH_MIN, (int)barHeight);
             }
         
@@ -252,7 +264,7 @@ public class cartesianGui extends JPanel
                     X_AXIS_SECOND_X_COORD - (int)barHeight);
                 g2.setColor(Color.BLACK);       
             
-                if(i%2 != 0)
+                if(i-1 % 2 != 0)
                     g2.drawString(Integer.toString(ySetValueList.get(i-1)), 630 - AXIS_STRING_DISTANCE, Y_AXIS_SECOND_Y_COORD - (int)barHeight - 5);               
                 else
                     g2.drawString(Integer.toString(ySetValueList.get(i-1)),Y_AXIS_X_COORD - AXIS_STRING_DISTANCE, Y_AXIS_SECOND_Y_COORD - (int)barHeight + 8); 

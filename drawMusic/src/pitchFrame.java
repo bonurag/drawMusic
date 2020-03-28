@@ -18,8 +18,8 @@ class pitchFrame extends JFrame
     String graphName = "Graph";
     cartesianGui panel;
     int inputDataSize = 0;
-
-    public pitchFrame(Object inputDataWork)
+    
+    public pitchFrame(Object inputDataWork, Color selectedColor)
     {       
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
         
@@ -30,10 +30,11 @@ class pitchFrame extends JFrame
         else if(inputData.size() > 0 && inputData != null)
         {
             inputDataSize = inputData.size();
-            panel = new cartesianGui(inputData);
+            panel = new cartesianGui(inputData); 
             panel.setBackground(Color.WHITE);
             panel.setxAxisName("PITCH");
             panel.setyAxisName("Q.TY");
+            panel.setBarColor(selectedColor);          
             add(panel);
         }
     }

@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -7,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -27,9 +27,10 @@ public class programGui extends javax.swing.JFrame
 {   
     FileNameExtensionFilter filter = new FileNameExtensionFilter("Documenti IEEE 1599", "xml");
     JFileChooser openFileChoseer = new JFileChooser();
-   
+    Color selectedColor;
     ImageIcon trueIcon = new ImageIcon("icon/green_check.png");
     ImageIcon falseIcon = new ImageIcon("red_cross.png");
+    ImageIcon pickColorIcon = new ImageIcon("pickcolor_icon.png");
 
     /**
      * Creates new form programGui
@@ -42,6 +43,7 @@ public class programGui extends javax.swing.JFrame
         lockTextBox();
         lockComboBox();
         loadDataProgressBar.setVisible(false);
+        pitchColorSelectButton.setEnabled(false);
         openFileName.setText("Nessun file selezionato!");
     }
     
@@ -128,6 +130,7 @@ public class programGui extends javax.swing.JFrame
         loadDataProgressBar = new javax.swing.JProgressBar();
         statusProgressBarText = new javax.swing.JLabel();
         durationTypeComboBox = new javax.swing.JComboBox<>();
+        pitchColorSelectButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Music Data Extractor");
@@ -298,6 +301,17 @@ public class programGui extends javax.swing.JFrame
         durationTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CHORD", "REST", "BOTH" }));
         getContentPane().add(durationTypeComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, 100, -1));
 
+        pitchColorSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_icon.png"))); // NOI18N
+        pitchColorSelectButton.setToolTipText("Seleziona un colore per le bar del grafico");
+        pitchColorSelectButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pitchColorSelectButton.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        pitchColorSelectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pitchColorSelectButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(pitchColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 20, 20));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -313,6 +327,7 @@ public class programGui extends javax.swing.JFrame
                 lockIcon();
                 lockTextBox();
                 lockComboBox();
+                pitchColorSelectButton.setEnabled(false);
                 openFileName.setText("Nessun file selezionato!");
                 JOptionPane.showMessageDialog(null, "File selezionato non esistente!", "Error", JOptionPane.ERROR_MESSAGE);
             }      
@@ -325,11 +340,13 @@ public class programGui extends javax.swing.JFrame
                 unLockIcon();
                 unLockTextBox();
                 unLockComboBox();
+                pitchColorSelectButton.setEnabled(true);
                 if(!fileterExt[0].equals(extension))
                 {
                     lockIcon();
                     lockTextBox();
                     lockComboBox();
+                    pitchColorSelectButton.setEnabled(false);
                     selectedFileIcon.setIcon(falseIcon);
                     openFileName.setText("File selezionato non riconosciuto!");
                     JOptionPane.showMessageDialog(null, "Attenzione estenzione del file non valida! Selezionare file ."+fileterExt[0], "Error", JOptionPane.ERROR_MESSAGE);
@@ -475,12 +492,13 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
-                                    pitchFrame pitchFrame = new pitchFrame(work.get());
+                                    pitchFrame pitchFrame = new pitchFrame(work.get(), selectedColor);
                                     int dataSize = pitchFrame.getInputDataSize();
                                     if(dataSize > 0)
                                     {
                                         statusProgressBarText.setText("Caricamento Completato!");
                                         generatePitchButton.setEnabled(false);
+                                        pitchColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_2.setEnabled(false);
                                         pitchFrame.showUI();
                                     }
@@ -488,6 +506,7 @@ public class programGui extends javax.swing.JFrame
                                     {
                                         statusProgressBarText.setText("");
                                         generatePitchButton.setEnabled(true);
+                                        pitchColorSelectButton.setEnabled(true);
                                         nomeGraficoTextField_2.setEnabled(true);
                                         nomeGraficoTextField_2.setText("");
                                         loadDataProgressBar.setValue(0);
@@ -517,6 +536,7 @@ public class programGui extends javax.swing.JFrame
                                                 windowEvent.getWindow().dispose();
                                                 statusProgressBarText.setText("");
                                                 generatePitchButton.setEnabled(true);
+                                                pitchColorSelectButton.setEnabled(true);
                                                 nomeGraficoTextField_2.setEnabled(true);
                                                 nomeGraficoTextField_2.setText("");
                                                 loadDataProgressBar.setValue(0);
@@ -535,6 +555,7 @@ public class programGui extends javax.swing.JFrame
                             case STARTED:
                                 loadDataProgressBar.setVisible(true);
                                 generatePitchButton.setEnabled(false);
+                                pitchColorSelectButton.setEnabled(false);
                                 nomeGraficoTextField_2.setEnabled(false);
                                 loadDataProgressBar.setForeground(Color.BLACK);                               
                                 loadDataProgressBar.setValue(0);
@@ -545,6 +566,7 @@ public class programGui extends javax.swing.JFrame
                         statusProgressBarText.setText("Caricamento in corso");
                         int progress = (Integer)evt.getNewValue();
                         generatePitchButton.setEnabled(false);
+                        pitchColorSelectButton.setEnabled(false);
                         nomeGraficoTextField_2.setEnabled(false);
                         loadDataProgressBar.setValue(progress);
                     }
@@ -893,6 +915,11 @@ public class programGui extends javax.swing.JFrame
             JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
         } 
     }//GEN-LAST:event_generateHarmonicIntervalButtonActionPerformed
+
+    private void pitchColorSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pitchColorSelectButtonActionPerformed
+        selectedColor = JColorChooser.showDialog(this,"Scegli un colore",Color.RED);
+        System.out.println("inputColor: " + selectedColor.toString());
+    }//GEN-LAST:event_pitchColorSelectButtonActionPerformed
     
     /**
      * @param args the command line arguments
@@ -955,6 +982,7 @@ public class programGui extends javax.swing.JFrame
     private javax.swing.JLabel openFileName;
     private javax.swing.JLabel pitchBntTitle;
     private javax.swing.JLabel pitchClassBntTitle;
+    private javax.swing.JButton pitchColorSelectButton;
     private javax.swing.JLabel selectedFile;
     private javax.swing.JLabel selectedFileIcon;
     private javax.swing.JLabel statusProgressBarText;

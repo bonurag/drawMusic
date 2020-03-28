@@ -48,11 +48,6 @@ public class durationSwingWorker
                     XPathFactory myXPathFactory = XPathFactory.newInstance();
                     XPath myXPath = myXPathFactory.newXPath();
                     
-                    //Valore Ritmico
-                    //NodeList rythmNodeList = doc.getElementsByTagName("duration");
-                    // Non è possibile usare un foreach perché NodeList non implementa l'interfaccia Iterable
-                    //Node currenRythmtNode;
-                    
                     String xPathDurationNodeList = "";
                     if(inputDurationType.equals("CHORD"))     
                         xPathDurationNodeList = "//chord/duration";
@@ -63,10 +58,12 @@ public class durationSwingWorker
                     
                     NodeList rythmNodeList = (NodeList) (myXPath.evaluate(xPathDurationNodeList, myXmlDocument, XPathConstants.NODESET));
                     Node currenRythmtNode;
+
                     if(rythmNodeList.getLength() > 0)
                     {
                         for(int i=0; i<rythmNodeList.getLength(); i++)
                         {
+                            System.out.println("inside FOR");
                             if(rythmNodeList.item(i) != null)
                             {
                                 currenRythmtNode = rythmNodeList.item(i);

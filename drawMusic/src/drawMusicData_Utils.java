@@ -495,24 +495,16 @@ public class drawMusicData_Utils
     
     public static Integer getMinGapInValue(ArrayList<Integer> inputValue)
     {
-        /*
+        //System.out.println("inputValue Before Sort: " + inputValue);
         Collections.sort(inputValue);
-        Integer minValue = Collections.min(inputValue);
-        Integer succesorOfMinValue = inputValue.get(1);
-        //System.out.println("minValue: " + minValue);
-        //System.out.println("Succesor of minValue: " + succesorOfMinValue);
-        Integer result = Math.abs((succesorOfMinValue - minValue));
-        //System.out.println("Result: " + result);
-        */
-        System.out.println("inputValue: " + inputValue);
-        Collections.sort(inputValue);
-        System.out.println("minDiff After Sort: " + inputValue);
+        //System.out.println("inputValue After Sort: " + inputValue);
         int minDiff = inputValue.get(1)-inputValue.get(0);
-        for (int i = 2 ; i != inputValue.size() ; i++) {
+        for (int i = 2 ; i != inputValue.size() ; i++)
+        {
             minDiff = Math.min(minDiff, inputValue.get(i)-inputValue.get(i-1));
         }
         
-        System.out.println("minDiff: " + minDiff);
+        //System.out.println("minDiff: " + minDiff);
         return minDiff;
     }
     
