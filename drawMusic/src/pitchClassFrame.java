@@ -69,24 +69,4 @@ class pitchClassFrame extends JFrame
             grapName = newName;
         setTitle(grapName);
     }
-    
-    /*
-    public static LinkedHashMap<String, Integer> getPitchClass(String inpuName)
-    {
-        TreeMap<String, Integer> pitchClassMap = new TreeMap<>();
-        LinkedHashMap<String, Integer> finalPitchClassMap = new LinkedHashMap<>();
-        try
-        {
-            String fileName = inpuName;
-            pitchClassMap = drawMusicData_Utils.getXmlStatisticsPitch(fileName, "D");
-            finalPitchClassMap = drawMusicData_Utils.getOrderedResult(pitchClassMap, false, drawMusicData_Utils.Rappresentation.DIATONICA);
-        }
-        catch (Exception e)
-        {
-            System.out.println("Exception:" + Arrays.toString(e.getStackTrace()));
-            System.exit(1);
-        }
-        return finalPitchClassMap;
-    }
-    */
 }
