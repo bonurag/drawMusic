@@ -162,7 +162,7 @@ public class programGui extends javax.swing.JFrame
         setPreferredSize(new java.awt.Dimension(700, 350));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        openFileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/open_doc.jpg"))); // NOI18N
+        openFileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/folder.png"))); // NOI18N
         openFileButton.setToolTipText("Apri File");
         openFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,7 +173,7 @@ public class programGui extends javax.swing.JFrame
 
         generatePitchClassButton.setBackground(new java.awt.Color(255, 255, 255));
         generatePitchClassButton.setForeground(new java.awt.Color(255, 255, 255));
-        generatePitchClassButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/bar-chart-2.png"))); // NOI18N
+        generatePitchClassButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/quaver.png"))); // NOI18N
         generatePitchClassButton.setToolTipText("Genera grafico Pitch Class");
         generatePitchClassButton.setAlignmentY(0.0F);
         generatePitchClassButton.addActionListener(new java.awt.event.ActionListener() {
@@ -185,7 +185,7 @@ public class programGui extends javax.swing.JFrame
 
         generatePitchButton.setBackground(new java.awt.Color(255, 255, 255));
         generatePitchButton.setForeground(new java.awt.Color(255, 255, 255));
-        generatePitchButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/graphic.png"))); // NOI18N
+        generatePitchButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/musical-note.png"))); // NOI18N
         generatePitchButton.setToolTipText("Genera grafico Pitch");
         generatePitchButton.setAlignmentY(0.0F);
         generatePitchButton.addActionListener(new java.awt.event.ActionListener() {
@@ -197,7 +197,7 @@ public class programGui extends javax.swing.JFrame
 
         generateDurationButton.setBackground(new java.awt.Color(255, 255, 255));
         generateDurationButton.setForeground(new java.awt.Color(255, 255, 255));
-        generateDurationButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/bar-chart.png"))); // NOI18N
+        generateDurationButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/metronome.png"))); // NOI18N
         generateDurationButton.setToolTipText("Genera grafico Durate");
         generateDurationButton.setAlignmentY(0.0F);
         generateDurationButton.addActionListener(new java.awt.event.ActionListener() {
@@ -208,7 +208,7 @@ public class programGui extends javax.swing.JFrame
         getContentPane().add(generateDurationButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 190, -1, -1));
 
         generateMelodicIntervalButton.setBackground(new java.awt.Color(255, 255, 255));
-        generateMelodicIntervalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pyramid-chart.png"))); // NOI18N
+        generateMelodicIntervalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/equalizer.png"))); // NOI18N
         generateMelodicIntervalButton.setToolTipText("Genera grafico Intervalli Melodici");
         generateMelodicIntervalButton.setAlignmentY(0.0F);
         generateMelodicIntervalButton.addActionListener(new java.awt.event.ActionListener() {
@@ -219,7 +219,7 @@ public class programGui extends javax.swing.JFrame
         getContentPane().add(generateMelodicIntervalButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 190, -1, -1));
 
         generateHarmonicIntervalButton.setBackground(new java.awt.Color(255, 255, 255));
-        generateHarmonicIntervalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/line-chart-4.png"))); // NOI18N
+        generateHarmonicIntervalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/equalizer (2).png"))); // NOI18N
         generateHarmonicIntervalButton.setToolTipText("Genera grafico Intervalli Armonici");
         generateHarmonicIntervalButton.setAlignmentY(0.0F);
         generateHarmonicIntervalButton.addActionListener(new java.awt.event.ActionListener() {
@@ -318,10 +318,11 @@ public class programGui extends javax.swing.JFrame
         loadDataProgressBar.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         loadDataProgressBar.setStringPainted(true);
         getContentPane().add(loadDataProgressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 15, 210, 30));
-        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 50, -1, -1));
+        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 50, -1, -1));
 
         durationTypeComboBox.setMaximumRowCount(3);
         durationTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CHORD", "REST", "BOTH" }));
+        durationTypeComboBox.setToolTipText("Seleziona la durata che vuoi misurare");
         getContentPane().add(durationTypeComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, 100, -1));
 
         durationColorSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_icon.png"))); // NOI18N

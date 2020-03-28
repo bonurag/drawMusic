@@ -38,7 +38,7 @@
     <Component class="javax.swing.JButton" name="openFileButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icon/open_doc.jpg"/>
+          <Image iconType="3" name="/icon/folder.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Apri File"/>
       </Properties>
@@ -60,7 +60,7 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icon/bar-chart-2.png"/>
+          <Image iconType="3" name="/icon/quaver.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Genera grafico Pitch Class"/>
         <Property name="alignmentY" type="float" value="0.0"/>
@@ -83,7 +83,7 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icon/graphic.png"/>
+          <Image iconType="3" name="/icon/musical-note.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Genera grafico Pitch"/>
         <Property name="alignmentY" type="float" value="0.0"/>
@@ -106,7 +106,7 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icon/bar-chart.png"/>
+          <Image iconType="3" name="/icon/metronome.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Genera grafico Durate"/>
         <Property name="alignmentY" type="float" value="0.0"/>
@@ -126,7 +126,7 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icon/pyramid-chart.png"/>
+          <Image iconType="3" name="/icon/equalizer.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Genera grafico Intervalli Melodici"/>
         <Property name="alignmentY" type="float" value="0.0"/>
@@ -149,7 +149,7 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icon/line-chart-4.png"/>
+          <Image iconType="3" name="/icon/equalizer (2).png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Genera grafico Intervalli Armonici"/>
         <Property name="alignmentY" type="float" value="0.0"/>
@@ -425,7 +425,7 @@
     <Component class="javax.swing.JLabel" name="statusProgressBarText">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="480" y="50" width="-1" height="-1"/>
+          <AbsoluteConstraints x="470" y="50" width="-1" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -439,6 +439,7 @@
             <StringItem index="2" value="BOTH"/>
           </StringArray>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Seleziona la durata che vuoi misurare"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

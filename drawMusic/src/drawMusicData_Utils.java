@@ -696,6 +696,11 @@ public class drawMusicData_Utils
                         Logger.getLogger(pitchFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                else
+                {
+                    inputPanel.setBorder(BorderFactory.createEmptyBorder());
+                    inputButton.setVisible(true);
+                }
             }
         });
     }
