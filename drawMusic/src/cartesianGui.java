@@ -132,15 +132,11 @@ public class cartesianGui extends JPanel
         
         Boolean isDurationList = false;
         Boolean disableYLabelView = true;
-        System.out.println("xCoordList: " + xCoordList);
-        System.out.println("xCoordList Size: " + xCoordList.size());
-        if(xCoordList.size() >= 1 && !xCoordList.isEmpty())
+        if(xCoordList.size() > 1 && !xCoordList.isEmpty())
         {
-            System.out.println("Inside First IF xCoordList");
             if(xCoordList.contains("1")|| xCoordList.contains("2") || xCoordList.contains("4") || xCoordList.contains("8") || xCoordList.contains("16") ||
                xCoordList.contains("32") || xCoordList.contains("64") || xCoordList.contains("128") || xCoordList.contains("256") || xCoordList.contains("512"))   
             {
-                System.out.println("Inside First IF xCoordList");
                 ArrayList<Integer> tmpList = new ArrayList<>();
                 isDurationList = true;
                 for(int i=0; i<xCoordList.size(); i++)
@@ -153,7 +149,6 @@ public class cartesianGui extends JPanel
                 {
                     xCoordList.add(Integer.toString(tmpList.get(j)));
                 }
-                System.out.println("Inside First IF tmpList " + tmpList);
             }
         }
         
@@ -161,8 +156,10 @@ public class cartesianGui extends JPanel
         if(!inputData.keySet().isEmpty())
             yCoordList = new ArrayList(inputData.values());
         
-        Integer yGapValue = drawMusicData_Utils.getMinGapInValue(yCoordList);
-        if(yGapValue <= 4)
+        Integer yGapValue = 0;
+        if(yCoordList.size() > 1)
+            yGapValue = drawMusicData_Utils.getMinGapInValue(yCoordList);
+        if(yGapValue <= 4 && yCoordList.size() > 1)
         {
             disableYLabelView = false;
             setViewValueOnBar(true);
@@ -179,7 +176,6 @@ public class cartesianGui extends JPanel
         ySetValueList.add(0);
 
         int xLength = (X_AXIS_SECOND_X_COORD - X_AXIS_FIRST_X_COORD) / (xCoordList.size()+1);
-        
         float[] dash = { 4f, 0f, 2f };
         BasicStroke bs = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f, dash, 2f );
         
@@ -187,7 +183,7 @@ public class cartesianGui extends JPanel
         int height = 0;
 
         for (int i = 1; i < xCoordList.size()+1; i++)
-        {                
+        {               
             g2.drawLine(X_AXIS_FIRST_X_COORD + (i * xLength),
                 X_AXIS_Y_COORD - SECOND_LENGHT,
                 X_AXIS_FIRST_X_COORD + (i * xLength),

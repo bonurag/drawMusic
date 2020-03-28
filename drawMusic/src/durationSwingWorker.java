@@ -63,7 +63,6 @@ public class durationSwingWorker
                     {
                         for(int i=0; i<rythmNodeList.getLength(); i++)
                         {
-                            System.out.println("inside FOR");
                             if(rythmNodeList.item(i) != null)
                             {
                                 currenRythmtNode = rythmNodeList.item(i);
