@@ -15,6 +15,7 @@ import javax.imageio.*;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /*
@@ -59,46 +60,10 @@ class pitchFrame extends JFrame
             panel.setName("pitchFrame");
             add(panel);
             
-            getScreenShoot(saveButton);
+            drawMusicData_Utils.saveScreenShoot(saveButton, panel);
         }
     }
-    
-    public void getScreenShoot(JButton inputButton)
-    {
-        inputButton.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileFilter(new FileNameExtensionFilter("png", "png"));
-                fileChooser.setFileFilter(new FileNameExtensionFilter("jpg", "jpg"));  
-                String selectedExtension = fileChooser.getFileFilter().getDescription();
 
-                BufferedImage bufImage = new BufferedImage(panel.getWidth(), panel.getHeight(),BufferedImage.TYPE_INT_RGB);
-                panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-                inputButton.setVisible(false);
-                panel.paint(bufImage.getGraphics());
-
-                int option = fileChooser.showSaveDialog(null);
-                if(option == JFileChooser.APPROVE_OPTION)
-                {
-                    BufferedImage img = bufImage;
-                    try
-                    {
-                        ImageIO.write(img, selectedExtension, new File(fileChooser.getSelectedFile().getAbsolutePath()+"."+selectedExtension));
-                        panel.setBorder(BorderFactory.createEmptyBorder());
-                        inputButton.setVisible(true);
-                    }
-                    catch (IOException ex)
-                    {
-                        Logger.getLogger(pitchFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        });
-    }
-    
     public void showUI() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);    
         setSize(700, 700);

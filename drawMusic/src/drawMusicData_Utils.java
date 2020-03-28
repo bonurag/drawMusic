@@ -1,4 +1,8 @@
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,6 +11,14 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -650,5 +662,41 @@ public class drawMusicData_Utils
             binomialRapInterval.add(r);
 	}
 	return binomialRapInterval;
+    }
+    
+    public static void saveScreenShoot(JButton inputButton, JPanel inputPanel)
+    {
+        inputButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileFilter(new FileNameExtensionFilter("png", "png"));
+                fileChooser.setFileFilter(new FileNameExtensionFilter("jpg", "jpg"));  
+                String selectedExtension = fileChooser.getFileFilter().getDescription();
+
+                BufferedImage bufImage = new BufferedImage(inputPanel.getWidth(), inputPanel.getHeight(),BufferedImage.TYPE_INT_RGB);
+                inputPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                inputButton.setVisible(false);
+                inputPanel.paint(bufImage.getGraphics());
+
+                int option = fileChooser.showSaveDialog(null);
+                if(option == JFileChooser.APPROVE_OPTION)
+                {
+                    BufferedImage img = bufImage;
+                    try
+                    {
+                        ImageIO.write(img, selectedExtension, new File(fileChooser.getSelectedFile().getAbsolutePath()+"."+selectedExtension));
+                        inputPanel.setBorder(BorderFactory.createEmptyBorder());
+                        inputButton.setVisible(true);
+                    }
+                    catch (IOException ex)
+                    {
+                        Logger.getLogger(pitchFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        });
     }
 }

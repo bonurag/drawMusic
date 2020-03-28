@@ -1,6 +1,7 @@
 
 import java.awt.Color;
 import java.util.LinkedHashMap;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 /*
@@ -19,7 +20,7 @@ class durationFrame extends JFrame
     cartesianGui panel;
     int inputDataSize = 0;
 
-    public durationFrame(Object inputDataWork)
+    public durationFrame(Object inputDataWork, Color selectedColor)
     {
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
         if(inputData.containsKey("Empty"))
@@ -28,12 +29,22 @@ class durationFrame extends JFrame
         }
         else if(inputData.size() > 0 && inputData != null)
         {
+            JButton saveButton = new JButton();
+            saveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/screenshot.png"))); 
+            saveButton.setToolTipText("Cattura uno screenshoot del grafico!");
+            saveButton.setVisible(true);
+            
             inputDataSize = inputData.size();
             panel = new cartesianGui(inputData);
             panel.setBackground(Color.WHITE);
             panel.setxAxisName("DURATA");
             panel.setyAxisName("Q.TY");
+            panel.setBarColor(selectedColor);
+            panel.add(saveButton);
+            panel.setName("durationFrame");
             add(panel);
+            
+            drawMusicData_Utils.saveScreenShoot(saveButton, panel);
         }
     }
 

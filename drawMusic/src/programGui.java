@@ -42,6 +42,7 @@ public class programGui extends javax.swing.JFrame
         lockIcon();
         lockTextBox();
         lockComboBox();
+        lockSelectedColor();
         loadDataProgressBar.setVisible(false);
         durationColorSelectButton.setEnabled(false);
         openFileName.setText("Nessun file selezionato!");
@@ -448,7 +449,7 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
-                                    pitchClassFrame pitchClassFrame = new pitchClassFrame(work.get());
+                                    pitchClassFrame pitchClassFrame = new pitchClassFrame(work.get(), selectedColor);
                                     int dataSize = pitchClassFrame.getInputDataSize();
                                     if(dataSize > 0)
                                     {
@@ -679,7 +680,7 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
-                                    durationFrame durationFrame = new durationFrame(work.get());
+                                    durationFrame durationFrame = new durationFrame(work.get(), selectedColor);
                                     int dataSize = durationFrame.getInputDataSize();
                                     if(dataSize > 0)
                                     {
@@ -799,7 +800,7 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
-                                    melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(work.get());
+                                    melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(work.get(), selectedColor);
                                     int dataSize = melodicIntervalFrame.getInputDataSize();
                                     if(dataSize > 0)
                                     {
@@ -914,7 +915,7 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
-                                    harmonicIntervalFrame harmonicIntervalFrame = new harmonicIntervalFrame(work.get());
+                                    harmonicIntervalFrame harmonicIntervalFrame = new harmonicIntervalFrame(work.get(), selectedColor);
                                     int dataSize = harmonicIntervalFrame.getInputDataSize();
                                     if(dataSize > 0)
                                     {
