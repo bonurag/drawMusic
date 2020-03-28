@@ -56,15 +56,11 @@ public class cartesianGui extends JPanel
     // distance from top of panel to the max highest bar
     public static final int OFFSET_BAR_TO_TOP_PANEL = 100;
     
-    public Boolean enableView = false;
+    private Boolean enableView = false;
     
-    public Boolean enableHorizontalLabel = true;
+    private String yAxisName = "Y";
     
-    public Boolean enableVerticalLabel = false;
-    
-    public String yAxisName = "Y";
-    
-    public String xAxisName = "X";
+    private String xAxisName = "X";
     
     private LinkedHashMap<String, Integer> inputData;
 
@@ -154,7 +150,7 @@ public class cartesianGui extends JPanel
             yCoordList = new ArrayList(inputData.values());
         
         Integer yGapValue = drawMusicData_Utils.getMinGapInValue(yCoordList);
-        if(yGapValue <= 5)
+        if(yGapValue <= 4)
         {
             disableYLabelView = false;
             setViewValueOnBar(true);

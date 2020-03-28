@@ -1,8 +1,6 @@
 
 import java.awt.Color;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.TreeMap;
 import javax.swing.JFrame;
 
 /*
@@ -21,18 +19,23 @@ class pitchFrame extends JFrame
     cartesianGui panel;
     int inputDataSize = 0;
 
-    public pitchFrame(String inputName) {
-        LinkedHashMap<String, Integer> inputData = getPitch(inputName);
-        if(!inputData.isEmpty())
+    public pitchFrame(Object inputDataWork)
+    {       
+        LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
+        
+        if(inputData.containsKey("Empty"))
+        {
+            inputDataSize = 0;
+        }
+        else if(inputData.size() > 0 && inputData != null)
         {
             inputDataSize = inputData.size();
             panel = new cartesianGui(inputData);
+            panel.setBackground(Color.WHITE);
+            panel.setxAxisName("PITCH");
+            panel.setyAxisName("Q.TY");
+            add(panel);
         }
-        panel.setBackground(Color.WHITE);
-        panel.setViewValueOnBar(false);
-        panel.setxAxisName("PITCH");
-        panel.setyAxisName("Q.TY");
-        add(panel);
     }
 
     public void showUI() {
@@ -55,7 +58,7 @@ class pitchFrame extends JFrame
             grapName = newName;
         setTitle(grapName);
     }
-    
+    /*
     public static LinkedHashMap<String, Integer> getPitch(String inputName)
     {
         TreeMap<String, Integer> pitchNoteMap = new TreeMap<>();
@@ -64,7 +67,7 @@ class pitchFrame extends JFrame
         {
             String fileName = inputName;
             pitchNoteMap = drawMusicData_Utils.getXmlStatisticsPitch(fileName, "A");
-            finalPitchNoteMap = drawMusicData_Utils.getOrderedResult(pitchNoteMap, false, testMethod.Rappresentation.ANGLOSASSONE);
+            finalPitchNoteMap = drawMusicData_Utils.getOrderedResult(pitchNoteMap, false, drawMusicData_Utils.Rappresentation.ANGLOSASSONE);
         }
         catch (Exception e)
         {
@@ -73,4 +76,5 @@ class pitchFrame extends JFrame
         }
         return finalPitchNoteMap;
     }
+    */
 }

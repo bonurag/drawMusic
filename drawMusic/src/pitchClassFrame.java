@@ -1,8 +1,6 @@
 
 import java.awt.Color;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.TreeMap;
 import javax.swing.JFrame;
 
 /*
@@ -21,18 +19,23 @@ class pitchClassFrame extends JFrame
     cartesianGui panel;
     int inputDataSize = 0;
 
-    public pitchClassFrame(String inputName) {
-        LinkedHashMap<String, Integer> inputData = getPitchClass(inputName);
-        if(!inputData.isEmpty())
+    public pitchClassFrame(Object inputDataWork)
+    {       
+        LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
+        
+        if(inputData.containsKey("Empty"))
+        {
+            inputDataSize = 0;
+        }
+        else if(inputData.size() > 0 && inputData != null)
         {
             inputDataSize = inputData.size();
             panel = new cartesianGui(inputData);
+            panel.setBackground(Color.WHITE);
+            panel.setxAxisName("PITCH CLASS");
+            panel.setyAxisName("Q.TY");
+            add(panel);
         }
-        panel.setBackground(Color.WHITE);
-        panel.setViewValueOnBar(false);
-        panel.setxAxisName("PITCH CLASS");
-        panel.setyAxisName("Q.TY");
-        add(panel);
     }
 
     public void showUI() {
@@ -55,7 +58,8 @@ class pitchClassFrame extends JFrame
             grapName = newName;
         setTitle(grapName);
     }
-      
+    
+    /*
     public static LinkedHashMap<String, Integer> getPitchClass(String inpuName)
     {
         TreeMap<String, Integer> pitchClassMap = new TreeMap<>();
@@ -64,7 +68,7 @@ class pitchClassFrame extends JFrame
         {
             String fileName = inpuName;
             pitchClassMap = drawMusicData_Utils.getXmlStatisticsPitch(fileName, "D");
-            finalPitchClassMap = drawMusicData_Utils.getOrderedResult(pitchClassMap, false, testMethod.Rappresentation.DIATONICA);
+            finalPitchClassMap = drawMusicData_Utils.getOrderedResult(pitchClassMap, false, drawMusicData_Utils.Rappresentation.DIATONICA);
         }
         catch (Exception e)
         {
@@ -73,4 +77,5 @@ class pitchClassFrame extends JFrame
         }
         return finalPitchClassMap;
     }
+    */
 }

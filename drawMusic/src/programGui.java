@@ -10,7 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
-import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 
@@ -269,7 +268,7 @@ public class programGui extends javax.swing.JFrame
         melodicIntervalBntTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         melodicIntervalBntTitle.setText("Melodic");
         melodicIntervalBntTitle.setAlignmentY(0.0F);
-        getContentPane().add(melodicIntervalBntTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 170, -1, -1));
+        getContentPane().add(melodicIntervalBntTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(445, 170, -1, -1));
 
         nomeGraficoStaticLabel_4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         nomeGraficoStaticLabel_4.setLabelFor(nomeGraficoTextField_4);
@@ -340,11 +339,223 @@ public class programGui extends javax.swing.JFrame
     }//GEN-LAST:event_openFileButtonActionPerformed
 
     private void generatePitchClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generatePitchClassButtonActionPerformed
-        // TODO add your handling code here:
+        try
+        {                        
+            pitchSwingWorker l = new pitchSwingWorker();
+            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile().getName(), "DIATONICA", "D");
+            Object[] options = {"Si","No"};
+            int state = JOptionPane.showOptionDialog(null, 
+                        "Sei sicuro di voler procedere con l'elaborazione dei dati?",
+                        "Informazione", 
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE, null, options, null);
+            if(state == JOptionPane.YES_OPTION)
+            {
+                work.execute();
+            }
+
+            work.addPropertyChangeListener(new PropertyChangeListener()
+            {
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    if ("state".equals(evt.getPropertyName())) {
+                        SwingWorker.StateValue state = (SwingWorker.StateValue) evt.getNewValue();
+                        switch (state) {
+                            case DONE:
+                            {
+                                try 
+                                {
+                                    pitchClassFrame pitchClassFrame = new pitchClassFrame(work.get());
+                                    int dataSize = pitchClassFrame.getInputDataSize();
+                                    if(dataSize > 0)
+                                    {
+                                        statusProgressBarText.setText("Caricamento Completato!");
+                                        generatePitchClassButton.setEnabled(false);
+                                        nomeGraficoTextField_1.setEnabled(false);
+                                        pitchClassFrame.showUI();
+                                    }
+                                    else
+                                    {
+                                        statusProgressBarText.setText("");
+                                        generatePitchClassButton.setEnabled(true);
+                                        nomeGraficoTextField_1.setEnabled(true);
+                                        nomeGraficoTextField_1.setText("");
+                                        loadDataProgressBar.setValue(0);
+                                        loadDataProgressBar.setVisible(false);
+                                        String informationMessage = "Non sono presenti dati da elaborare!";
+                                        JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);    
+                                    }
+                                    
+                                    String graphName = nomeGraficoTextField_4.getText();
+                                    if(!graphName.equals(""))
+                                        pitchClassFrame.setGraphName(graphName);
+                                    else
+                                        pitchClassFrame.setGraphName("Default Graph Name");
+                                    pitchClassFrame.addWindowListener(new java.awt.event.WindowAdapter()
+                                    {
+                                        @Override
+                                        public void windowClosing(java.awt.event.WindowEvent windowEvent)
+                                        {
+                                            Object[] options = {"Si","No"};
+                                            int state = JOptionPane.showOptionDialog(pitchClassFrame, 
+                                                        "Sei sicuro di voler chiudere questa finestra?",
+                                                        "Chiudi Finestra?", 
+                                                        JOptionPane.YES_NO_OPTION,
+                                                        JOptionPane.INFORMATION_MESSAGE, null, options, null);
+                                            if(state == JOptionPane.YES_OPTION)
+                                            {
+                                                windowEvent.getWindow().dispose();
+                                                statusProgressBarText.setText("");
+                                                generatePitchClassButton.setEnabled(true);
+                                                nomeGraficoTextField_1.setEnabled(true);
+                                                nomeGraficoTextField_1.setText("");
+                                                loadDataProgressBar.setValue(0);
+                                                loadDataProgressBar.setVisible(false);
+                                            }
+                                        }
+                                    });
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (ExecutionException ex) {
+                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                                break;
+
+                            case STARTED:
+                                loadDataProgressBar.setVisible(true);
+                                generatePitchClassButton.setEnabled(false);
+                                nomeGraficoTextField_1.setEnabled(false);
+                                loadDataProgressBar.setForeground(Color.BLACK);                               
+                                loadDataProgressBar.setValue(0);
+                                statusProgressBarText.setText("Caricamento in corso");
+                                break;
+                        }
+                    } else if ("progress".equals(evt.getPropertyName())) {
+                        statusProgressBarText.setText("Caricamento in corso");
+                        int progress = (Integer)evt.getNewValue();
+                        generatePitchClassButton.setEnabled(false);
+                        nomeGraficoTextField_1.setEnabled(false);
+                        loadDataProgressBar.setValue(progress);
+                    }
+                }
+            });         
+        }
+        catch(Exception e)
+        {
+            String informationMessage = "Non sono presenti dati da elaborare!";
+            JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
+        } 
     }//GEN-LAST:event_generatePitchClassButtonActionPerformed
 
     private void generatePitchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generatePitchButtonActionPerformed
-        // TODO add your handling code here:
+        try
+        {                        
+            pitchSwingWorker l = new pitchSwingWorker();
+            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile().getName(), "ANGLOSASSONE", "A");
+            Object[] options = {"Si","No"};
+            int state = JOptionPane.showOptionDialog(null, 
+                        "Sei sicuro di voler procedere con l'elaborazione dei dati?",
+                        "Informazione", 
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE, null, options, null);
+            if(state == JOptionPane.YES_OPTION)
+            {
+                work.execute();
+            }
+
+            work.addPropertyChangeListener(new PropertyChangeListener()
+            {
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    if ("state".equals(evt.getPropertyName())) {
+                        SwingWorker.StateValue state = (SwingWorker.StateValue) evt.getNewValue();
+                        switch (state) {
+                            case DONE:
+                            {
+                                try 
+                                {
+                                    pitchFrame pitchFrame = new pitchFrame(work.get());
+                                    int dataSize = pitchFrame.getInputDataSize();
+                                    if(dataSize > 0)
+                                    {
+                                        statusProgressBarText.setText("Caricamento Completato!");
+                                        generatePitchButton.setEnabled(false);
+                                        nomeGraficoTextField_2.setEnabled(false);
+                                        pitchFrame.showUI();
+                                    }
+                                    else
+                                    {
+                                        statusProgressBarText.setText("");
+                                        generatePitchButton.setEnabled(true);
+                                        nomeGraficoTextField_2.setEnabled(true);
+                                        nomeGraficoTextField_2.setText("");
+                                        loadDataProgressBar.setValue(0);
+                                        loadDataProgressBar.setVisible(false);
+                                        String informationMessage = "Non sono presenti dati da elaborare!";
+                                        JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);    
+                                    }
+                                    
+                                    String graphName = nomeGraficoTextField_4.getText();
+                                    if(!graphName.equals(""))
+                                        pitchFrame.setGraphName(graphName);
+                                    else
+                                        pitchFrame.setGraphName("Default Graph Name");
+                                    pitchFrame.addWindowListener(new java.awt.event.WindowAdapter()
+                                    {
+                                        @Override
+                                        public void windowClosing(java.awt.event.WindowEvent windowEvent)
+                                        {
+                                            Object[] options = {"Si","No"};
+                                            int state = JOptionPane.showOptionDialog(pitchFrame, 
+                                                        "Sei sicuro di voler chiudere questa finestra?",
+                                                        "Chiudi Finestra?", 
+                                                        JOptionPane.YES_NO_OPTION,
+                                                        JOptionPane.INFORMATION_MESSAGE, null, options, null);
+                                            if(state == JOptionPane.YES_OPTION)
+                                            {
+                                                windowEvent.getWindow().dispose();
+                                                statusProgressBarText.setText("");
+                                                generatePitchButton.setEnabled(true);
+                                                nomeGraficoTextField_2.setEnabled(true);
+                                                nomeGraficoTextField_2.setText("");
+                                                loadDataProgressBar.setValue(0);
+                                                loadDataProgressBar.setVisible(false);
+                                            }
+                                        }
+                                    });
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (ExecutionException ex) {
+                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                                break;
+
+                            case STARTED:
+                                loadDataProgressBar.setVisible(true);
+                                generatePitchButton.setEnabled(false);
+                                nomeGraficoTextField_2.setEnabled(false);
+                                loadDataProgressBar.setForeground(Color.BLACK);                               
+                                loadDataProgressBar.setValue(0);
+                                statusProgressBarText.setText("Caricamento in corso");
+                                break;
+                        }
+                    } else if ("progress".equals(evt.getPropertyName())) {
+                        statusProgressBarText.setText("Caricamento in corso");
+                        int progress = (Integer)evt.getNewValue();
+                        generatePitchButton.setEnabled(false);
+                        nomeGraficoTextField_2.setEnabled(false);
+                        loadDataProgressBar.setValue(progress);
+                    }
+                }
+            });         
+        }
+        catch(Exception e)
+        {
+            String informationMessage = "Non sono presenti dati da elaborare!";
+            JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_generatePitchButtonActionPerformed
 
     private void generateDurationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateDurationButtonActionPerformed

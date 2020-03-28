@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeMap;
-import java.util.Vector;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,7 +28,8 @@ import org.xml.sax.SAXException;
  */
 public class drawMusicData_Utils
 {
-    enum Rappresentation {
+    enum Rappresentation
+    {
         DIATONICA,
         ANGLOSASSONE,
         PITCH_CLASS
@@ -37,8 +37,11 @@ public class drawMusicData_Utils
 
     public static File readFile(String name)
     {
-        String fileName = name;  
-        File file = new File(fileName);
+        String fileName = name; 
+        File tmpFile = new File(fileName);
+        File file = null;
+        if(tmpFile.exists())
+            file = tmpFile;
         return file;      
     }
     
@@ -51,18 +54,18 @@ public class drawMusicData_Utils
         return (Document) builder.parse(inputFile);
     }
     
-    public static LinkedHashMap<String, Integer> getOrderedResult(TreeMap<String, Integer> inputMap, Boolean debug, testMethod.Rappresentation typeOrder) {
-        
+    public static LinkedHashMap<String, Integer> getOrderedResult(TreeMap<String, Integer> inputMap, Boolean debug, Rappresentation typeOrder)
+    {      
         Boolean mergeNote = false;
         Boolean getIndex = false;
         
         LinkedHashMap<String, Integer> outputMap = new LinkedHashMap<>();
         
-        ArrayList<String> anglosaxonClassOrder = new ArrayList<String>(Arrays.asList("C","C#","Db","D","D#","Eb","E","F","F#","Gb","G","G#","Ab","A","A#","Bb","B"));
-        ArrayList<String> diatonicNoteOrder = new ArrayList<String>(Arrays.asList("Do","Do#","Reb","Re","Re#","Mib","Mi","Fa","Fa#","Solb","Sol","Sol#","Lab","La","La#","Sib","Si"));
-        ArrayList<String> pitchClassOrder = new ArrayList<String>(Arrays.asList("C","C#/Db","D","D#/Eb","E","F","F#/Gb","G","G#/Ab","A","A#/Bb","B"));
+        ArrayList<String> anglosaxonClassOrder = new ArrayList<>(Arrays.asList("C","C#","Db","D","D#","Eb","E","F","F#","Gb","G","G#","Ab","A","A#","Bb","B"));
+        ArrayList<String> diatonicNoteOrder = new ArrayList<>(Arrays.asList("Do","Do#","Reb","Re","Re#","Mib","Mi","Fa","Fa#","Solb","Sol","Sol#","Lab","La","La#","Sib","Si"));
+        ArrayList<String> pitchClassOrder = new ArrayList<>(Arrays.asList("C","C#/Db","D","D#/Eb","E","F","F#/Gb","G","G#/Ab","A","A#/Bb","B"));
         
-        ArrayList<String> listToOrder = new ArrayList<String>();
+        ArrayList<String> listToOrder = new ArrayList<>();
         
         if(typeOrder.name().equals("ANGLOSASSONE"))
         {
@@ -84,7 +87,6 @@ public class drawMusicData_Utils
 
         for(int k=0; k<listToOrder.size(); k++)
         {
-
             String keyMap = "";
             if(inputMap.containsKey(listToOrder.get(k)))
             {
@@ -157,6 +159,12 @@ public class drawMusicData_Utils
             System.out.println("getOrderResult keySet " + outputMap.keySet());
             System.out.println("getOrderResult values " + outputMap.values());
         }
+        if(!outputMap.isEmpty())
+            return outputMap;
+        else
+        {
+            outputMap.put("Empty", -1);
+        }
         return outputMap;
     }
     
@@ -185,7 +193,7 @@ public class drawMusicData_Utils
     public static String getNoteAccidental(String accident)
     {
         String emptyValue = "";
-        if(accident != null && accident != "")
+        if(accident != null && !"".equals(accident))
         {
             LinkedHashMap<String,String> accidentalTranscoding = new LinkedHashMap<>();
             accidentalTranscoding.put("FLAT", "b");
@@ -205,9 +213,9 @@ public class drawMusicData_Utils
         ArrayList<String> tempList;
         for (int i = 0; i < inputNode.getLength(); i++)
         {
-            String multipleStepNote = null;
-            String multipleStepAccidental = null;
-            String multipleStepOcatve = null;
+            String multipleStepNote = "";
+            String multipleStepAccidental = "";
+            String multipleStepOcatve = "";
             if(inputNode.item(i) != null)
             {
                 multipleStepNote = ((Element) (inputNode.item(i))).getAttribute("step");
@@ -224,7 +232,7 @@ public class drawMusicData_Utils
     {
         ArrayList<String> pciNameList = new ArrayList<>();
         ArrayList<Integer> tmpListPci = new ArrayList<>();
-        Vector<Vector<String>> intervalMatrix = generateMatrixBRI();
+        ArrayList<ArrayList<String>> intervalMatrix = generateMatrixBRI();
         if(!pciInput.isEmpty())
         {
             for(int k=0; k<pciInput.size(); k++)
@@ -412,13 +420,13 @@ public class drawMusicData_Utils
                         singleBinomialNext.add(PC_next);
                         singleBinomialNext.add(NC_next);
                         
-                        if((notePrev != null && notePrev != "") && singleBinomialPrev.size() > 0)
+                        if((notePrev != null && !"".equals(notePrev)) && singleBinomialPrev.size() > 0)
                             binomialMap.put(notePrev, singleBinomialPrev);
                         
-                        if((noteNext != null && noteNext != "") && singleBinomialPrev.size() > 0)
+                        if((noteNext != null && !"".equals(noteNext)) && singleBinomialPrev.size() > 0)
                             binomialMap.put(noteNext, singleBinomialNext);
                         
-                        if(singlePermutation != null && singlePermutation != "")
+                        if(singlePermutation != null && !"".equals(singlePermutation))
                             permutationList.add(singlePermutation);
                     }
                 }
@@ -487,6 +495,7 @@ public class drawMusicData_Utils
     
     public static Integer getMinGapInValue(ArrayList<Integer> inputValue)
     {
+        /*
         Collections.sort(inputValue);
         Integer minValue = Collections.min(inputValue);
         Integer succesorOfMinValue = inputValue.get(1);
@@ -494,17 +503,27 @@ public class drawMusicData_Utils
         //System.out.println("Succesor of minValue: " + succesorOfMinValue);
         Integer result = Math.abs((succesorOfMinValue - minValue));
         //System.out.println("Result: " + result);
-        return result;
+        */
+        System.out.println("inputValue: " + inputValue);
+        Collections.sort(inputValue);
+        System.out.println("minDiff After Sort: " + inputValue);
+        int minDiff = inputValue.get(1)-inputValue.get(0);
+        for (int i = 2 ; i != inputValue.size() ; i++) {
+            minDiff = Math.min(minDiff, inputValue.get(i)-inputValue.get(i-1));
+        }
+        
+        System.out.println("minDiff: " + minDiff);
+        return minDiff;
     }
     
-    public static Vector<Vector<String>> generateMatrixBRI()
+    public static ArrayList<ArrayList<String>> generateMatrixBRI()
     {
-	Vector<Vector<String>> binomialRapInterval = new Vector<Vector<String>>();
-	Vector<String> r = null;
+	ArrayList<ArrayList<String>> binomialRapInterval = new ArrayList<>();
+	ArrayList<String> r = null;
 	
 	for(int i=0; i<12; i++)
 	{
-            r = new Vector<>();
+            r = new ArrayList<>();
             if(i == 0)
             {  
                 r.add(0, "P1");
