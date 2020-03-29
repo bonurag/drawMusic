@@ -159,12 +159,7 @@ public class cartesianGui extends JPanel
         Integer yGapValue = 0;
         if(yCoordList.size() > 1)
             yGapValue = drawMusicData_Utils.getMinGapInValue(yCoordList);
-        if(yGapValue <= 4 && yCoordList.size() > 1)
-        {
-            disableYLabelView = false;
-            setViewValueOnBar(true);
-        }
-            
+   
         int maxValuePitch = Collections.max(inputData.values());
         Set<Integer> ySetValue = new HashSet<Integer>(yCoordList); 
         ArrayList<Integer> ySetValueList = new ArrayList<>();
@@ -173,8 +168,16 @@ public class cartesianGui extends JPanel
             Integer f = it.next();
             ySetValueList.add(f);
         }
-        ySetValueList.add(0);
+        Collections.sort(ySetValueList);
+        int minValueYaxis = Collections.min(ySetValueList);
 
+        if(yGapValue < 6 && yCoordList.size() > 1 && minValueYaxis < 5)
+        {
+            System.out.println("Inside IF");
+            disableYLabelView = false;
+            setViewValueOnBar(true);
+        }
+        
         int xLength = (X_AXIS_SECOND_X_COORD - X_AXIS_FIRST_X_COORD) / (xCoordList.size()+1);
         float[] dash = { 4f, 0f, 2f };
         BasicStroke bs = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f, dash, 2f );
@@ -184,18 +187,12 @@ public class cartesianGui extends JPanel
 
         for (int i = 1; i < xCoordList.size()+1; i++)
         {               
-            g2.drawLine(X_AXIS_FIRST_X_COORD + (i * xLength),
-                X_AXIS_Y_COORD - SECOND_LENGHT,
-                X_AXIS_FIRST_X_COORD + (i * xLength),
-                X_AXIS_Y_COORD);
+            g2.drawLine(X_AXIS_FIRST_X_COORD + (i * xLength), X_AXIS_Y_COORD - SECOND_LENGHT, X_AXIS_FIRST_X_COORD + (i * xLength), X_AXIS_Y_COORD);
 
             //draw dash line X-axis
             g2.setStroke(bs);
             g2.setColor(new Color(191,191,191));
-            g2.drawLine(X_AXIS_FIRST_X_COORD + (i * xLength),
-                    X_AXIS_Y_COORD - SECOND_LENGHT,
-                    X_AXIS_FIRST_X_COORD + (i * xLength),
-                    X_AXIS_FIRST_X_COORD);     
+            g2.drawLine(X_AXIS_FIRST_X_COORD + (i * xLength), X_AXIS_Y_COORD - SECOND_LENGHT, X_AXIS_FIRST_X_COORD + (i * xLength), X_AXIS_FIRST_X_COORD);     
      
             g2.setColor(Color.BLACK);
             String xLabel = !isDurationList ? xCoordList.get(index_X) : "1/"+xCoordList.get(index_X); 
@@ -215,7 +212,6 @@ public class cartesianGui extends JPanel
             {
                 if(i % 2 == 0)
                 {
-                    
                     g2.drawString(xLabel, X_AXIS_FIRST_X_COORD + (i * xLength) - (widthValueXlabel/2), X_AXIS_Y_COORD + AXIS_STRING_MAJOR_DISTANCE);
                 }
                 else
@@ -240,30 +236,27 @@ public class cartesianGui extends JPanel
         }
 
         //draw y-axis numbers
-        for (int i = 1; i < ySetValueList.size(); i++)
+        for (int k = 0; k < ySetValueList.size(); k++)
         {
-            double barHeight = ((double)ySetValueList.get(i-1) / (double) maxValuePitch) * (double)height;
-            
+            double barHeight = ((double)ySetValueList.get(k) / (double) maxValuePitch) * (double)height;
             if(disableYLabelView)
             {
-                g2.drawLine(Y_AXIS_X_COORD,
-                    Y_AXIS_SECOND_Y_COORD - (int)barHeight,
-                    Y_AXIS_X_COORD + SECOND_LENGHT,
-                    Y_AXIS_SECOND_Y_COORD - (int)barHeight);
+                g2.drawLine(Y_AXIS_X_COORD, Y_AXIS_SECOND_Y_COORD - (int)barHeight, Y_AXIS_X_COORD + SECOND_LENGHT, Y_AXIS_SECOND_Y_COORD - (int)barHeight);
             
                 //draw dash line Y-axis
                 g2.setStroke(bs);
                 g2.setColor(new Color(191,191,191));
-                g2.drawLine(Y_AXIS_X_COORD + SECOND_LENGHT,
-                    X_AXIS_SECOND_X_COORD - (int)barHeight,
-                    Y_AXIS_SECOND_Y_COORD,
-                    X_AXIS_SECOND_X_COORD - (int)barHeight);
+                g2.drawLine(Y_AXIS_X_COORD + SECOND_LENGHT, X_AXIS_SECOND_X_COORD - (int)barHeight, Y_AXIS_SECOND_Y_COORD, X_AXIS_SECOND_X_COORD - (int)barHeight);
                 g2.setColor(Color.BLACK);       
             
-                if(i-1 % 2 != 0)
-                    g2.drawString(Integer.toString(ySetValueList.get(i-1)), 630 - AXIS_STRING_DISTANCE, Y_AXIS_SECOND_Y_COORD - (int)barHeight - 5);               
-                else
-                    g2.drawString(Integer.toString(ySetValueList.get(i-1)),Y_AXIS_X_COORD - AXIS_STRING_DISTANCE, Y_AXIS_SECOND_Y_COORD - (int)barHeight + 8); 
+                if(k % 2 == 0) //Elementi a DX del grafico
+                {
+                    g2.drawString(Integer.toString(ySetValueList.get(k)), 630 - AXIS_STRING_DISTANCE, Y_AXIS_SECOND_Y_COORD - (int)barHeight + 10);
+                }                   
+                else //Elementi a SX del grafico
+                {
+                    g2.drawString(Integer.toString(ySetValueList.get(k)),Y_AXIS_X_COORD - AXIS_STRING_DISTANCE, Y_AXIS_SECOND_Y_COORD - (int)barHeight);
+                }         
             }
         }
     }

@@ -334,7 +334,7 @@ public class programGui extends javax.swing.JFrame
 
         loadDataProgressBar.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         loadDataProgressBar.setStringPainted(true);
-        getContentPane().add(loadDataProgressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 15, 220, 30));
+        getContentPane().add(loadDataProgressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 15, 230, 30));
 
         statusProgressBarText.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 50, -1, -1));

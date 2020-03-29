@@ -90,7 +90,7 @@ public class durationSwingWorker
                         }
                         if(stepForProgress < (double) 100)
                             setProgress(100);
-                        //drawMusicData_Utils.getOrderedDurationResult(rhythmMap, false);    
+                        drawMusicData_Utils.getOrderedDurationResult(rhythmMap, false);    
                         if(!rhythmMap.isEmpty())
                             return rhythmMap;
                     }
