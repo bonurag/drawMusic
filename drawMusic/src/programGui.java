@@ -274,7 +274,6 @@ public class programGui extends javax.swing.JFrame
         getContentPane().add(selectedFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, -1, 20));
 
         openFileName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        openFileName.setText("text");
         getContentPane().add(openFileName, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, 20));
 
         pitchClassBntTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
