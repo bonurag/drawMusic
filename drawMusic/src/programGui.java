@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -468,11 +469,10 @@ public class programGui extends javax.swing.JFrame
                                     String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
                                     if(dataSize > 0)
                                     {
-                                        statusProgressBarText.setText("Caricamento Completato in "+executionTime);
-                                        if(executionTime.length() <= 7)
-                                            getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, -1, -1));
-                                        else
-                                            getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 50, -1, -1));
+                                        String loadCompletedMessage = "Caricamento Completato in "+executionTime; 
+                                        statusProgressBarText.setText(loadCompletedMessage);
+                                        int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                         generatePitchClassButton.setEnabled(false);
                                         pitchClassColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_1.setEnabled(false);
@@ -535,13 +535,15 @@ public class programGui extends javax.swing.JFrame
                                 nomeGraficoTextField_1.setEnabled(false);
                                 loadDataProgressBar.setForeground(Color.BLACK);                               
                                 loadDataProgressBar.setValue(0);
-                                getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 50, -1, -1));
                                 statusProgressBarText.setText("Caricamento in corso");
+                                int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                                getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                 break;
                         }
                     } else if ("progress".equals(evt.getPropertyName())) {
-                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 50, -1, -1));
                         statusProgressBarText.setText("Caricamento in corso");
+                        int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                         int progress = (Integer)evt.getNewValue();
                         generatePitchClassButton.setEnabled(false);
                         pitchClassColorSelectButton.setEnabled(false);
@@ -593,11 +595,10 @@ public class programGui extends javax.swing.JFrame
                                     String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
                                     if(dataSize > 0)
                                     {
-                                        statusProgressBarText.setText("Caricamento Completato in "+executionTime);
-                                        if(executionTime.length() <= 7)
-                                            getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, -1, -1));
-                                        else
-                                            getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 50, -1, -1));
+                                        String loadCompletedMessage = "Caricamento Completato in "+executionTime; 
+                                        statusProgressBarText.setText(loadCompletedMessage);
+                                        int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                         generatePitchButton.setEnabled(false);
                                         pitchColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_2.setEnabled(false);
@@ -660,13 +661,15 @@ public class programGui extends javax.swing.JFrame
                                 nomeGraficoTextField_2.setEnabled(false);
                                 loadDataProgressBar.setForeground(Color.BLACK);                               
                                 loadDataProgressBar.setValue(0);
-                                getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 50, -1, -1));
                                 statusProgressBarText.setText("Caricamento in corso");
+                                int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                                getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                 break;
                         }
                     } else if ("progress".equals(evt.getPropertyName())) {
-                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 50, -1, -1));
                         statusProgressBarText.setText("Caricamento in corso");
+                        int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                         int progress = (Integer)evt.getNewValue();
                         generatePitchButton.setEnabled(false);
                         pitchColorSelectButton.setEnabled(false);
@@ -719,11 +722,10 @@ public class programGui extends javax.swing.JFrame
                                     String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
                                     if(dataSize > 0)
                                     {
-                                        statusProgressBarText.setText("Caricamento Completato in "+executionTime);
-                                        if(executionTime.length() <= 7)
-                                            getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, -1, -1));
-                                        else
-                                            getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 50, -1, -1));
+                                        String loadCompletedMessage = "Caricamento Completato in "+executionTime; 
+                                        statusProgressBarText.setText(loadCompletedMessage);
+                                        int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                         generateDurationButton.setEnabled(false);
                                         durationColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_3.setEnabled(false);
@@ -790,13 +792,15 @@ public class programGui extends javax.swing.JFrame
                                 durationTypeComboBox.setEnabled(false);
                                 loadDataProgressBar.setForeground(Color.BLACK);                               
                                 loadDataProgressBar.setValue(0);
-                                getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 50, -1, -1));
                                 statusProgressBarText.setText("Caricamento in corso");
+                                int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                                getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                 break;
                         }
                     } else if ("progress".equals(evt.getPropertyName())) {
-                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 50, -1, -1));
                         statusProgressBarText.setText("Caricamento in corso");
+                        int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                         int progress = (Integer)evt.getNewValue();
                         generateDurationButton.setEnabled(false);
                         durationColorSelectButton.setEnabled(false);
@@ -849,11 +853,10 @@ public class programGui extends javax.swing.JFrame
                                     String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
                                     if(dataSize > 0)
                                     {
-                                        statusProgressBarText.setText("Caricamento Completato in "+executionTime);
-                                        if(executionTime.length() <= 7)
-                                            getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, -1, -1));
-                                        else
-                                            getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 50, -1, -1));
+                                        String loadCompletedMessage = "Caricamento Completato in "+executionTime; 
+                                        statusProgressBarText.setText(loadCompletedMessage);
+                                        int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                         generateMelodicIntervalButton.setEnabled(false);
                                         melodicColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_4.setEnabled(false);
@@ -916,13 +919,15 @@ public class programGui extends javax.swing.JFrame
                                 nomeGraficoTextField_4.setEnabled(false);
                                 loadDataProgressBar.setForeground(Color.BLACK);                               
                                 loadDataProgressBar.setValue(0);
-                                getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 50, -1, -1));
                                 statusProgressBarText.setText("Caricamento in corso");
+                                int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                                getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                 break;
                         }
                     } else if ("progress".equals(evt.getPropertyName())) {
-                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 50, -1, -1));
                         statusProgressBarText.setText("Caricamento in corso");
+                        int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                         int progress = (Integer)evt.getNewValue();
                         generateMelodicIntervalButton.setEnabled(false);
                         melodicColorSelectButton.setEnabled(false);
@@ -975,11 +980,10 @@ public class programGui extends javax.swing.JFrame
                                     String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
                                     if(dataSize > 0)
                                     {
-                                        statusProgressBarText.setText("Caricamento Completato in "+executionTime);
-                                        if(executionTime.length() <= 7)
-                                            getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, -1, -1));
-                                        else
-                                            getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 50, -1, -1));
+                                        String loadCompletedMessage = "Caricamento Completato in "+executionTime; 
+                                        statusProgressBarText.setText(loadCompletedMessage);
+                                        int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                         generateHarmonicIntervalButton.setEnabled(false);
                                         harmonicColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_5.setEnabled(false);
@@ -1042,13 +1046,15 @@ public class programGui extends javax.swing.JFrame
                                 nomeGraficoTextField_5.setEnabled(false);
                                 loadDataProgressBar.setForeground(Color.BLACK);                               
                                 loadDataProgressBar.setValue(0);
-                                getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 50, -1, -1));
                                 statusProgressBarText.setText("Caricamento in corso");
+                                int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                                getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                 break;
                         }
                     } else if ("progress".equals(evt.getPropertyName())) {
-                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 50, -1, -1));
                         statusProgressBarText.setText("Caricamento in corso");
+                        int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                        getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                         int progress = (Integer)evt.getNewValue();
                         generateHarmonicIntervalButton.setEnabled(false);
                         harmonicColorSelectButton.setEnabled(false);

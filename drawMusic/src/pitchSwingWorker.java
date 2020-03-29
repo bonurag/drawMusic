@@ -7,12 +7,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
 import java.util.Arrays;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Document;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,7 +36,7 @@ public class pitchSwingWorker
         { 
             LinkedHashMap<String, Integer> calculateData;
             @Override
-            protected LinkedHashMap<String, Integer> doInBackground()
+            protected LinkedHashMap<String, Integer> doInBackground()  
             {
                 TreeMap<String, Integer> pitchNoteMap = new TreeMap<>();
                 
@@ -42,12 +46,16 @@ public class pitchSwingWorker
                 setProgress(0);
                 try
                 {
-                    Document doc = drawMusicData_Utils.getDoc(drawMusicData_Utils.readFile(inputName));
+                    String fileName = inputName;          
+                    Document myXmlDocument = drawMusicData_Utils.getDoc(drawMusicData_Utils.readFile(fileName));
+                    
+                    XPathFactory myXPathFactory = XPathFactory.newInstance();
+                    XPath myXPath = myXPathFactory.newXPath();
 
-                    //Altezza
-                    NodeList pitchNodeList = doc.getElementsByTagName("pitch");
-                    // Non è possibile usare un foreach perché NodeList non implementa l'interfaccia Iterable
+                    String xPathPitchNodeList = "//chord/notehead/pitch";
+                    NodeList pitchNodeList = (NodeList) (myXPath.evaluate(xPathPitchNodeList, myXmlDocument, XPathConstants.NODESET));
                     Node currentNode;
+                    
                     if(pitchNodeList.getLength() > 0)
                     {
                         for(int i=0; i<pitchNodeList.getLength(); i++)
@@ -104,7 +112,7 @@ public class pitchSwingWorker
                         }
                     }                    
                 }
-                catch (ParserConfigurationException | SAXException | IOException | NullPointerException e)
+                catch (ParserConfigurationException | SAXException | IOException | NullPointerException | XPathExpressionException e)
                 {
                     System.out.println("Exception:" + Arrays.toString(e.getStackTrace()));
                     System.exit(1);

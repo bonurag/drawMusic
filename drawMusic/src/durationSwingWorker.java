@@ -34,7 +34,7 @@ public class durationSwingWorker
         { 
             LinkedHashMap<String, Integer> calculateData = null;
             @Override
-            protected LinkedHashMap<String, Integer> doInBackground() throws XPathExpressionException
+            protected LinkedHashMap<String, Integer> doInBackground() 
             {
                 LinkedHashMap<String, Integer> rhythmMap = new LinkedHashMap<>();
                 
@@ -100,7 +100,7 @@ public class durationSwingWorker
                         System.out.println("Nessun File da elaborare");
                     }
                 }
-                catch (ParserConfigurationException | SAXException | IOException | NullPointerException e)
+                catch (ParserConfigurationException | SAXException | IOException | NullPointerException | XPathExpressionException e)
                 {
                     System.out.println("Errore nell'elaborazione del file");
                     Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, e);

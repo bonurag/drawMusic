@@ -1,5 +1,6 @@
 
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -17,7 +18,10 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -47,13 +51,14 @@ public class drawMusicData_Utils
         PITCH_CLASS
     }
 
-    public static File readFile(String name)
+    public static File readFile(String name) throws IOException
     {
         String fileName = name; 
-        File tmpFile = new File(fileName);
-        File file = null;
-        if(tmpFile.exists())
-            file = tmpFile;
+        File file = new File(fileName);
+        if (!file.canRead())
+        {
+            System.err.println(file.getCanonicalPath() + ": cannot be read");   
+        }
         return file;      
     }
     
@@ -721,5 +726,18 @@ public class drawMusicData_Utils
         
         String time =  hours+ minutes+seconds+millisecond;
         return time;
+    }
+    
+    public static int alignMessageToJBar(JProgressBar inputBar, JLabel inputLabel)
+    {
+        int result = 0;
+        FontMetrics fm = inputLabel.getFontMetrics(inputLabel.getFont());
+        int labelWidth = fm.stringWidth(inputLabel.getText());
+        int progressBarWidth = inputBar.getWidth();
+        int coordinateX = inputBar.getX();  
+        int centerPoint = (int)coordinateX + (int)(progressBarWidth/2);       
+        int labelMiddlePoint = (int)(labelWidth/2);      
+        result = centerPoint - labelMiddlePoint;
+        return result;
     }
 }
