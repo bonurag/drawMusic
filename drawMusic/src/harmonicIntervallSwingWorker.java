@@ -1,5 +1,7 @@
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
@@ -33,7 +35,7 @@ public class harmonicIntervallSwingWorker
     {
         return new SwingWorker<LinkedHashMap<String, Integer>, Void>()
         {
-            double stepForProgress = 0;
+            private double stepForProgress = 0;
             LinkedHashMap<String, Integer> calculateData = null;
             @Override
             protected LinkedHashMap<String, Integer> doInBackground()
@@ -184,7 +186,7 @@ public class harmonicIntervallSwingWorker
                     Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 //System.out.println("Finished with status " + calculateData);
-            }                     
+            }     
         };      
     }
 }

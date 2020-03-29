@@ -97,7 +97,7 @@ public class cartesianGui extends JPanel
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-        Font fn = new Font("Comic Sans MS", Font.PLAIN, 12);
+        Font fn = new Font("Comic Sans MS", Font.PLAIN, 10);
         g2.setFont(fn);
         
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

@@ -704,4 +704,22 @@ public class drawMusicData_Utils
             }
         });
     }
+    
+    public static String getElapsedTimeFromMilliseconds(long inputTime)
+    {
+        String format = String.format("%%0%dd", 2);
+        long elapsedTime = inputTime / 1000000;
+        String millisecond = String.format(format, elapsedTime % 1000);
+        String seconds = String.format(format, (elapsedTime/1000) % 60);
+        String minutes = String.format(format, ((elapsedTime/1000) % 3600) / 60);
+        String hours = String.format(format, (elapsedTime/1000) / 3600);
+        
+        hours = hours.equals("00") ? "" : hours+":";
+        minutes = minutes.equals("00") ? "" : minutes+":";
+        seconds = seconds.equals("00") ? "" : seconds+",";
+        millisecond = millisecond.equals("00") ? "" : millisecond+(seconds.equals("") ? "ms":(minutes.equals("") ? "s" : ""));
+        
+        String time =  hours+ minutes+seconds+millisecond;
+        return time;
+    }
 }
