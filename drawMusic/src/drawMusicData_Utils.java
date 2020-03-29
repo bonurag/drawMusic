@@ -718,13 +718,12 @@ public class drawMusicData_Utils
         String seconds = String.format(format, (elapsedTime/1000) % 60);
         String minutes = String.format(format, ((elapsedTime/1000) % 3600) / 60);
         String hours = String.format(format, (elapsedTime/1000) / 3600);
-        
-        hours = hours.equals("00") ? "" : hours+":";
-        minutes = minutes.equals("00") ? "" : minutes+":";
-        seconds = seconds.equals("00") ? "" : seconds+",";
+
+        hours = hours.equals("00") ? "" : (Integer.parseInt(hours) < 9 ? hours.substring(hours.lastIndexOf("0") + 1)+"," :hours+",");
+        minutes = minutes.equals("00") ? "" : (Integer.parseInt(minutes) < 9 ? minutes.substring(minutes.lastIndexOf("0") + 1)+"," :minutes+",");
+        seconds = seconds.equals("00") ? "" : (Integer.parseInt(seconds) < 9 ? seconds.substring(seconds.lastIndexOf("0") + 1)+"," :seconds+",");
         millisecond = millisecond.equals("00") ? "" : millisecond+(seconds.equals("") ? "ms":(minutes.equals("") ? "s" : ""));
-        
-        String time =  hours+ minutes+seconds+millisecond;
+        String time =  hours+minutes+seconds+millisecond;
         return time;
     }
     

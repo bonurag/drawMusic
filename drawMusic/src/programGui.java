@@ -1,9 +1,8 @@
 import java.awt.Color;
-import java.awt.FontMetrics;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.time.Instant;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,13 +26,27 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class programGui extends javax.swing.JFrame
 {   
-    FileNameExtensionFilter filter = new FileNameExtensionFilter("Documenti IEEE 1599", "xml");
-    JFileChooser openFileChoseer = new JFileChooser();
-    Color selectedColor = Color.RED;
-    ImageIcon trueIcon = new ImageIcon("icon/green_check.png");
-    ImageIcon falseIcon = new ImageIcon("red_cross.png");
-    ImageIcon pickColorIcon = new ImageIcon("pickcolor_icon.png");
-    long startTime;
+    private final FileNameExtensionFilter filter = new FileNameExtensionFilter("Documenti IEEE 1599", "xml");
+    private final JFileChooser openFileChoseer = new JFileChooser();
+    private Color selectedColor = Color.RED;
+    private final ImageIcon trueIcon = new ImageIcon("icon/green_check.png");
+    private final ImageIcon falseIcon = new ImageIcon("red_cross.png");
+    private final ImageIcon pickColorIcon = new ImageIcon("pickcolor_icon.png");
+    
+    private long startTimePitch;
+    private long startTimePitchClass;
+    private long startTimeDuration;
+    private long startTimeMelodic;
+    private long startTimeHarmonic;
+    
+    private final String workerPitchStart = "workerPitchStart";
+    private final String workerPitchClassStart = "workerPitchClassStart";
+    private final String workerDurationStart = "workerDurationStart";
+    private final String workerMelodicStart = "workerMelodicStart";
+    private final String workerHarmonicStart = "workerHarmonicStart";
+    
+    private ArrayList<String> workInProgress = new ArrayList<>();
+    
     /**
      * Creates new form programGui
      */
@@ -114,11 +127,6 @@ public class programGui extends javax.swing.JFrame
         melodicColorSelectButton.setEnabled(true);
     }
     
-    public long getstartTime()
-    {
-        return startTime;
-    }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -190,7 +198,7 @@ public class programGui extends javax.swing.JFrame
                 generatePitchClassButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(generatePitchClassButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, -1, -1));
+        getContentPane().add(generatePitchClassButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(173, 190, -1, -1));
 
         generatePitchButton.setBackground(new java.awt.Color(255, 255, 255));
         generatePitchButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -214,7 +222,7 @@ public class programGui extends javax.swing.JFrame
                 generateDurationButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(generateDurationButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 190, -1, -1));
+        getContentPane().add(generateDurationButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(303, 190, -1, -1));
 
         generateMelodicIntervalButton.setBackground(new java.awt.Color(255, 255, 255));
         generateMelodicIntervalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/equalizer.png"))); // NOI18N
@@ -225,7 +233,7 @@ public class programGui extends javax.swing.JFrame
                 generateMelodicIntervalButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(generateMelodicIntervalButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 190, -1, -1));
+        getContentPane().add(generateMelodicIntervalButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(433, 190, -1, -1));
 
         generateHarmonicIntervalButton.setBackground(new java.awt.Color(255, 255, 255));
         generateHarmonicIntervalButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/equalizer (2).png"))); // NOI18N
@@ -236,7 +244,7 @@ public class programGui extends javax.swing.JFrame
                 generateHarmonicIntervalButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(generateHarmonicIntervalButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 190, -1, -1));
+        getContentPane().add(generateHarmonicIntervalButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(563, 190, -1, -1));
 
         nomeGraficoTextField_1.setToolTipText("Inserisci il nome del grafico");
         nomeGraficoTextField_1.setAlignmentX(0.0F);
@@ -326,7 +334,7 @@ public class programGui extends javax.swing.JFrame
 
         loadDataProgressBar.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         loadDataProgressBar.setStringPainted(true);
-        getContentPane().add(loadDataProgressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 15, 210, 30));
+        getContentPane().add(loadDataProgressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 15, 220, 30));
 
         statusProgressBarText.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 50, -1, -1));
@@ -334,6 +342,9 @@ public class programGui extends javax.swing.JFrame
         durationTypeComboBox.setMaximumRowCount(3);
         durationTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CHORD", "REST", "BOTH" }));
         durationTypeComboBox.setToolTipText("Seleziona la durata che vuoi misurare");
+        durationTypeComboBox.setAlignmentX(0.0F);
+        durationTypeComboBox.setAlignmentY(0.0F);
+        durationTypeComboBox.setOpaque(true);
         getContentPane().add(durationTypeComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, 100, -1));
 
         durationColorSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_icon.png"))); // NOI18N
@@ -345,7 +356,7 @@ public class programGui extends javax.swing.JFrame
                 durationColorSelectButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(durationColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 210, 20, 20));
+        getContentPane().add(durationColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 210, 20, 20));
 
         pitchColorSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_icon.png"))); // NOI18N
         pitchColorSelectButton.setToolTipText("Seleziona un colore per le bar del grafico");
@@ -367,7 +378,7 @@ public class programGui extends javax.swing.JFrame
                 pitchClassColorSelectButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(pitchClassColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 210, 20, 20));
+        getContentPane().add(pitchClassColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 210, 20, 20));
 
         melodicColorSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_icon.png"))); // NOI18N
         melodicColorSelectButton.setToolTipText("Seleziona un colore per le bar del grafico");
@@ -378,7 +389,7 @@ public class programGui extends javax.swing.JFrame
                 melodicColorSelectButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(melodicColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(405, 210, 20, 20));
+        getContentPane().add(melodicColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(408, 210, 20, 20));
 
         harmonicColorSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_icon.png"))); // NOI18N
         harmonicColorSelectButton.setToolTipText("Seleziona un colore per le bar del grafico");
@@ -389,7 +400,7 @@ public class programGui extends javax.swing.JFrame
                 harmonicColorSelectButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(harmonicColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(535, 210, 20, 20));
+        getContentPane().add(harmonicColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(538, 210, 20, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -447,7 +458,7 @@ public class programGui extends javax.swing.JFrame
                         JOptionPane.INFORMATION_MESSAGE, null, options, null);
             if(state == JOptionPane.YES_OPTION)
             {
-                startTime = System.nanoTime();
+                startTimePitch = System.nanoTime();
                 work.execute();
             }
 
@@ -462,10 +473,12 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
+                                    workInProgress.remove("workerPitchClassStart");
+                                    System.out.println("workInProgress DONE: " + workInProgress);
                                     pitchClassFrame pitchClassFrame = new pitchClassFrame(work.get(), selectedColor);
                                     int dataSize = pitchClassFrame.getInputDataSize();
                                     long finish = System.nanoTime();
-                                    long timeElapsed = finish - startTime;
+                                    long timeElapsed = finish - startTimePitch;
                                     String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
                                     if(dataSize > 0)
                                     {
@@ -516,7 +529,8 @@ public class programGui extends javax.swing.JFrame
                                                 nomeGraficoTextField_1.setEnabled(true);
                                                 nomeGraficoTextField_1.setText("");
                                                 loadDataProgressBar.setValue(0);
-                                                loadDataProgressBar.setVisible(false);
+                                                if(workInProgress.isEmpty())
+                                                    loadDataProgressBar.setVisible(false);
                                             }
                                         }
                                     });
@@ -529,6 +543,8 @@ public class programGui extends javax.swing.JFrame
                                 break;
 
                             case STARTED:
+                                workInProgress.add("workerPitchClassStart");
+                                System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generatePitchClassButton.setEnabled(false);
                                 pitchClassColorSelectButton.setEnabled(false);
@@ -573,7 +589,7 @@ public class programGui extends javax.swing.JFrame
                         JOptionPane.INFORMATION_MESSAGE, null, options, null);
             if(state == JOptionPane.YES_OPTION)
             {
-                startTime = System.nanoTime();
+                startTimePitchClass = System.nanoTime();
                 work.execute();
             }
 
@@ -588,13 +604,15 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
+                                    workInProgress.remove("workerPitchStart");
+                                    System.out.println("workInProgress DONE: " + workInProgress);
                                     pitchFrame pitchFrame = new pitchFrame(work.get(), selectedColor);
                                     int dataSize = pitchFrame.getInputDataSize();
                                     long finish = System.nanoTime();
-                                    long timeElapsed = finish - startTime;
+                                    long timeElapsed = finish - startTimePitchClass;
                                     String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
                                     if(dataSize > 0)
-                                    {
+                                    {      
                                         String loadCompletedMessage = "Caricamento Completato in "+executionTime; 
                                         statusProgressBarText.setText(loadCompletedMessage);
                                         int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
@@ -602,7 +620,7 @@ public class programGui extends javax.swing.JFrame
                                         generatePitchButton.setEnabled(false);
                                         pitchColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_2.setEnabled(false);
-                                        pitchFrame.showUI();
+                                        pitchFrame.showUI();   
                                     }
                                     else
                                     {
@@ -634,7 +652,7 @@ public class programGui extends javax.swing.JFrame
                                                         JOptionPane.YES_NO_OPTION,
                                                         JOptionPane.INFORMATION_MESSAGE, null, options, null);
                                             if(state == JOptionPane.YES_OPTION)
-                                            {
+                                            {    
                                                 windowEvent.getWindow().dispose();
                                                 statusProgressBarText.setText("");
                                                 generatePitchButton.setEnabled(true);
@@ -642,7 +660,8 @@ public class programGui extends javax.swing.JFrame
                                                 nomeGraficoTextField_2.setEnabled(true);
                                                 nomeGraficoTextField_2.setText("");
                                                 loadDataProgressBar.setValue(0);
-                                                loadDataProgressBar.setVisible(false);
+                                                if(workInProgress.isEmpty())
+                                                    loadDataProgressBar.setVisible(false);   
                                             }
                                         }
                                     });
@@ -655,6 +674,8 @@ public class programGui extends javax.swing.JFrame
                                 break;
 
                             case STARTED:
+                                workInProgress.add("workerPitchStart");
+                                System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generatePitchButton.setEnabled(false);
                                 pitchColorSelectButton.setEnabled(false);
@@ -700,7 +721,7 @@ public class programGui extends javax.swing.JFrame
                         JOptionPane.INFORMATION_MESSAGE, null, options, null);
             if(state == JOptionPane.YES_OPTION)
             {
-                startTime = System.nanoTime();
+                startTimeDuration = System.nanoTime();
                 work.execute();
             }
 
@@ -715,10 +736,12 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
+                                    workInProgress.remove("workerDurationStart");
+                                    System.out.println("workInProgress DONE: " + workInProgress);
                                     durationFrame durationFrame = new durationFrame(work.get(), selectedColor);
                                     int dataSize = durationFrame.getInputDataSize();
                                     long finish = System.nanoTime();
-                                    long timeElapsed = finish - startTime;
+                                    long timeElapsed = finish - startTimeDuration;
                                     String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
                                     if(dataSize > 0)
                                     {
@@ -772,7 +795,8 @@ public class programGui extends javax.swing.JFrame
                                                 durationTypeComboBox.setEnabled(true);
                                                 nomeGraficoTextField_3.setText("");
                                                 loadDataProgressBar.setValue(0);
-                                                loadDataProgressBar.setVisible(false);
+                                                if(workInProgress.isEmpty())
+                                                    loadDataProgressBar.setVisible(false);
                                             }
                                         }
                                     });
@@ -785,6 +809,8 @@ public class programGui extends javax.swing.JFrame
                                 break;
 
                             case STARTED:
+                                workInProgress.add("workerDurationStart");
+                                System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generateDurationButton.setEnabled(false);
                                 durationColorSelectButton.setEnabled(false);
@@ -831,7 +857,7 @@ public class programGui extends javax.swing.JFrame
                         JOptionPane.INFORMATION_MESSAGE, null, options, null);
             if(state == JOptionPane.YES_OPTION)
             {
-                startTime = System.nanoTime();
+                startTimeMelodic = System.nanoTime();
                 work.execute();
             }
 
@@ -846,10 +872,12 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
+                                    workInProgress.remove("workerMelodicStart");
+                                    System.out.println("workInProgress DONE: " + workInProgress);
                                     melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(work.get(), selectedColor);
                                     int dataSize = melodicIntervalFrame.getInputDataSize();
                                     long finish = System.nanoTime();
-                                    long timeElapsed = finish - startTime;
+                                    long timeElapsed = finish - startTimeMelodic;
                                     String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
                                     if(dataSize > 0)
                                     {
@@ -860,7 +888,7 @@ public class programGui extends javax.swing.JFrame
                                         generateMelodicIntervalButton.setEnabled(false);
                                         melodicColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_4.setEnabled(false);
-                                        melodicIntervalFrame.showUI();
+                                        melodicIntervalFrame.showUI();    
                                     }
                                     else
                                     {
@@ -892,7 +920,7 @@ public class programGui extends javax.swing.JFrame
                                                         JOptionPane.YES_NO_OPTION,
                                                         JOptionPane.INFORMATION_MESSAGE, null, options, null);
                                             if(state == JOptionPane.YES_OPTION)
-                                            {
+                                            {    
                                                 windowEvent.getWindow().dispose();
                                                 statusProgressBarText.setText("");
                                                 generateMelodicIntervalButton.setEnabled(true);
@@ -900,7 +928,8 @@ public class programGui extends javax.swing.JFrame
                                                 nomeGraficoTextField_4.setEnabled(true);
                                                 nomeGraficoTextField_4.setText("");
                                                 loadDataProgressBar.setValue(0);
-                                                loadDataProgressBar.setVisible(false);
+                                                if(workInProgress.isEmpty())
+                                                    loadDataProgressBar.setVisible(false);    
                                             }
                                         }
                                     });
@@ -913,6 +942,8 @@ public class programGui extends javax.swing.JFrame
                                 break;
 
                             case STARTED:
+                                workInProgress.add("workerMelodicStart");
+                                System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generateMelodicIntervalButton.setEnabled(false);
                                 melodicColorSelectButton.setEnabled(false);
@@ -958,7 +989,7 @@ public class programGui extends javax.swing.JFrame
                         JOptionPane.INFORMATION_MESSAGE, null, options, null);
             if(state == JOptionPane.YES_OPTION)
             {
-                startTime = System.nanoTime();
+                startTimeHarmonic = System.nanoTime();
                 work.execute();
             }
 
@@ -973,10 +1004,12 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
+                                    workInProgress.remove("workerHarmonicStart");
+                                    System.out.println("workInProgress DONE: " + workInProgress);
                                     harmonicIntervalFrame harmonicIntervalFrame = new harmonicIntervalFrame(work.get(), selectedColor);
                                     int dataSize = harmonicIntervalFrame.getInputDataSize();
                                     long finish = System.nanoTime();
-                                    long timeElapsed = finish - startTime;
+                                    long timeElapsed = finish - startTimeHarmonic;
                                     String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
                                     if(dataSize > 0)
                                     {
@@ -1027,7 +1060,8 @@ public class programGui extends javax.swing.JFrame
                                                 nomeGraficoTextField_5.setEnabled(true);
                                                 nomeGraficoTextField_5.setText("");
                                                 loadDataProgressBar.setValue(0);
-                                                loadDataProgressBar.setVisible(false);
+                                                if(workInProgress.isEmpty())
+                                                    loadDataProgressBar.setVisible(false);
                                             }
                                         }
                                     });
@@ -1040,6 +1074,8 @@ public class programGui extends javax.swing.JFrame
                                 break;
 
                             case STARTED:
+                                workInProgress.add("workerHarmonicStart");
+                                System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generateHarmonicIntervalButton.setEnabled(false);
                                 harmonicColorSelectButton.setEnabled(false);
