@@ -79,11 +79,12 @@ class harmonicIntervalFrame extends JFrame
             panel.setBackground(Color.WHITE);
             panel.setxAxisName("INTERVALLO");
             panel.setyAxisName("Q.TY");
+            panel.setBarColor(chooseColor);
             panel.add(saveButton);
-            panel.add(colorButton);
             panel.add(checkBoxBarLabel);
             panel.add(checkBoxXdrawLine);
             panel.add(checkBoxYdrawLine);
+            panel.add(colorButton);
             panel.setName("harmonicIntervalFrame");
             add(panel);
             

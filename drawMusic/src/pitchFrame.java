@@ -81,7 +81,6 @@ class pitchFrame extends JFrame
             panel.setyAxisName("Q.TY");
             panel.setBarColor(chooseColor);
             panel.add(saveButton);
-            
             panel.add(checkBoxBarLabel);
             panel.add(checkBoxXdrawLine);
             panel.add(checkBoxYdrawLine);
