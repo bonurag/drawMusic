@@ -1,7 +1,12 @@
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.LinkedHashMap;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 
 /*
@@ -29,22 +34,84 @@ class durationFrame extends JFrame
         }
         else if(inputData.size() > 0 && inputData != null)
         {
+            String checkBoxLabel1 = "";
+            String checkBoxLabel2  = "";
+            inputDataSize = inputData.size();
+            panel = new cartesianGui(inputData); 
+            
             JButton saveButton = new JButton();
             saveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/screenshot.png"))); 
             saveButton.setToolTipText("Cattura uno screenshoot del grafico!");
             saveButton.setVisible(true);
             
-            inputDataSize = inputData.size();
-            panel = new cartesianGui(inputData);
+            JCheckBox checkBoxEnableLabel = new JCheckBox();
+            checkBoxEnableLabel.setVisible(true);
+            checkBoxLabel2 = panel.getViewValueOnBar() ? "Disable Draw Line" : "Enalble Draw Line";
+            checkBoxEnableLabel.setText(checkBoxLabel2);
+            checkBoxEnableLabel.setSelected(panel.getViewValueOnBar());
+            
+            JCheckBox checkBoxEnableDrawLine= new JCheckBox();
+            checkBoxEnableDrawLine.setVisible(true);
+            checkBoxLabel1 = panel.getDisableYLabelView() ? "Disable Draw Line" : "Enalble Draw Line";
+            checkBoxEnableDrawLine.setText(checkBoxLabel1);
+            checkBoxEnableDrawLine.setSelected(panel.getDisableYLabelView());
+            
+                                 
             panel.setBackground(Color.WHITE);
             panel.setxAxisName("DURATA");
             panel.setyAxisName("Q.TY");
             panel.setBarColor(selectedColor);
             panel.add(saveButton);
+            panel.add(checkBoxEnableLabel);
+            panel.add(checkBoxEnableDrawLine);
             panel.setName("durationFrame");
             add(panel);
-            
+
             drawMusicData_Utils.saveScreenShoot(saveButton, panel);
+            
+            checkBoxEnableLabel.addItemListener(new ItemListener()
+            {
+                Boolean newValue = false;
+                public void itemStateChanged(ItemEvent e)
+                {
+                    if(checkBoxEnableLabel.isSelected())
+                    {
+                        checkBoxEnableLabel.setText("Disable Bar Label");
+                        panel.setViewValueOnBar(true);
+                        panel.repaint();
+                    }
+                    else
+                    {
+                        checkBoxEnableLabel.setText("Enable Bar Label");
+                        panel.setViewValueOnBar(false);
+                        panel.repaint();
+                    }
+                    
+                    System.out.println("Checked? " + checkBoxEnableLabel.isSelected());
+                }
+            }); 
+            
+            checkBoxEnableDrawLine.addItemListener(new ItemListener()
+            {
+                Boolean newValue = false;
+                public void itemStateChanged(ItemEvent e)
+                {
+                    if(checkBoxEnableDrawLine.isSelected())
+                    {
+                        checkBoxEnableDrawLine.setText("Disable Draw Line");
+                        panel.setDisableYLabelView(true);
+                        panel.repaint();
+                    }
+                    else
+                    {
+                        checkBoxEnableDrawLine.setText("Enable Draw Line");
+                        panel.setDisableYLabelView(false);
+                        panel.repaint();
+                    }
+                    
+                    System.out.println("Checked? " + checkBoxEnableDrawLine.isSelected());
+                }
+            }); 
         }
     }
 

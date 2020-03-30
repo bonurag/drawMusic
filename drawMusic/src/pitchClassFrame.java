@@ -45,7 +45,7 @@ class pitchClassFrame extends JFrame
             panel.setName("pitchClassFrame");
             add(panel);
             
-            drawMusicData_Utils.saveScreenShoot(saveButton, panel);
+            drawMusicData_Utils.saveScreenShoot(saveButton, panel);  
         }
     }
 

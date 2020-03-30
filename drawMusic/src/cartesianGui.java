@@ -58,6 +58,8 @@ public class cartesianGui extends JPanel
     
     private Boolean enableView = false;
     
+    private Boolean disableYLabelView = true;
+    
     private String yAxisName = "Y";
     
     private String xAxisName = "X";
@@ -75,6 +77,21 @@ public class cartesianGui extends JPanel
     public void setViewValueOnBar(Boolean enable)
     {
         enableView = enable;
+    }
+    
+    public Boolean getViewValueOnBar()
+    {
+        return enableView;
+    }
+    
+    public void setDisableYLabelView(Boolean enable)
+    {
+        disableYLabelView = enable;
+    }
+    
+    public Boolean getDisableYLabelView()
+    {
+        return disableYLabelView;
     }
     
     public void setyAxisName(String axisName)
@@ -130,8 +147,7 @@ public class cartesianGui extends JPanel
         if(!inputData.keySet().isEmpty())
             xCoordList = new ArrayList(inputData.keySet());
         
-        Boolean isDurationList = false;
-        Boolean disableYLabelView = true;
+        Boolean isDurationList = false;       
         if(xCoordList.size() > 1 && !xCoordList.isEmpty())
         {
             if(xCoordList.contains("1")|| xCoordList.contains("2") || xCoordList.contains("4") || xCoordList.contains("8") || xCoordList.contains("16") ||
@@ -173,7 +189,6 @@ public class cartesianGui extends JPanel
 
         if((yGapValue <= 4 || minValueYaxis < 5) && yCoordList.size() > 1)
         {
-            System.out.println("Inside IF");
             disableYLabelView = false;
             setViewValueOnBar(true);
         }
