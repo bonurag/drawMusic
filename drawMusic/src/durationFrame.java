@@ -1,10 +1,13 @@
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.LinkedHashMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 
 /*
@@ -22,8 +25,9 @@ class durationFrame extends JFrame
     String graphName = "Graph";
     cartesianGui panel;
     int inputDataSize = 0;
-
-    public durationFrame(Object inputDataWork, Color selectedColor)
+    Color chooseColor = Color.RED;
+    
+    public durationFrame(Object inputDataWork)
     {
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
         if(inputData.containsKey("Empty"))
@@ -42,6 +46,11 @@ class durationFrame extends JFrame
             saveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/screenshot.png"))); 
             saveButton.setToolTipText("Cattura uno screenshoot del grafico!");
             saveButton.setVisible(true);
+            
+            JButton colorButton = new JButton();
+            colorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_small.png"))); 
+            colorButton.setToolTipText("Scegli un colore per le barre");
+            colorButton.setVisible(true);
             
             JCheckBox checkBoxBarLabel = new JCheckBox();
             checkBoxBarLabel.setVisible(true);
@@ -67,8 +76,8 @@ class durationFrame extends JFrame
             panel.setBackground(Color.WHITE);
             panel.setxAxisName("DURATA");
             panel.setyAxisName("Q.TY");
-            panel.setBarColor(selectedColor);
             panel.add(saveButton);
+            panel.add(colorButton);
             panel.add(checkBoxBarLabel);
             panel.add(checkBoxXdrawLine);
             panel.add(checkBoxYdrawLine);
@@ -131,6 +140,17 @@ class durationFrame extends JFrame
                         panel.setDisableYLabelView(false);
                         panel.repaint();
                     }
+                }
+            });
+            
+            colorButton.addActionListener(new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    chooseColor = JColorChooser.showDialog(null,"Scegli un colore",Color.RED);
+                    panel.setBarColor(chooseColor);
+                    panel.repaint();
                 }
             });
         }

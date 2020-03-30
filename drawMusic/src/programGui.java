@@ -7,7 +7,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -28,10 +27,8 @@ public class programGui extends javax.swing.JFrame
 {   
     private final FileNameExtensionFilter filter = new FileNameExtensionFilter("Documenti IEEE 1599", "xml");
     private final JFileChooser openFileChoseer = new JFileChooser();
-    private Color selectedColor = Color.RED;
     private final ImageIcon trueIcon = new ImageIcon("icon/green_check.png");
     private final ImageIcon falseIcon = new ImageIcon("red_cross.png");
-    private final ImageIcon pickColorIcon = new ImageIcon("pickcolor_icon.png");
     
     private long startTimePitch;
     private long startTimePitchClass;
@@ -57,9 +54,7 @@ public class programGui extends javax.swing.JFrame
         lockIcon();
         lockTextBox();
         lockComboBox();
-        lockSelectedColor();
         loadDataProgressBar.setVisible(false);
-        durationColorSelectButton.setEnabled(false);
         openFileName.setText("Nessun file selezionato!");
     }
     
@@ -86,15 +81,6 @@ public class programGui extends javax.swing.JFrame
         durationTypeComboBox.setEnabled(false);
     }
     
-    public void lockSelectedColor()
-    {
-        pitchClassColorSelectButton.setEnabled(false);
-        pitchColorSelectButton.setEnabled(false);
-        durationColorSelectButton.setEnabled(false);
-        harmonicColorSelectButton.setEnabled(false);
-        melodicColorSelectButton.setEnabled(false);
-    }
-    
     public void unLockIcon()
     {
         generatePitchClassButton.setEnabled(true);
@@ -116,15 +102,6 @@ public class programGui extends javax.swing.JFrame
     public void unLockComboBox()
     {
         durationTypeComboBox.setEnabled(true);
-    }
-
-    public void unLockSelectedColor()
-    {
-        pitchClassColorSelectButton.setEnabled(true);
-        pitchColorSelectButton.setEnabled(true);
-        durationColorSelectButton.setEnabled(true);
-        harmonicColorSelectButton.setEnabled(true);
-        melodicColorSelectButton.setEnabled(true);
     }
     
     /**
@@ -164,11 +141,6 @@ public class programGui extends javax.swing.JFrame
         loadDataProgressBar = new javax.swing.JProgressBar();
         statusProgressBarText = new javax.swing.JLabel();
         durationTypeComboBox = new javax.swing.JComboBox<>();
-        durationColorSelectButton = new javax.swing.JButton();
-        pitchColorSelectButton = new javax.swing.JButton();
-        pitchClassColorSelectButton = new javax.swing.JButton();
-        melodicColorSelectButton = new javax.swing.JButton();
-        harmonicColorSelectButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Music Data Extractor");
@@ -346,61 +318,6 @@ public class programGui extends javax.swing.JFrame
         durationTypeComboBox.setOpaque(true);
         getContentPane().add(durationTypeComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, 100, -1));
 
-        durationColorSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_icon.png"))); // NOI18N
-        durationColorSelectButton.setToolTipText("Seleziona un colore per le bar del grafico");
-        durationColorSelectButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        durationColorSelectButton.setMargin(new java.awt.Insets(3, 3, 3, 3));
-        durationColorSelectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                durationColorSelectButtonActionPerformed(evt);
-            }
-        });
-        getContentPane().add(durationColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 210, 20, 20));
-
-        pitchColorSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_icon.png"))); // NOI18N
-        pitchColorSelectButton.setToolTipText("Seleziona un colore per le bar del grafico");
-        pitchColorSelectButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        pitchColorSelectButton.setMargin(new java.awt.Insets(3, 3, 3, 3));
-        pitchColorSelectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pitchColorSelectButtonActionPerformed(evt);
-            }
-        });
-        getContentPane().add(pitchColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 20, 20));
-
-        pitchClassColorSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_icon.png"))); // NOI18N
-        pitchClassColorSelectButton.setToolTipText("Seleziona un colore per le bar del grafico");
-        pitchClassColorSelectButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        pitchClassColorSelectButton.setMargin(new java.awt.Insets(3, 3, 3, 3));
-        pitchClassColorSelectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pitchClassColorSelectButtonActionPerformed(evt);
-            }
-        });
-        getContentPane().add(pitchClassColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 210, 20, 20));
-
-        melodicColorSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_icon.png"))); // NOI18N
-        melodicColorSelectButton.setToolTipText("Seleziona un colore per le bar del grafico");
-        melodicColorSelectButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        melodicColorSelectButton.setMargin(new java.awt.Insets(3, 3, 3, 3));
-        melodicColorSelectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                melodicColorSelectButtonActionPerformed(evt);
-            }
-        });
-        getContentPane().add(melodicColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(408, 210, 20, 20));
-
-        harmonicColorSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_icon.png"))); // NOI18N
-        harmonicColorSelectButton.setToolTipText("Seleziona un colore per le bar del grafico");
-        harmonicColorSelectButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        harmonicColorSelectButton.setMargin(new java.awt.Insets(3, 3, 3, 3));
-        harmonicColorSelectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                harmonicColorSelectButtonActionPerformed(evt);
-            }
-        });
-        getContentPane().add(harmonicColorSelectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(538, 210, 20, 20));
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -416,7 +333,6 @@ public class programGui extends javax.swing.JFrame
                 lockIcon();
                 lockTextBox();
                 lockComboBox();
-                lockSelectedColor();
                 openFileName.setText("Nessun file selezionato!");
                 JOptionPane.showMessageDialog(null, "File selezionato non esistente!", "Error", JOptionPane.ERROR_MESSAGE);
             }      
@@ -429,13 +345,11 @@ public class programGui extends javax.swing.JFrame
                 unLockIcon();
                 unLockTextBox();
                 unLockComboBox();
-                unLockSelectedColor();
                 if(!fileterExt[0].equals(extension))
                 {
                     lockIcon();
                     lockTextBox();
                     lockComboBox();
-                    lockSelectedColor();
                     selectedFileIcon.setIcon(falseIcon);
                     openFileName.setText("File selezionato non riconosciuto!");
                     JOptionPane.showMessageDialog(null, "Attenzione estenzione del file non valida! Selezionare file ."+fileterExt[0], "Error", JOptionPane.ERROR_MESSAGE);
@@ -474,7 +388,7 @@ public class programGui extends javax.swing.JFrame
                                 {
                                     workInProgress.remove("workerPitchClassStart");
                                     System.out.println("workInProgress DONE: " + workInProgress);
-                                    pitchClassFrame pitchClassFrame = new pitchClassFrame(work.get(), selectedColor);
+                                    pitchClassFrame pitchClassFrame = new pitchClassFrame(work.get());
                                     int dataSize = pitchClassFrame.getInputDataSize();
                                     long finish = System.nanoTime();
                                     long timeElapsed = finish - startTimePitch;
@@ -486,7 +400,6 @@ public class programGui extends javax.swing.JFrame
                                         int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
                                         getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                         generatePitchClassButton.setEnabled(false);
-                                        pitchClassColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_1.setEnabled(false);
                                         pitchClassFrame.showUI();
                                     }
@@ -494,7 +407,6 @@ public class programGui extends javax.swing.JFrame
                                     {
                                         statusProgressBarText.setText("");
                                         generatePitchClassButton.setEnabled(true);
-                                        pitchClassColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_1.setEnabled(true);
                                         nomeGraficoTextField_1.setText("");
                                         loadDataProgressBar.setValue(0);
@@ -524,7 +436,6 @@ public class programGui extends javax.swing.JFrame
                                                 windowEvent.getWindow().dispose();
                                                 statusProgressBarText.setText("");
                                                 generatePitchClassButton.setEnabled(true);
-                                                pitchClassColorSelectButton.setEnabled(true);
                                                 nomeGraficoTextField_1.setEnabled(true);
                                                 nomeGraficoTextField_1.setText("");
                                                 loadDataProgressBar.setValue(0);
@@ -546,7 +457,6 @@ public class programGui extends javax.swing.JFrame
                                 System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generatePitchClassButton.setEnabled(false);
-                                pitchClassColorSelectButton.setEnabled(false);
                                 nomeGraficoTextField_1.setEnabled(false);
                                 loadDataProgressBar.setForeground(Color.BLACK);                               
                                 loadDataProgressBar.setValue(0);
@@ -561,7 +471,6 @@ public class programGui extends javax.swing.JFrame
                         getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                         int progress = (Integer)evt.getNewValue();
                         generatePitchClassButton.setEnabled(false);
-                        pitchClassColorSelectButton.setEnabled(false);
                         nomeGraficoTextField_1.setEnabled(false);
                         loadDataProgressBar.setValue(progress);
                     }
@@ -605,7 +514,7 @@ public class programGui extends javax.swing.JFrame
                                 {
                                     workInProgress.remove("workerPitchStart");
                                     System.out.println("workInProgress DONE: " + workInProgress);
-                                    pitchFrame pitchFrame = new pitchFrame(work.get(), selectedColor);
+                                    pitchFrame pitchFrame = new pitchFrame(work.get());
                                     int dataSize = pitchFrame.getInputDataSize();
                                     long finish = System.nanoTime();
                                     long timeElapsed = finish - startTimePitchClass;
@@ -617,7 +526,6 @@ public class programGui extends javax.swing.JFrame
                                         int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
                                         getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                         generatePitchButton.setEnabled(false);
-                                        pitchColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_2.setEnabled(false);
                                         pitchFrame.showUI();   
                                     }
@@ -625,7 +533,6 @@ public class programGui extends javax.swing.JFrame
                                     {
                                         statusProgressBarText.setText("");
                                         generatePitchButton.setEnabled(true);
-                                        pitchColorSelectButton.setEnabled(true);
                                         nomeGraficoTextField_2.setEnabled(true);
                                         nomeGraficoTextField_2.setText("");
                                         loadDataProgressBar.setValue(0);
@@ -655,7 +562,6 @@ public class programGui extends javax.swing.JFrame
                                                 windowEvent.getWindow().dispose();
                                                 statusProgressBarText.setText("");
                                                 generatePitchButton.setEnabled(true);
-                                                pitchColorSelectButton.setEnabled(true);
                                                 nomeGraficoTextField_2.setEnabled(true);
                                                 nomeGraficoTextField_2.setText("");
                                                 loadDataProgressBar.setValue(0);
@@ -677,7 +583,6 @@ public class programGui extends javax.swing.JFrame
                                 System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generatePitchButton.setEnabled(false);
-                                pitchColorSelectButton.setEnabled(false);
                                 nomeGraficoTextField_2.setEnabled(false);
                                 loadDataProgressBar.setForeground(Color.BLACK);                               
                                 loadDataProgressBar.setValue(0);
@@ -692,7 +597,6 @@ public class programGui extends javax.swing.JFrame
                         getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                         int progress = (Integer)evt.getNewValue();
                         generatePitchButton.setEnabled(false);
-                        pitchColorSelectButton.setEnabled(false);
                         nomeGraficoTextField_2.setEnabled(false);
                         loadDataProgressBar.setValue(progress);
                     }
@@ -737,7 +641,7 @@ public class programGui extends javax.swing.JFrame
                                 {
                                     workInProgress.remove("workerDurationStart");
                                     System.out.println("workInProgress DONE: " + workInProgress);
-                                    durationFrame durationFrame = new durationFrame(work.get(), selectedColor);
+                                    durationFrame durationFrame = new durationFrame(work.get());
                                     int dataSize = durationFrame.getInputDataSize();
                                     long finish = System.nanoTime();
                                     long timeElapsed = finish - startTimeDuration;
@@ -749,7 +653,6 @@ public class programGui extends javax.swing.JFrame
                                         int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
                                         getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                         generateDurationButton.setEnabled(false);
-                                        durationColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_3.setEnabled(false);
                                         durationTypeComboBox.setEnabled(false);
                                         durationFrame.showUI();
@@ -758,7 +661,6 @@ public class programGui extends javax.swing.JFrame
                                     {
                                         statusProgressBarText.setText("");
                                         generateDurationButton.setEnabled(true);
-                                        durationColorSelectButton.setEnabled(true);
                                         nomeGraficoTextField_3.setEnabled(true);
                                         durationTypeComboBox.setEnabled(true);
                                         nomeGraficoTextField_3.setText("");
@@ -789,7 +691,6 @@ public class programGui extends javax.swing.JFrame
                                                 windowEvent.getWindow().dispose();
                                                 statusProgressBarText.setText("");
                                                 generateDurationButton.setEnabled(true);
-                                                durationColorSelectButton.setEnabled(true);
                                                 nomeGraficoTextField_3.setEnabled(true);
                                                 durationTypeComboBox.setEnabled(true);
                                                 nomeGraficoTextField_3.setText("");
@@ -812,7 +713,6 @@ public class programGui extends javax.swing.JFrame
                                 System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generateDurationButton.setEnabled(false);
-                                durationColorSelectButton.setEnabled(false);
                                 nomeGraficoTextField_3.setEnabled(false);
                                 durationTypeComboBox.setEnabled(false);
                                 loadDataProgressBar.setForeground(Color.BLACK);                               
@@ -828,7 +728,6 @@ public class programGui extends javax.swing.JFrame
                         getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                         int progress = (Integer)evt.getNewValue();
                         generateDurationButton.setEnabled(false);
-                        durationColorSelectButton.setEnabled(false);
                         nomeGraficoTextField_3.setEnabled(false);
                         durationTypeComboBox.setEnabled(false);
                         loadDataProgressBar.setValue(progress);
@@ -873,7 +772,7 @@ public class programGui extends javax.swing.JFrame
                                 {
                                     workInProgress.remove("workerMelodicStart");
                                     System.out.println("workInProgress DONE: " + workInProgress);
-                                    melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(work.get(), selectedColor);
+                                    melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(work.get());
                                     int dataSize = melodicIntervalFrame.getInputDataSize();
                                     long finish = System.nanoTime();
                                     long timeElapsed = finish - startTimeMelodic;
@@ -885,7 +784,6 @@ public class programGui extends javax.swing.JFrame
                                         int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
                                         getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                         generateMelodicIntervalButton.setEnabled(false);
-                                        melodicColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_4.setEnabled(false);
                                         melodicIntervalFrame.showUI();    
                                     }
@@ -893,7 +791,6 @@ public class programGui extends javax.swing.JFrame
                                     {
                                         statusProgressBarText.setText("");
                                         generateMelodicIntervalButton.setEnabled(true);
-                                        melodicColorSelectButton.setEnabled(true);
                                         nomeGraficoTextField_4.setEnabled(true);
                                         nomeGraficoTextField_4.setText("");
                                         loadDataProgressBar.setValue(0);
@@ -923,7 +820,6 @@ public class programGui extends javax.swing.JFrame
                                                 windowEvent.getWindow().dispose();
                                                 statusProgressBarText.setText("");
                                                 generateMelodicIntervalButton.setEnabled(true);
-                                                melodicColorSelectButton.setEnabled(true);
                                                 nomeGraficoTextField_4.setEnabled(true);
                                                 nomeGraficoTextField_4.setText("");
                                                 loadDataProgressBar.setValue(0);
@@ -945,7 +841,6 @@ public class programGui extends javax.swing.JFrame
                                 System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generateMelodicIntervalButton.setEnabled(false);
-                                melodicColorSelectButton.setEnabled(false);
                                 nomeGraficoTextField_4.setEnabled(false);
                                 loadDataProgressBar.setForeground(Color.BLACK);                               
                                 loadDataProgressBar.setValue(0);
@@ -960,7 +855,6 @@ public class programGui extends javax.swing.JFrame
                         getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                         int progress = (Integer)evt.getNewValue();
                         generateMelodicIntervalButton.setEnabled(false);
-                        melodicColorSelectButton.setEnabled(false);
                         nomeGraficoTextField_4.setEnabled(false);
                         loadDataProgressBar.setValue(progress);
                     }
@@ -1005,7 +899,7 @@ public class programGui extends javax.swing.JFrame
                                 {
                                     workInProgress.remove("workerHarmonicStart");
                                     System.out.println("workInProgress DONE: " + workInProgress);
-                                    harmonicIntervalFrame harmonicIntervalFrame = new harmonicIntervalFrame(work.get(), selectedColor);
+                                    harmonicIntervalFrame harmonicIntervalFrame = new harmonicIntervalFrame(work.get());
                                     int dataSize = harmonicIntervalFrame.getInputDataSize();
                                     long finish = System.nanoTime();
                                     long timeElapsed = finish - startTimeHarmonic;
@@ -1017,7 +911,6 @@ public class programGui extends javax.swing.JFrame
                                         int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
                                         getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                         generateHarmonicIntervalButton.setEnabled(false);
-                                        harmonicColorSelectButton.setEnabled(false);
                                         nomeGraficoTextField_5.setEnabled(false);
                                         harmonicIntervalFrame.showUI();
                                     }
@@ -1025,7 +918,6 @@ public class programGui extends javax.swing.JFrame
                                     {
                                         statusProgressBarText.setText("");
                                         generateHarmonicIntervalButton.setEnabled(true);
-                                        harmonicColorSelectButton.setEnabled(true);
                                         nomeGraficoTextField_5.setEnabled(true);
                                         nomeGraficoTextField_5.setText("");
                                         loadDataProgressBar.setValue(0);
@@ -1055,7 +947,6 @@ public class programGui extends javax.swing.JFrame
                                                 windowEvent.getWindow().dispose();
                                                 statusProgressBarText.setText("");
                                                 generateHarmonicIntervalButton.setEnabled(true);
-                                                harmonicColorSelectButton.setEnabled(true);
                                                 nomeGraficoTextField_5.setEnabled(true);
                                                 nomeGraficoTextField_5.setText("");
                                                 loadDataProgressBar.setValue(0);
@@ -1077,7 +968,6 @@ public class programGui extends javax.swing.JFrame
                                 System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generateHarmonicIntervalButton.setEnabled(false);
-                                harmonicColorSelectButton.setEnabled(false);
                                 nomeGraficoTextField_5.setEnabled(false);
                                 loadDataProgressBar.setForeground(Color.BLACK);                               
                                 loadDataProgressBar.setValue(0);
@@ -1092,7 +982,6 @@ public class programGui extends javax.swing.JFrame
                         getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                         int progress = (Integer)evt.getNewValue();
                         generateHarmonicIntervalButton.setEnabled(false);
-                        harmonicColorSelectButton.setEnabled(false);
                         nomeGraficoTextField_5.setEnabled(false);
                         loadDataProgressBar.setValue(progress);
                     }
@@ -1105,26 +994,6 @@ public class programGui extends javax.swing.JFrame
             JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
         } 
     }//GEN-LAST:event_generateHarmonicIntervalButtonActionPerformed
-
-    private void durationColorSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_durationColorSelectButtonActionPerformed
-        selectedColor = JColorChooser.showDialog(this,"Scegli un colore",Color.RED);
-    }//GEN-LAST:event_durationColorSelectButtonActionPerformed
-
-    private void pitchColorSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pitchColorSelectButtonActionPerformed
-        selectedColor = JColorChooser.showDialog(this,"Scegli un colore",Color.RED);
-    }//GEN-LAST:event_pitchColorSelectButtonActionPerformed
-
-    private void pitchClassColorSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pitchClassColorSelectButtonActionPerformed
-        selectedColor = JColorChooser.showDialog(this,"Scegli un colore",Color.RED);
-    }//GEN-LAST:event_pitchClassColorSelectButtonActionPerformed
-
-    private void melodicColorSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_melodicColorSelectButtonActionPerformed
-        selectedColor = JColorChooser.showDialog(this,"Scegli un colore",Color.RED);
-    }//GEN-LAST:event_melodicColorSelectButtonActionPerformed
-
-    private void harmonicColorSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_harmonicColorSelectButtonActionPerformed
-        selectedColor = JColorChooser.showDialog(this,"Scegli un colore",Color.RED);
-    }//GEN-LAST:event_harmonicColorSelectButtonActionPerformed
     
     /**
      * @param args the command line arguments
@@ -1163,17 +1032,14 @@ public class programGui extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel durationBntTitle;
-    private javax.swing.JButton durationColorSelectButton;
     private javax.swing.JComboBox<String> durationTypeComboBox;
     private javax.swing.JButton generateDurationButton;
     private javax.swing.JButton generateHarmonicIntervalButton;
     public javax.swing.JButton generateMelodicIntervalButton;
     private javax.swing.JButton generatePitchButton;
     private javax.swing.JButton generatePitchClassButton;
-    private javax.swing.JButton harmonicColorSelectButton;
     private javax.swing.JLabel harmonicIntervalBntTitle;
     private javax.swing.JProgressBar loadDataProgressBar;
-    private javax.swing.JButton melodicColorSelectButton;
     private javax.swing.JLabel melodicIntervalBntTitle;
     private javax.swing.JLabel nomeGraficoStaticLabel_1;
     private javax.swing.JLabel nomeGraficoStaticLabel_2;
@@ -1190,8 +1056,6 @@ public class programGui extends javax.swing.JFrame
     private javax.swing.JLabel openFileName;
     private javax.swing.JLabel pitchBntTitle;
     private javax.swing.JLabel pitchClassBntTitle;
-    private javax.swing.JButton pitchClassColorSelectButton;
-    private javax.swing.JButton pitchColorSelectButton;
     private javax.swing.JLabel selectedFile;
     private javax.swing.JLabel selectedFileIcon;
     private javax.swing.JLabel statusProgressBarText;

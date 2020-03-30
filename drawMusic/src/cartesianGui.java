@@ -203,13 +203,15 @@ public class cartesianGui extends JPanel
         }
         Collections.sort(ySetValueList);
         int minValueYaxis = Collections.min(ySetValueList);
-
+        
+        /*
         if((yGapValue <= 4 || minValueYaxis < 5) && yCoordList.size() > 1)
         {
             disableXLabelView = false;
             setViewValueOnBar(true);
         }
-
+        */
+        
         int xLength = (X_AXIS_SECOND_X_COORD - X_AXIS_FIRST_X_COORD) / (xCoordList.size()+1);
         float[] dash = { 4f, 0f, 2f };
         BasicStroke bs = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f, dash, 2f );
