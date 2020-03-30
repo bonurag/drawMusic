@@ -58,7 +58,9 @@ public class cartesianGui extends JPanel
     
     private Boolean enableView = false;
     
-    private Boolean disableYLabelView = true;
+    private Boolean disableXLabelView = true;
+    
+    private Boolean disableyYLabelView = true;
     
     private String yAxisName = "Y";
     
@@ -73,7 +75,12 @@ public class cartesianGui extends JPanel
         if(inputData != null)
             this.inputData = inputData;
     }
+    
+    public cartesianGui()
+    {   
 
+    }
+    
     public void setViewValueOnBar(Boolean enable)
     {
         enableView = enable;
@@ -84,14 +91,24 @@ public class cartesianGui extends JPanel
         return enableView;
     }
     
+    public void setDisableXLabelView(Boolean enable)
+    {
+        disableXLabelView = enable;
+    }
+    
+    public Boolean getDisableXLabelView()
+    {
+        return disableXLabelView;
+    }
+    
     public void setDisableYLabelView(Boolean enable)
     {
-        disableYLabelView = enable;
+        disableyYLabelView = enable;
     }
     
     public Boolean getDisableYLabelView()
     {
-        return disableYLabelView;
+        return disableyYLabelView;
     }
     
     public void setyAxisName(String axisName)
@@ -189,7 +206,7 @@ public class cartesianGui extends JPanel
 
         if((yGapValue <= 4 || minValueYaxis < 5) && yCoordList.size() > 1)
         {
-            disableYLabelView = false;
+            disableXLabelView = false;
             setViewValueOnBar(true);
         }
 
@@ -203,12 +220,15 @@ public class cartesianGui extends JPanel
         for (int i = 1; i < xCoordList.size()+1; i++)
         {               
             g2.drawLine(X_AXIS_FIRST_X_COORD + (i * xLength), X_AXIS_Y_COORD - SECOND_LENGHT, X_AXIS_FIRST_X_COORD + (i * xLength), X_AXIS_Y_COORD);
+            
+            if(disableyYLabelView)
+            {
+                //draw dash line X-axis
+                g2.setStroke(bs);
+                g2.setColor(new Color(191,191,191));
+                g2.drawLine(X_AXIS_FIRST_X_COORD + (i * xLength), X_AXIS_Y_COORD - SECOND_LENGHT, X_AXIS_FIRST_X_COORD + (i * xLength), X_AXIS_FIRST_X_COORD);   
+            }
 
-            //draw dash line X-axis
-            g2.setStroke(bs);
-            g2.setColor(new Color(191,191,191));
-            g2.drawLine(X_AXIS_FIRST_X_COORD + (i * xLength), X_AXIS_Y_COORD - SECOND_LENGHT, X_AXIS_FIRST_X_COORD + (i * xLength), X_AXIS_FIRST_X_COORD);     
-     
             g2.setColor(Color.BLACK);
             String xLabel = !isDurationList ? xCoordList.get(index_X) : "1/"+xCoordList.get(index_X); 
             int widthValueXlabel = g.getFontMetrics().stringWidth(xLabel);
@@ -254,7 +274,7 @@ public class cartesianGui extends JPanel
         for (int k = 0; k < ySetValueList.size(); k++)
         {
             double barHeight = ((double)ySetValueList.get(k) / (double) maxValuePitch) * (double)height;
-            if(disableYLabelView)
+            if(disableXLabelView)
             {
                 g2.drawLine(Y_AXIS_X_COORD, Y_AXIS_SECOND_Y_COORD - (int)barHeight, Y_AXIS_X_COORD + SECOND_LENGHT, Y_AXIS_SECOND_Y_COORD - (int)barHeight);
             

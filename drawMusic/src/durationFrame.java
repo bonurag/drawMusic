@@ -1,7 +1,5 @@
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.LinkedHashMap;
@@ -34,8 +32,9 @@ class durationFrame extends JFrame
         }
         else if(inputData.size() > 0 && inputData != null)
         {
-            String checkBoxLabel1 = "";
-            String checkBoxLabel2  = "";
+            String verticalBarLabel = "";
+            String xDrawLineLabel  = "";
+            String yDrawLineLabel  = "";
             inputDataSize = inputData.size();
             panel = new cartesianGui(inputData); 
             
@@ -44,74 +43,96 @@ class durationFrame extends JFrame
             saveButton.setToolTipText("Cattura uno screenshoot del grafico!");
             saveButton.setVisible(true);
             
-            JCheckBox checkBoxEnableLabel = new JCheckBox();
-            checkBoxEnableLabel.setVisible(true);
-            checkBoxLabel2 = panel.getViewValueOnBar() ? "Disable Draw Line" : "Enalble Draw Line";
-            checkBoxEnableLabel.setText(checkBoxLabel2);
-            checkBoxEnableLabel.setSelected(panel.getViewValueOnBar());
+            JCheckBox checkBoxBarLabel = new JCheckBox();
+            checkBoxBarLabel.setVisible(true);
+            verticalBarLabel = panel.getViewValueOnBar() ? "Disable Bar Label" : "Enable Bar Label";
+            checkBoxBarLabel.setText(verticalBarLabel);
+            checkBoxBarLabel.setToolTipText("En/Dis visualizzazione valori sulle Vertical Bar");
+            checkBoxBarLabel.setSelected(panel.getViewValueOnBar());
             
-            JCheckBox checkBoxEnableDrawLine= new JCheckBox();
-            checkBoxEnableDrawLine.setVisible(true);
-            checkBoxLabel1 = panel.getDisableYLabelView() ? "Disable Draw Line" : "Enalble Draw Line";
-            checkBoxEnableDrawLine.setText(checkBoxLabel1);
-            checkBoxEnableDrawLine.setSelected(panel.getDisableYLabelView());
+            JCheckBox checkBoxXdrawLine = new JCheckBox();
+            checkBoxXdrawLine.setVisible(true);
+            xDrawLineLabel = panel.getDisableXLabelView() ? "Disable X-Line" : "Enable X-Line";
+            checkBoxXdrawLine.setText(xDrawLineLabel);
+            checkBoxXdrawLine.setToolTipText("En/Dis visualizzazione indicatori asse X");
+            checkBoxXdrawLine.setSelected(panel.getDisableXLabelView());
             
+            JCheckBox checkBoxYdrawLine = new JCheckBox();
+            checkBoxYdrawLine.setVisible(true);
+            yDrawLineLabel = panel.getDisableYLabelView() ? "Disable Y-Line" : "Enable Y-Line";
+            checkBoxYdrawLine.setText(yDrawLineLabel);
+            checkBoxYdrawLine.setToolTipText("En/Dis visualizzazione indicatori asse Y");
+            checkBoxYdrawLine.setSelected(panel.getDisableYLabelView());
                                  
             panel.setBackground(Color.WHITE);
             panel.setxAxisName("DURATA");
             panel.setyAxisName("Q.TY");
             panel.setBarColor(selectedColor);
             panel.add(saveButton);
-            panel.add(checkBoxEnableLabel);
-            panel.add(checkBoxEnableDrawLine);
+            panel.add(checkBoxBarLabel);
+            panel.add(checkBoxXdrawLine);
+            panel.add(checkBoxYdrawLine);
             panel.setName("durationFrame");
             add(panel);
 
             drawMusicData_Utils.saveScreenShoot(saveButton, panel);
             
-            checkBoxEnableLabel.addItemListener(new ItemListener()
+            checkBoxBarLabel.addItemListener(new ItemListener()
             {
-                Boolean newValue = false;
                 public void itemStateChanged(ItemEvent e)
                 {
-                    if(checkBoxEnableLabel.isSelected())
+                    if(checkBoxBarLabel.isSelected())
                     {
-                        checkBoxEnableLabel.setText("Disable Bar Label");
+                        checkBoxBarLabel.setText("Disable Bar Label");
                         panel.setViewValueOnBar(true);
                         panel.repaint();
                     }
                     else
                     {
-                        checkBoxEnableLabel.setText("Enable Bar Label");
+                        checkBoxBarLabel.setText("Enable Bar Label");
                         panel.setViewValueOnBar(false);
                         panel.repaint();
                     }
-                    
-                    System.out.println("Checked? " + checkBoxEnableLabel.isSelected());
                 }
             }); 
             
-            checkBoxEnableDrawLine.addItemListener(new ItemListener()
+            checkBoxXdrawLine.addItemListener(new ItemListener()
             {
-                Boolean newValue = false;
                 public void itemStateChanged(ItemEvent e)
                 {
-                    if(checkBoxEnableDrawLine.isSelected())
+                    if(checkBoxXdrawLine.isSelected())
                     {
-                        checkBoxEnableDrawLine.setText("Disable Draw Line");
+                        checkBoxXdrawLine.setText("Disable X-Line");
+                        panel.setDisableXLabelView(true);
+                        panel.repaint();
+                    }
+                    else
+                    {
+                        checkBoxXdrawLine.setText("Enable X-Line");
+                        panel.setDisableXLabelView(false);
+                        panel.repaint();
+                    }
+                }
+            });
+                       
+            checkBoxYdrawLine.addItemListener(new ItemListener()
+            {
+                public void itemStateChanged(ItemEvent e)
+                {
+                    if(checkBoxYdrawLine.isSelected())
+                    {
+                        checkBoxYdrawLine.setText("Disable Y-Line");
                         panel.setDisableYLabelView(true);
                         panel.repaint();
                     }
                     else
                     {
-                        checkBoxEnableDrawLine.setText("Enable Draw Line");
+                        checkBoxYdrawLine.setText("Enable Y-Line");
                         panel.setDisableYLabelView(false);
                         panel.repaint();
                     }
-                    
-                    System.out.println("Checked? " + checkBoxEnableDrawLine.isSelected());
                 }
-            }); 
+            });
         }
     }
 
