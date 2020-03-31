@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
@@ -11,6 +12,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 
 
 /*
@@ -28,7 +31,7 @@ public class programGui extends javax.swing.JFrame
     private final FileNameExtensionFilter filter = new FileNameExtensionFilter("Documenti IEEE 1599", "xml");
     private final JFileChooser openFileChoseer = new JFileChooser();
     private final ImageIcon trueIcon = new ImageIcon("icon/green_check.png");
-    private final ImageIcon falseIcon = new ImageIcon("red_cross.png");
+    private final ImageIcon falseIcon = new ImageIcon("icon/red_cross.png");
     
     private long startTimePitch;
     private long startTimePitchClass;
@@ -54,8 +57,12 @@ public class programGui extends javax.swing.JFrame
         lockIcon();
         lockTextBox();
         lockComboBox();
+        lockCheckBoxValidationXml();
+        lockCheckBoxWhiteSpaceXml();
         loadDataProgressBar.setVisible(false);
         openFileName.setText("Nessun file selezionato!");
+        xmlValidationEnableCheckBox.setText("Abilita validazione XML");
+        whiteSpaceEnableCheckBox.setText("Abilita Ignora Spazi XML");      
     }
     
     public void lockIcon()
@@ -81,6 +88,16 @@ public class programGui extends javax.swing.JFrame
         durationTypeComboBox.setEnabled(false);
     }
     
+    public void lockCheckBoxValidationXml()
+    {
+        xmlValidationEnableCheckBox.setEnabled(false);
+    }
+    
+    public void lockCheckBoxWhiteSpaceXml()
+    {
+        whiteSpaceEnableCheckBox.setEnabled(false);
+    }
+    
     public void unLockIcon()
     {
         generatePitchClassButton.setEnabled(true);
@@ -102,6 +119,16 @@ public class programGui extends javax.swing.JFrame
     public void unLockComboBox()
     {
         durationTypeComboBox.setEnabled(true);
+    }
+    
+    public void unLockCheckBoxValidationXml()
+    {
+        xmlValidationEnableCheckBox.setEnabled(true);
+    }
+    
+    public void unLockCheckBoxWhiteSpaceXml()
+    {
+        whiteSpaceEnableCheckBox.setEnabled(true);
     }
     
     /**
@@ -141,6 +168,8 @@ public class programGui extends javax.swing.JFrame
         loadDataProgressBar = new javax.swing.JProgressBar();
         statusProgressBarText = new javax.swing.JLabel();
         durationTypeComboBox = new javax.swing.JComboBox<>();
+        xmlValidationEnableCheckBox = new javax.swing.JCheckBox();
+        whiteSpaceEnableCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Music Data Extractor");
@@ -318,21 +347,47 @@ public class programGui extends javax.swing.JFrame
         durationTypeComboBox.setOpaque(true);
         getContentPane().add(durationTypeComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, 100, -1));
 
+        xmlValidationEnableCheckBox.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        xmlValidationEnableCheckBox.setText("XML Validation Enable");
+        xmlValidationEnableCheckBox.setToolTipText("Abilita la validazione del file XML");
+        xmlValidationEnableCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                xmlValidationEnableCheckBoxActionPerformed(evt);
+            }
+        });
+        getContentPane().add(xmlValidationEnableCheckBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 50, -1, -1));
+
+        whiteSpaceEnableCheckBox.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        whiteSpaceEnableCheckBox.setText("Ignoring WhiteSpace");
+        whiteSpaceEnableCheckBox.setToolTipText("Esclusione Spazi Bianchi Elementi XML Abilitata");
+        whiteSpaceEnableCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                whiteSpaceEnableCheckBoxActionPerformed(evt);
+            }
+        });
+        getContentPane().add(whiteSpaceEnableCheckBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 70, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void openFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileButtonActionPerformed
         openFileChoseer.setFileFilter(filter);        
         openFileChoseer.setDialogTitle("Apri File");
+        openFileName.setText("Nessun file selezionato!");
+        selectedFileIcon.setIcon(falseIcon);
         String[] fileterExt = filter.getExtensions();
-        if (openFileChoseer.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+        File f = openFileChoseer.getSelectedFile();
+        if(openFileChoseer.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
         {
-            File f = openFileChoseer.getSelectedFile();
+            f = openFileChoseer.getSelectedFile();
+            System.out.println("File 3: " + f);
             if (f == null)
             {
                 lockIcon();
                 lockTextBox();
                 lockComboBox();
+                lockCheckBoxValidationXml();
+                lockCheckBoxWhiteSpaceXml();
                 openFileName.setText("Nessun file selezionato!");
                 JOptionPane.showMessageDialog(null, "File selezionato non esistente!", "Error", JOptionPane.ERROR_MESSAGE);
             }      
@@ -345,16 +400,31 @@ public class programGui extends javax.swing.JFrame
                 unLockIcon();
                 unLockTextBox();
                 unLockComboBox();
+                unLockCheckBoxValidationXml();
+                unLockCheckBoxWhiteSpaceXml();
                 if(!fileterExt[0].equals(extension))
                 {
                     lockIcon();
                     lockTextBox();
                     lockComboBox();
+                    lockCheckBoxValidationXml();
+                    lockCheckBoxWhiteSpaceXml();
                     selectedFileIcon.setIcon(falseIcon);
                     openFileName.setText("File selezionato non riconosciuto!");
                     JOptionPane.showMessageDialog(null, "Attenzione estenzione del file non valida! Selezionare file ."+fileterExt[0], "Error", JOptionPane.ERROR_MESSAGE);
-                }      
-            }        
+                }
+            }
+            else
+            {
+                lockIcon();
+                lockTextBox();
+                lockComboBox();
+                lockCheckBoxValidationXml();
+                lockCheckBoxWhiteSpaceXml();
+                selectedFileIcon.setIcon(falseIcon);
+                openFileName.setText("File selezionato non esistente!");
+                JOptionPane.showMessageDialog(null, "Attenzione il file selezionato non è stato trovato!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_openFileButtonActionPerformed
 
@@ -994,6 +1064,36 @@ public class programGui extends javax.swing.JFrame
             JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
         } 
     }//GEN-LAST:event_generateHarmonicIntervalButtonActionPerformed
+
+    private void xmlValidationEnableCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xmlValidationEnableCheckBoxActionPerformed
+        if(xmlValidationEnableCheckBox.isSelected() && !whiteSpaceEnableCheckBox.isSelected())
+        {
+            xmlValidationEnableCheckBox.setText("Disabilita validazione XML");
+            drawMusicData_Utils.setXmlEnableValidationFromGui(true);
+
+            whiteSpaceEnableCheckBox.setText("Disabilita Ignora Spazi XML");
+            whiteSpaceEnableCheckBox.setSelected(true);
+            drawMusicData_Utils.setXmlEnableIgnoringWhitespaceFromGui(true);
+        }
+        else
+        {
+            xmlValidationEnableCheckBox.setText("Abilita validazione XML");
+            drawMusicData_Utils.setXmlEnableValidationFromGui(false);
+        }
+    }//GEN-LAST:event_xmlValidationEnableCheckBoxActionPerformed
+
+    private void whiteSpaceEnableCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_whiteSpaceEnableCheckBoxActionPerformed
+        if(whiteSpaceEnableCheckBox.isSelected())
+        {
+            whiteSpaceEnableCheckBox.setText("Disabilita Ignora Spazi XML");
+            drawMusicData_Utils.setXmlEnableIgnoringWhitespaceFromGui(true);
+        }
+        else
+        {
+            whiteSpaceEnableCheckBox.setText("Abilita Ignora Spazi XML");
+            drawMusicData_Utils.setXmlEnableIgnoringWhitespaceFromGui(false);
+        }
+    }//GEN-LAST:event_whiteSpaceEnableCheckBoxActionPerformed
     
     /**
      * @param args the command line arguments
@@ -1059,5 +1159,7 @@ public class programGui extends javax.swing.JFrame
     private javax.swing.JLabel selectedFile;
     private javax.swing.JLabel selectedFileIcon;
     private javax.swing.JLabel statusProgressBarText;
+    private javax.swing.JCheckBox whiteSpaceEnableCheckBox;
+    private javax.swing.JCheckBox xmlValidationEnableCheckBox;
     // End of variables declaration//GEN-END:variables
 }
