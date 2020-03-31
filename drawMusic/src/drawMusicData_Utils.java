@@ -3,8 +3,6 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,9 +17,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -31,9 +27,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -65,15 +62,65 @@ public class drawMusicData_Utils
         return file;      
     }
     
-    public static Document getDoc(File inputFile) throws ParserConfigurationException, SAXException, IOException
+    public static Document getDoc(File inputFile) throws ParserConfigurationException, IOException
     {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setValidating(false);
-        factory.setIgnoringElementContentWhitespace(true);
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        return (Document) builder.parse(inputFile);
+        Document parsedDocument = null;
+        try
+        {
+            File xmlFile = inputFile;
+            DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
+            f.setValidating(true); // Default is false
+            DocumentBuilder b = f.newDocumentBuilder();
+            // ErrorHandler h = new DefaultHandler();
+            ErrorHandler h = new MyErrorHandler();
+            b.setErrorHandler(h);
+            parsedDocument = (Document) b.parse(xmlFile);
+        }
+        catch (ParserConfigurationException e)
+        {
+            System.out.println(e.toString());      
+        }
+        catch (SAXException e)
+        {
+                System.out.println(e.toString());      
+        }
+        catch (IOException e)
+        {
+            System.out.println(e.toString());      
+        }    
+        return parsedDocument;
     }
-    
+   
+    private static class MyErrorHandler implements ErrorHandler
+    {
+        public void warning(SAXParseException e) throws SAXException
+        {
+           System.out.println("Warning: "); 
+           printInfo(e);
+        }
+        
+        public void error(SAXParseException e) throws SAXException
+        {
+           System.out.println("Error: "); 
+           printInfo(e);
+        }
+        
+        public void fatalError(SAXParseException e) throws SAXException
+        {
+           System.out.println("Fattal error: "); 
+           printInfo(e);
+        }
+        
+        private void printInfo(SAXParseException e)
+        {
+           System.out.println("   Public ID: "+e.getPublicId());
+           System.out.println("   System ID: "+e.getSystemId());
+           System.out.println("   Line number: "+e.getLineNumber());
+           System.out.println("   Column number: "+e.getColumnNumber());
+           System.out.println("   Message: "+e.getMessage());
+        }
+    }
+
     public static LinkedHashMap<String, Integer> getOrderedResult(TreeMap<String, Integer> inputMap, Boolean debug, Rappresentation typeOrder)
     {      
         Boolean mergeNote = false;
@@ -458,7 +505,7 @@ public class drawMusicData_Utils
         //System.out.println("binomialMap Size " + binomialMap.size());
         return calculateInterval(permutationList, binomialMap);    
     }
-    
+    /*
     public static TreeMap<String, Integer> getXmlStatisticsPitch(String xmlToOpen, String typeOfNotes)
     {
         TreeMap<String, Integer> pitchNoteMap = new TreeMap<>();
@@ -505,14 +552,14 @@ public class drawMusicData_Utils
                 }
             }
         }
-        catch (ParserConfigurationException | SAXException | IOException e)
+        catch (Exception e)
         {
             System.out.println("Errore nell'elaborazione del file");
             System.exit(1);
         }
         return pitchNoteMap;
     }
-    
+    */
     public static Integer getMinGapInValue(ArrayList<Integer> inputValue)
     {
         //System.out.println("inputValue Before Sort: " + inputValue);

@@ -1,4 +1,5 @@
 
+/*
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -18,16 +19,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Giuseppe
- */
 public class LoadMaster
 {
     public SwingWorker createWorker(String inputName)
@@ -111,20 +102,16 @@ public class LoadMaster
                             melodicIntervalMap.put(intervalKey,1);
                         }
                     }
-                    /*
+                    
                     melodicIntervalMap.forEach((k, v) -> {
                         System.out.println("melodicIntervalMap: " + k + ": " + v);
                     });
-                    */
+                    
                 }
-                catch (ParserConfigurationException | SAXException | IOException e)
+                catch (Exception e)
                 {
                     System.out.println("Errore nell'elaborazione del file");
                     System.exit(1);
-                }
-                catch (XPathExpressionException ex)
-                {
-                    Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return melodicIntervalMap;
             }
@@ -142,3 +129,4 @@ public class LoadMaster
         };      
     }    
 }
+*/

@@ -1,22 +1,17 @@
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Timer;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -134,7 +129,7 @@ public class melodicIntervallSwingWorker
                         System.out.println("Nessun File da elaborare");
                     }
                 }
-                catch (ParserConfigurationException | SAXException | IOException | NullPointerException | XPathExpressionException e)
+                catch (Exception e)
                 {
                     System.out.println("Errore nell'elaborazione del file");
                     Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, e);

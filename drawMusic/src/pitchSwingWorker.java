@@ -1,5 +1,4 @@
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
@@ -10,13 +9,11 @@ import java.util.Arrays;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -112,7 +109,7 @@ public class pitchSwingWorker
                         }
                     }                    
                 }
-                catch (ParserConfigurationException | SAXException | IOException | NullPointerException | XPathExpressionException e)
+                catch (Exception e)
                 {
                     System.out.println("Exception:" + Arrays.toString(e.getStackTrace()));
                     System.exit(1);
