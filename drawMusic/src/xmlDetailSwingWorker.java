@@ -1,4 +1,7 @@
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
@@ -6,6 +9,7 @@ import java.util.logging.Logger;
 import javax.swing.SwingWorker;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,6 +31,10 @@ public class xmlDetailSwingWorker
     String mainTitle = "";
     LinkedHashMap<String, String> authorsMap = new LinkedHashMap<>();
     LinkedHashMap<String, String> workTitleMap = new LinkedHashMap<>();
+    
+    LinkedHashMap<Integer, LinkedHashMap<String, String>> trackMap = new LinkedHashMap<>();
+    LinkedHashMap<String, String> trackAttributeMap = null;
+    
     public SwingWorker createWorker(String inputName, String inputTag)
     {
         return new SwingWorker<Void, Void>()
@@ -103,6 +111,48 @@ public class xmlDetailSwingWorker
                     {
                         System.out.println("Nessun File da elaborare");
                     }
+                    
+                    String xPathElementTrackList = "//ieee1599/audio/track";
+                    NodeList trackList = (NodeList) (myXPath.evaluate(xPathElementTrackList, myXmlDocument, XPathConstants.NODESET));
+                    Node currenTrackNode;
+                    if(trackList.getLength() > 0)
+                    {
+                        for (int i = 0; i < trackList.getLength(); i++)
+                        {
+                            trackAttributeMap = new LinkedHashMap<>();
+                            if(trackList.item(i) != null)
+                            {
+                                currenTrackNode = trackList.item(i);
+                                Element trackElem = (Element) currenTrackNode;
+
+                                if(trackElem.hasAttributes())
+                                {
+                                    if (!trackElem.getAttribute("file_name").equals(""))
+                                    {
+                                        String trackFileName = trackElem.getAttribute("file_name");
+                                        int trackDuration = getDurationFromTrack(trackFileName, myXmlDocument, myXPath);
+                                        trackAttributeMap.put("file_name", trackFileName);
+                                        trackAttributeMap.put("track_duration", Integer.toString(trackDuration));
+                                    }
+                                    if (!trackElem.getAttribute("file_format").equals(""))
+                                    {
+                                        String fileFormat = trackElem.getAttribute("file_format");
+                                        trackAttributeMap.put("file_format", fileFormat);
+                                    }
+                                    if (!trackElem.getAttribute("encoding_format").equals(""))
+                                    {
+                                        String encodingFormatName = trackElem.getAttribute("encoding_format");
+                                        trackAttributeMap.put("encoding_format", encodingFormatName);
+                                    }
+                                }
+                            }
+                            trackMap.put(i, trackAttributeMap);
+                        }    
+                    }
+                    else
+                    {
+                        System.out.println("Nessun File da elaborare");
+                    }
                 }
                 catch (Exception e)
                 {
@@ -129,5 +179,47 @@ public class xmlDetailSwingWorker
     public LinkedHashMap<String, String> getWorkTitleMap()
     {
         return workTitleMap;
+    }
+    
+    public LinkedHashMap<Integer, LinkedHashMap<String, String>> getTrackMap()
+    {
+        return trackMap;
+    }
+    
+    public int getDurationFromTrack(String trackName, Document inputDocument, XPath inputXPath ) throws XPathExpressionException
+    {
+        System.out.println("trackName getDurationFromTrack: " + trackName);
+        String xPathTrackDurationExpr = "//ieee1599/audio/track[@file_name=\""+trackName+"\"]/track_indexing[@timing_type=\"seconds\"]/track_event";
+        System.out.println("xPathTrackDurationExpr: " + xPathTrackDurationExpr);
+        NodeList trackeventList = (NodeList) (inputXPath.evaluate(xPathTrackDurationExpr, inputDocument, XPathConstants.NODESET));
+        Node currenTrackEventNode;
+        ArrayList<Double> durationEvent = null;
+        double maxValueDuratione = 0;
+        
+        if(trackeventList.getLength() > 0)
+        {   
+            durationEvent = new ArrayList<>();
+            for (int k = 0; k < trackeventList.getLength(); k++)
+            {
+                if(trackeventList.item(k) != null)
+                {
+                    currenTrackEventNode = trackeventList.item(k);
+                    Element trackEventElem = (Element) currenTrackEventNode;
+                
+                    if(trackEventElem.hasAttributes())
+                    {
+                        if (!trackEventElem.getAttribute("start_time").equals(""))
+                        {
+                            String trackDuration = trackEventElem.getAttribute("start_time");
+                            System.out.println("trackDuration: " + trackDuration);
+                            durationEvent.add(Double.valueOf(trackDuration));
+                            //trackAttributeMap.put("trackDuration", trackDuration);
+                        }
+                    }
+                }
+            }
+            maxValueDuratione = Collections.max(durationEvent);    
+        }
+        return (int) Math.ceil(maxValueDuratione);
     }
 }

@@ -2,7 +2,6 @@ import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
@@ -12,8 +11,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 
 
 /*
@@ -23,15 +20,15 @@ import javax.xml.xpath.XPathExpressionException;
  */
 
 /**
- *
+ *\
  * @author Giuseppe
  */
 public class programGui extends javax.swing.JFrame
 {   
     private final FileNameExtensionFilter filter = new FileNameExtensionFilter("Documenti IEEE 1599", "xml");
     private final JFileChooser openFileChoseer = new JFileChooser();
-    private final ImageIcon trueIcon = new ImageIcon("icon/green_check.png");
-    private final ImageIcon falseIcon = new ImageIcon("icon/red_cross.png");
+    private final ImageIcon trueIcon = new ImageIcon("src/icon/green_check.png");
+    private final ImageIcon falseIcon = new ImageIcon("src/icon/gred_cross.png");
     
     private long startTimePitch;
     private long startTimePitchClass;
@@ -1133,6 +1130,8 @@ public class programGui extends javax.swing.JFrame
                             System.out.println("Authors: " + cdi.getAuthorsMap());
                             
                             System.out.println("Work Title: " + cdi.getWorkTitleMap());
+                            
+                            System.out.println("Track: " + cdi.getTrackMap());
                         }
                         break;
                         case STARTED:
@@ -1140,8 +1139,7 @@ public class programGui extends javax.swing.JFrame
                         break;
                     }
                 } else if ("progress".equals(evt.getPropertyName())){
-                    int progress = (Integer)evt.getNewValue();
-                    System.out.print("progress % " + progress);
+
                 }
             }
         });            
