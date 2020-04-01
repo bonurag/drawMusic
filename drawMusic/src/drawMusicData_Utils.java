@@ -25,13 +25,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
@@ -815,66 +810,6 @@ public class drawMusicData_Utils
         result = centerPoint - labelMiddlePoint;
         return result;
     }
-    
-    class xmlInformation
-    {
-        private String mainTitle = "";
-        private LinkedHashMap<String, String> authorsMap = new LinkedHashMap<>();
-        public void getXmlValue(String inputName, String inputTag) throws IOException, ParserConfigurationException, XPathExpressionException
-        {
-            String fileName = inputName;          
-            Document myXmlDocument = drawMusicData_Utils.getDoc(drawMusicData_Utils.readFile(fileName));
-
-            XPathFactory myXPathFactory = XPathFactory.newInstance();
-            XPath myXPath = myXPathFactory.newXPath();
-
-            String xPathElementNodeList = "";
-            if(inputTag.equals("TITLE")) 
-            {
-                xPathElementNodeList = "string(//ieee1599/general/description/main_title)";
-                mainTitle = myXPath.evaluate(xPathElementNodeList, myXmlDocument);
-            }
-            else if(inputTag.equals("AUTHOR"))
-            {
-
-                xPathElementNodeList = "//ieee1599/general/description/author";
-                NodeList authorList = (NodeList) (myXPath.evaluate(xPathElementNodeList, myXmlDocument, XPathConstants.NODESET));
-                Node currenAuthorNode;
-                if(authorList.getLength() > 0)
-                {
-                    for (int i = 0; i < authorList.getLength(); i++)
-                    {
-                        if(authorList.item(i) != null)
-                        {
-                            currenAuthorNode = authorList.item(i);
-                            Element authorElem = (Element) currenAuthorNode;
-                            String authorName = authorElem.getTextContent();
-
-                            if(authorElem.hasAttributes())
-                            {
-                                if (!authorElem.getAttribute("type").equals("")) 
-                                {
-                                    String authorType = authorElem.getAttribute("type");
-                                    authorsMap.put(authorName, authorType);
-                                }
-                            }
-                        }
-                    }
-                }
-
-            }   
-        }
-
-        public String getMainTitle()
-        {
-            return mainTitle;
-        }
-
-        public LinkedHashMap<String, String> getAuthorMap()
-        {
-            return authorsMap;
-        }
-    }   
 }
 
 

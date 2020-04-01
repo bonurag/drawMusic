@@ -170,6 +170,7 @@ public class programGui extends javax.swing.JFrame
         durationTypeComboBox = new javax.swing.JComboBox<>();
         xmlValidationEnableCheckBox = new javax.swing.JCheckBox();
         whiteSpaceEnableCheckBox = new javax.swing.JCheckBox();
+        xmlFileDetailButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Music Data Extractor");
@@ -366,6 +367,14 @@ public class programGui extends javax.swing.JFrame
             }
         });
         getContentPane().add(whiteSpaceEnableCheckBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 70, -1, -1));
+
+        xmlFileDetailButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/information_icon.png"))); // NOI18N
+        xmlFileDetailButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                xmlFileDetailButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(xmlFileDetailButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 90, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1094,6 +1103,49 @@ public class programGui extends javax.swing.JFrame
             drawMusicData_Utils.setXmlEnableIgnoringWhitespaceFromGui(false);
         }
     }//GEN-LAST:event_whiteSpaceEnableCheckBoxActionPerformed
+
+    private void xmlFileDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xmlFileDetailButtonActionPerformed
+        xmlDetailSwingWorker cdi = new xmlDetailSwingWorker();
+        SwingWorker work = cdi.createWorker(openFileChoseer.getSelectedFile().getName(), "AUTHOR");
+        
+        Object[] options = {"Si","No"};
+        int state = JOptionPane.showOptionDialog(null, 
+                    "Sei sicuro di voler procedere con l'elaborazione dei dati?",
+                    "Informazione", 
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE, null, options, null);
+        if(state == JOptionPane.YES_OPTION)
+        {
+            work.execute();
+        }
+
+        work.addPropertyChangeListener(new PropertyChangeListener()
+        {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if ("state".equals(evt.getPropertyName())) {
+                    SwingWorker.StateValue state = (SwingWorker.StateValue) evt.getNewValue();
+                    switch (state) {
+                        case DONE:
+                        {
+                            System.out.println("Title: " + cdi.getMainTitle());
+                            
+                            System.out.println("Authors: " + cdi.getAuthorsMap());
+                            
+                            System.out.println("Work Title: " + cdi.getWorkTitleMap());
+                        }
+                        break;
+                        case STARTED:
+
+                        break;
+                    }
+                } else if ("progress".equals(evt.getPropertyName())){
+                    int progress = (Integer)evt.getNewValue();
+                    System.out.print("progress % " + progress);
+                }
+            }
+        });            
+    }//GEN-LAST:event_xmlFileDetailButtonActionPerformed
     
     /**
      * @param args the command line arguments
@@ -1160,6 +1212,7 @@ public class programGui extends javax.swing.JFrame
     private javax.swing.JLabel selectedFileIcon;
     private javax.swing.JLabel statusProgressBarText;
     private javax.swing.JCheckBox whiteSpaceEnableCheckBox;
+    private javax.swing.JButton xmlFileDetailButton;
     private javax.swing.JCheckBox xmlValidationEnableCheckBox;
     // End of variables declaration//GEN-END:variables
 }
