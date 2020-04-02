@@ -384,6 +384,7 @@ public class programGui extends javax.swing.JFrame
         selectedFileIcon.setIcon(falseIcon);
         String[] fileterExt = filter.getExtensions();
         File f = openFileChoseer.getSelectedFile();
+
         if(openFileChoseer.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
         {
             f = openFileChoseer.getSelectedFile();
@@ -438,7 +439,7 @@ public class programGui extends javax.swing.JFrame
         try
         {                        
             pitchSwingWorker l = new pitchSwingWorker();
-            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile().getName(), "DIATONICA", "D");
+            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile(), "DIATONICA", "D");
             Object[] options = {"Si","No"};
             int state = JOptionPane.showOptionDialog(null, 
                         "Sei sicuro di voler procedere con l'elaborazione dei dati?",
@@ -564,7 +565,7 @@ public class programGui extends javax.swing.JFrame
         try
         {                        
             pitchSwingWorker l = new pitchSwingWorker();
-            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile().getName(), "ANGLOSASSONE", "A");
+            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile(), "ANGLOSASSONE", "A");
             Object[] options = {"Si","No"};
             int state = JOptionPane.showOptionDialog(null, 
                         "Sei sicuro di voler procedere con l'elaborazione dei dati?",
@@ -691,7 +692,7 @@ public class programGui extends javax.swing.JFrame
         {          
             String inputDurationType = (String) durationTypeComboBox.getSelectedItem();
             durationSwingWorker l = new durationSwingWorker();
-            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile().getName(), inputDurationType);
+            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile(), inputDurationType);
             Object[] options = {"Si","No"};
             int state = JOptionPane.showOptionDialog(null, 
                         "Sei sicuro di voler procedere con l'elaborazione dei dati?",
@@ -822,7 +823,7 @@ public class programGui extends javax.swing.JFrame
         try
         {     
             melodicIntervallSwingWorker l = new melodicIntervallSwingWorker();
-            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile().getName());
+            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile());
             Object[] options = {"Si","No"};
             int state = JOptionPane.showOptionDialog(null, 
                         "Sei sicuro di voler procedere con l'elaborazione dei dati?",
@@ -948,7 +949,7 @@ public class programGui extends javax.swing.JFrame
         try
         {                        
             harmonicIntervallSwingWorker l = new harmonicIntervallSwingWorker();
-            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile().getName());
+            SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile());
 
             Object[] options = {"Si","No"};
             int state = JOptionPane.showOptionDialog(null, 

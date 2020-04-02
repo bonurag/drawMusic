@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
@@ -25,7 +26,7 @@ import org.w3c.dom.NodeList;
  */
 public class melodicIntervallSwingWorker
 {
-    public SwingWorker createWorker(String inputName)
+    public SwingWorker createWorker(File inputFile)
     {
         return new SwingWorker<LinkedHashMap<String, Integer>, Void>()
         { 
@@ -39,8 +40,7 @@ public class melodicIntervallSwingWorker
                 setProgress(0);
                 try
                 {
-                    String fileName = inputName;
-                    Document myXmlDocument = drawMusicData_Utils.getDoc(drawMusicData_Utils.readFile(fileName));
+                    Document myXmlDocument = drawMusicData_Utils.getDoc(inputFile);
 
                     XPathFactory myXPathFactory = XPathFactory.newInstance();
                     XPath myXPath = myXPathFactory.newXPath();

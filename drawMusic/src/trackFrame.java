@@ -40,14 +40,55 @@ public class trackFrame extends JFrame
         gniWidth = gni.width;
         gniHeight = gni.height;
         
-        xSize = gniWidth;
-        ySize = ((pstHeight * numberOfTrackElement)+gniHeight);
+        xSize = gniWidth+100;
+        ySize = ((pstHeight * numberOfTrackElement)+gniHeight+20);
+        
         
         System.out.println("xSize: " + xSize);
         System.out.println("ySize: " + ySize);
         
+        //Set Main Title
+        mainTitleInput = !mainTitleInput.equals("") ? mainTitleInput : "Titolo non presente";
         panelGeneralInfo.setMainTitleValueLabel(mainTitleInput);
-                
+        
+        //Set List Authors
+        String authorResult = "";
+        String authorType = "";
+        if(authorsInput.size() > 0)
+        {            
+            for(String name : authorsInput.keySet())
+            {
+                authorType = authorsInput.get(name);
+                if(name.contains(","))
+                    name = name.replaceAll(",", "");
+                authorType = !authorType.equals("") ? " ("+authorType+")" : "";
+                authorResult += name+authorType+"; ";
+            }
+            panelGeneralInfo.setAuthorsValuesLabel(authorResult.substring(0, authorResult.length()-2));
+        }
+        else
+        {
+            authorResult = "Nessun autore disponibile";
+            panelGeneralInfo.setAuthorsValuesLabel(authorResult);
+        }
+        
+        //Set List Work Title
+        String workTitleResult = "";
+        if(workTitleInput.size() > 0)
+        {            
+            for(String index : workTitleInput.keySet())
+            {
+                System.out.println("keySet: " + index);
+                workTitleResult += workTitleInput.get(index)+"; ";
+            }
+            panelGeneralInfo.setWorkTitleValueLabel(workTitleResult.substring(0, workTitleResult.length()-2));
+        }
+        else
+        {
+            workTitleResult = "Nessun titolo disponibile";
+            panelGeneralInfo.setWorkTitleValueLabel(workTitleResult);
+        }
+        
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
         add(panelGeneralInfo);
@@ -61,7 +102,7 @@ public class trackFrame extends JFrame
     
     public void showUI()
     {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  
         setSize(xSize, ySize);
         setLocationRelativeTo(null);
         setVisible(true);

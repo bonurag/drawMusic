@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
@@ -27,7 +28,7 @@ import org.w3c.dom.Document;
  */
 public class pitchSwingWorker
 {
-    public SwingWorker createWorker(String inputName, String rappresentationType, String typeOfNotes)
+    public SwingWorker createWorker(File inputFile, String rappresentationType, String typeOfNotes)
     {
         return new SwingWorker<LinkedHashMap<String, Integer>, Void>()
         { 
@@ -42,9 +43,8 @@ public class pitchSwingWorker
                 double stepForProgress = 0;
                 setProgress(0);
                 try
-                {
-                    String fileName = inputName;          
-                    Document myXmlDocument = drawMusicData_Utils.getDoc(drawMusicData_Utils.readFile(fileName));
+                {        
+                    Document myXmlDocument = drawMusicData_Utils.getDoc(inputFile);
                     
                     XPathFactory myXPathFactory = XPathFactory.newInstance();
                     XPath myXPath = myXPathFactory.newXPath();

@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
@@ -24,7 +25,7 @@ import org.w3c.dom.NodeList;
  */
 public class durationSwingWorker
 {
-    public SwingWorker createWorker(String inputName, String inputDurationType)
+    public SwingWorker createWorker(File inputFile, String inputDurationType)
     {
         return new SwingWorker<LinkedHashMap<String, Integer>, Void>()
         { 
@@ -37,9 +38,8 @@ public class durationSwingWorker
                 double stepForProgress = 0;
                 setProgress(0);
                 try
-                { 
-                    String fileName = inputName;          
-                    Document myXmlDocument = drawMusicData_Utils.getDoc(drawMusicData_Utils.readFile(fileName));
+                {         
+                    Document myXmlDocument = drawMusicData_Utils.getDoc(inputFile);
 
                     XPathFactory myXPathFactory = XPathFactory.newInstance();
                     XPath myXPath = myXPathFactory.newXPath();
