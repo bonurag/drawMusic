@@ -57,6 +57,7 @@ public class programGui extends javax.swing.JFrame
         lockComboBox();
         lockCheckBoxValidationXml();
         lockCheckBoxWhiteSpaceXml();
+        lockDetailButton();
         loadDataProgressBar.setVisible(false);
         openFileName.setText("Nessun file selezionato!");
         xmlValidationEnableCheckBox.setText("Abilita validazione XML");
@@ -96,6 +97,11 @@ public class programGui extends javax.swing.JFrame
         whiteSpaceEnableCheckBox.setEnabled(false);
     }
     
+    public void lockDetailButton()
+    {
+        xmlFileDetailButton.setEnabled(false);
+    }
+    
     public void unLockIcon()
     {
         generatePitchClassButton.setEnabled(true);
@@ -129,6 +135,11 @@ public class programGui extends javax.swing.JFrame
         whiteSpaceEnableCheckBox.setEnabled(true);
     }
     
+    public void unLockDetailButton()
+    {
+        xmlFileDetailButton.setEnabled(true);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -367,6 +378,7 @@ public class programGui extends javax.swing.JFrame
         getContentPane().add(whiteSpaceEnableCheckBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 70, -1, -1));
 
         xmlFileDetailButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/information_icon.png"))); // NOI18N
+        xmlFileDetailButton.setToolTipText("Informazioni generali sul file XML caricato");
         xmlFileDetailButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 xmlFileDetailButtonActionPerformed(evt);
@@ -395,6 +407,7 @@ public class programGui extends javax.swing.JFrame
                 lockComboBox();
                 lockCheckBoxValidationXml();
                 lockCheckBoxWhiteSpaceXml();
+                lockDetailButton();
                 openFileName.setText("Nessun file selezionato!");
                 JOptionPane.showMessageDialog(null, "File selezionato non esistente!", "Error", JOptionPane.ERROR_MESSAGE);
             }      
@@ -409,6 +422,7 @@ public class programGui extends javax.swing.JFrame
                 unLockComboBox();
                 unLockCheckBoxValidationXml();
                 unLockCheckBoxWhiteSpaceXml();
+                unLockDetailButton();
                 if(!fileterExt[0].equals(extension))
                 {
                     lockIcon();
@@ -416,6 +430,7 @@ public class programGui extends javax.swing.JFrame
                     lockComboBox();
                     lockCheckBoxValidationXml();
                     lockCheckBoxWhiteSpaceXml();
+                    lockDetailButton();
                     selectedFileIcon.setIcon(falseIcon);
                     openFileName.setText("File selezionato non riconosciuto!");
                     JOptionPane.showMessageDialog(null, "Attenzione estenzione del file non valida! Selezionare file ."+fileterExt[0], "Error", JOptionPane.ERROR_MESSAGE);
@@ -428,6 +443,7 @@ public class programGui extends javax.swing.JFrame
                 lockComboBox();
                 lockCheckBoxValidationXml();
                 lockCheckBoxWhiteSpaceXml();
+                lockDetailButton();
                 selectedFileIcon.setIcon(falseIcon);
                 openFileName.setText("File selezionato non esistente!");
                 JOptionPane.showMessageDialog(null, "Attenzione il file selezionato non è stato trovato!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1128,22 +1144,19 @@ public class programGui extends javax.swing.JFrame
                         {
                             trackFrame tr = new trackFrame(cdi.getMainTitle(), cdi.getAuthorsMap(), cdi.getWorkTitleMap(), cdi.getTrackMap());
                             tr.showUI();
-
+                            xmlFileDetailButton.setEnabled(true);
                             System.out.println("Title: " + cdi.getMainTitle());
-                            
                             System.out.println("Authors: " + cdi.getAuthorsMap());
-                            
-                            System.out.println("Work Title: " + cdi.getWorkTitleMap());
-                            
+                            System.out.println("Work Title: " + cdi.getWorkTitleMap()); 
                             System.out.println("Track: " + cdi.getTrackMap());
                         }
                         break;
                         case STARTED:
-
+                            xmlFileDetailButton.setEnabled(false);
                         break;
                     }
                 } else if ("progress".equals(evt.getPropertyName())){
-
+                    xmlFileDetailButton.setEnabled(false);
                 }
             }
         });            
@@ -1189,7 +1202,7 @@ public class programGui extends javax.swing.JFrame
     private javax.swing.JComboBox<String> durationTypeComboBox;
     private javax.swing.JButton generateDurationButton;
     private javax.swing.JButton generateHarmonicIntervalButton;
-    public javax.swing.JButton generateMelodicIntervalButton;
+    private javax.swing.JButton generateMelodicIntervalButton;
     private javax.swing.JButton generatePitchButton;
     private javax.swing.JButton generatePitchClassButton;
     private javax.swing.JLabel harmonicIntervalBntTitle;
@@ -1203,7 +1216,7 @@ public class programGui extends javax.swing.JFrame
     private javax.swing.JTextField nomeGraficoTextField_1;
     private javax.swing.JTextField nomeGraficoTextField_2;
     private javax.swing.JTextField nomeGraficoTextField_3;
-    public javax.swing.JTextField nomeGraficoTextField_4;
+    private javax.swing.JTextField nomeGraficoTextField_4;
     private javax.swing.JTextField nomeGraficoTextField_5;
     private javax.swing.JButton openFileButton;
     private javax.swing.JLabel openFileIconDescriptioon;
