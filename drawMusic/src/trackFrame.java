@@ -40,7 +40,7 @@ public class trackFrame extends JFrame
         gniWidth = gni.width;
         gniHeight = gni.height;
         
-        xSize = gniWidth+100;
+        xSize = gniWidth;
         ySize = ((pstHeight * numberOfTrackElement)+gniHeight+20);
         
         
@@ -90,14 +90,56 @@ public class trackFrame extends JFrame
         }
         
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
-
+        
         add(panelGeneralInfo);
-        for(int i=0; i<trackInput.size(); i++)
+        if(trackInput.size() > 0)
         {
-            panelSingleTrack = new singleTrackGui();
-            panelSingleTrack.setBorderTitle("Track "+(i+1));
-            add(panelSingleTrack);
+            for(int i=0; i<trackInput.size(); i++)
+            {
+                panelSingleTrack = new singleTrackGui();
+                panelSingleTrack.setBorderTitle("Track "+(i+1));
+                if(!trackInput.get(i).isEmpty())
+                {
+                    for(String k : trackInput.get(i).keySet())
+                    {
+                        if(k.equals("file_name"))
+                        {
+                            String fileName = trackInput.get(i).get(k);
+                            fileName = !fileName.equals("") ? fileName.substring(fileName.lastIndexOf("/") + 1) : "Nessun titolo presente";
+                            panelSingleTrack.setFileNameValueLabel(fileName);
+                        }    
+                        if(k.equals("track_duration"))
+                        {
+                            String trackDuration = trackInput.get(i).get(k);
+                            trackDuration = !trackDuration.equals("") ? trackDuration : "Durata non calcolabile";
+                            panelSingleTrack.setDurationValueLabel(trackDuration);
+                        }    
+                        if(k.equals("file_format"))
+                        {
+                            String fileFormat = trackInput.get(i).get(k);
+                            fileFormat = !fileFormat.equals("") ? fileFormat : "Formato non presente";
+                            panelSingleTrack.setFileFormatValueLabel(fileFormat);
+                        }
+                            
+                        if(k.equals("encoding_format"))
+                        {
+                            String encodingFormato = trackInput.get(i).get(k);
+                            encodingFormato = !encodingFormato.equals("") ? encodingFormato : "Codifica non presente";
+                            panelSingleTrack.setEncodingFormatValueLabel(encodingFormato);
+                        }      
+                    }
+                }
+                add(panelSingleTrack);
+            }
         }
+        else
+        {
+            String noTrack = "Nessuna traccia presente";
+            panelSingleTrack.setFileNameValueLabel(noTrack);
+            panelSingleTrack.setDurationValueLabel(noTrack);
+            panelSingleTrack.setFileFormatValueLabel(noTrack);
+            panelSingleTrack.setEncodingFormatValueLabel(noTrack);
+        }   
     }
     
     public void showUI()
@@ -107,5 +149,6 @@ public class trackFrame extends JFrame
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
+        setTitle("XML Additional Information");
     }
 }

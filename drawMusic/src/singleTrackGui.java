@@ -25,6 +25,26 @@ public class singleTrackGui extends javax.swing.JPanel {
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, inputTitle, javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 0, 12), new java.awt.Color(0, 0, 0)));
     }
     
+    public void setFileNameValueLabel(String inputValue)
+    {
+        fileNameValueLabel.setText(inputValue);
+    }
+    
+    public void setFileFormatValueLabel(String inputValue)
+    {
+        fileFormatValueLabel.setText(inputValue);
+    }
+    
+    public void setEncodingFormatValueLabel(String inputValue)
+    {
+        encodingFormatValueLabel.setText(inputValue);
+    }
+    
+    public void setDurationValueLabel(String inputValue)
+    {
+        durationValueLabel.setText(inputValue);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -82,35 +102,31 @@ public class singleTrackGui extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(fileNameLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fileNameValueLabel))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(fileFormatLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fileFormatValueLabel)))
-                .addGap(160, 160, 160)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(durationLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(durationValueLabel))
-                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(fileFormatValueLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(encodingFormatLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(encodingFormatValueLabel)))
-                .addContainerGap(68, Short.MAX_VALUE))
+                        .addComponent(encodingFormatValueLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(fileNameLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fileNameValueLabel)
+                        .addGap(24, 24, 24)
+                        .addComponent(durationLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(durationValueLabel)))
+                .addContainerGap(216, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(fileNameLabel)
-                        .addComponent(fileNameValueLabel))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(durationValueLabel)
-                        .addComponent(durationLabel)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fileNameLabel)
+                    .addComponent(fileNameValueLabel)
+                    .addComponent(durationLabel)
+                    .addComponent(durationValueLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fileFormatLabel)
