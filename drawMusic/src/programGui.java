@@ -3,6 +3,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -386,7 +387,6 @@ public class programGui extends javax.swing.JFrame
         if(openFileChoseer.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
         {
             f = openFileChoseer.getSelectedFile();
-            System.out.println("File 3: " + f);
             if (f == null)
             {
                 lockIcon();
@@ -1103,8 +1103,8 @@ public class programGui extends javax.swing.JFrame
 
     private void xmlFileDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xmlFileDetailButtonActionPerformed
         xmlDetailSwingWorker cdi = new xmlDetailSwingWorker();
-        SwingWorker work = cdi.createWorker(openFileChoseer.getSelectedFile().getName(), "AUTHOR");
-        
+        SwingWorker work = cdi.createWorker(openFileChoseer.getSelectedFile().getName());
+
         Object[] options = {"Si","No"};
         int state = JOptionPane.showOptionDialog(null, 
                     "Sei sicuro di voler procedere con l'elaborazione dei dati?",
@@ -1112,7 +1112,7 @@ public class programGui extends javax.swing.JFrame
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.INFORMATION_MESSAGE, null, options, null);
         if(state == JOptionPane.YES_OPTION)
-        {
+        { 
             work.execute();
         }
 
@@ -1125,6 +1125,9 @@ public class programGui extends javax.swing.JFrame
                     switch (state) {
                         case DONE:
                         {
+                            trackFrame tr = new trackFrame(cdi.getMainTitle(), cdi.getAuthorsMap(), cdi.getWorkTitleMap(), cdi.getTrackMap());
+                            tr.showUI();
+
                             System.out.println("Title: " + cdi.getMainTitle());
                             
                             System.out.println("Authors: " + cdi.getAuthorsMap());

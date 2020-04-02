@@ -810,6 +810,22 @@ public class drawMusicData_Utils
         result = centerPoint - labelMiddlePoint;
         return result;
     }
+    
+    public static String trackDurationConverter(int secondsInput)
+    {
+        String result = "";
+       
+        String seconds = Integer.toString(secondsInput % 60);
+        String minutes = Integer.toString((secondsInput/60) % 60);
+        String hours = Integer.toString((secondsInput/60) / 60);
+        
+        seconds = Integer.parseInt(seconds) < 9 ? "0"+seconds : seconds;
+        minutes = Integer.parseInt(minutes) < 9  ? "0"+minutes : minutes;
+        hours = Integer.parseInt(hours) < 9  ? "0"+hours : hours;
+        
+        result = minutes + ":" + seconds;
+        return result;
+    }
 }
 
 

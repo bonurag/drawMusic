@@ -35,7 +35,7 @@ public class xmlDetailSwingWorker
     LinkedHashMap<Integer, LinkedHashMap<String, String>> trackMap = new LinkedHashMap<>();
     LinkedHashMap<String, String> trackAttributeMap = null;
     
-    public SwingWorker createWorker(String inputName, String inputTag)
+    public SwingWorker createWorker(String inputName)
     {
         return new SwingWorker<Void, Void>()
         { 
@@ -132,7 +132,7 @@ public class xmlDetailSwingWorker
                                         String trackFileName = trackElem.getAttribute("file_name");
                                         int trackDuration = getDurationFromTrack(trackFileName, myXmlDocument, myXPath);
                                         trackAttributeMap.put("file_name", trackFileName);
-                                        trackAttributeMap.put("track_duration", Integer.toString(trackDuration));
+                                        trackAttributeMap.put("track_duration", drawMusicData_Utils.trackDurationConverter(trackDuration));
                                     }
                                     if (!trackElem.getAttribute("file_format").equals(""))
                                     {
@@ -188,13 +188,12 @@ public class xmlDetailSwingWorker
     
     public int getDurationFromTrack(String trackName, Document inputDocument, XPath inputXPath ) throws XPathExpressionException
     {
-        System.out.println("trackName getDurationFromTrack: " + trackName);
         String xPathTrackDurationExpr = "//ieee1599/audio/track[@file_name=\""+trackName+"\"]/track_indexing[@timing_type=\"seconds\"]/track_event";
-        System.out.println("xPathTrackDurationExpr: " + xPathTrackDurationExpr);
         NodeList trackeventList = (NodeList) (inputXPath.evaluate(xPathTrackDurationExpr, inputDocument, XPathConstants.NODESET));
         Node currenTrackEventNode;
         ArrayList<Double> durationEvent = null;
         double maxValueDuratione = 0;
+        double minValueDuratione = 0;
         
         if(trackeventList.getLength() > 0)
         {   
@@ -211,15 +210,14 @@ public class xmlDetailSwingWorker
                         if (!trackEventElem.getAttribute("start_time").equals(""))
                         {
                             String trackDuration = trackEventElem.getAttribute("start_time");
-                            System.out.println("trackDuration: " + trackDuration);
                             durationEvent.add(Double.valueOf(trackDuration));
-                            //trackAttributeMap.put("trackDuration", trackDuration);
                         }
                     }
                 }
             }
-            maxValueDuratione = Collections.max(durationEvent);    
+            maxValueDuratione = Collections.max(durationEvent);   
+            minValueDuratione = Collections.min(durationEvent);  
         }
-        return (int) Math.ceil(maxValueDuratione);
+        return (int) Math.ceil(maxValueDuratione+minValueDuratione);
     }
 }
