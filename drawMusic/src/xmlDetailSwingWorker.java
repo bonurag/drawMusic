@@ -28,6 +28,8 @@ import org.w3c.dom.NodeList;
 public class xmlDetailSwingWorker
 {
     String mainTitle = "";
+    Boolean dataProcess = false;
+   
     LinkedHashMap<String, String> authorsMap = new LinkedHashMap<>();
     LinkedHashMap<String, String> workTitleMap = new LinkedHashMap<>();
     
@@ -58,6 +60,7 @@ public class xmlDetailSwingWorker
                     Node currenAuthorNode;
                     if(authorList.getLength() > 0)
                     {
+                        dataProcess = true;
                         for (int i = 0; i < authorList.getLength(); i++)
                         {
                             if(authorList.item(i) != null)
@@ -75,14 +78,12 @@ public class xmlDetailSwingWorker
                                     }
                                 }
                             }
-                            stepForProgress = (double)(i*100)/(double)authorList.getLength();
-                            if(stepForProgress > (double) 100)
-                                stepForProgress = 100;
-                            //System.out.println("stepForProgress " + stepForProgress);
-                            setProgress((int)Math.ceil(stepForProgress));
-                        } 
-                        if(stepForProgress < (double) 100)
-                            setProgress(100);
+                        }
+                        setProgress(25);
+                    }
+                    else
+                    {
+                        
                     }
 
                     String xPathElementWorkTitleList = "//ieee1599/general/description/work_title";
@@ -90,6 +91,7 @@ public class xmlDetailSwingWorker
                     Node currenWorkTitleNode;
                     if(workTitleList.getLength() > 0)
                     {
+                        dataProcess = true;
                         for (int i = 0; i < workTitleList.getLength(); i++)
                         {
                             if(workTitleList.item(i) != null)
@@ -99,14 +101,12 @@ public class xmlDetailSwingWorker
                                 String workTitleValue = workTitleElem.getTextContent();
                                 workTitleMap.put(Integer.toString(i), workTitleValue);
                             }
-                            stepForProgress = (double)(i*100)/(double)workTitleList.getLength();
-                            if(stepForProgress > (double) 100)
-                                stepForProgress = 100;
-                            //System.out.println("stepForProgress " + stepForProgress);
-                            setProgress((int)Math.ceil(stepForProgress));
                         }
-                        if(stepForProgress < (double) 100)
-                            setProgress(100);
+                        setProgress(50);
+                    }
+                    else
+                    {
+
                     }
 
                     String xPathElementTrackList = "//ieee1599/audio/track";
@@ -114,6 +114,7 @@ public class xmlDetailSwingWorker
                     Node currenTrackNode;
                     if(trackList.getLength() > 0)
                     {
+                        dataProcess = true;
                         for (int i = 0; i < trackList.getLength(); i++)
                         {
                             trackAttributeMap = new LinkedHashMap<>();
@@ -144,15 +145,15 @@ public class xmlDetailSwingWorker
                                 }
                             }
                             trackMap.put(i, trackAttributeMap);
-                            stepForProgress = (double)(i*100)/(double)workTitleList.getLength();
-                            if(stepForProgress > (double) 100)
-                                stepForProgress = 100;
-                            //System.out.println("stepForProgress " + stepForProgress);
-                            setProgress((int)Math.ceil(stepForProgress));
                         } 
-                        if(stepForProgress < (double) 100)
-                            setProgress(100);
+                        setProgress(100);
                     }
+                    else
+                    {
+                        
+                    }
+                    if(stepForProgress < (double) 100)
+                        setProgress(100);
                 }
                 catch (Exception e)
                 {

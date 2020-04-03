@@ -1149,7 +1149,7 @@ public class programGui extends javax.swing.JFrame
                             workInProgress.remove("workerGetInformationStart");
                             System.out.println("workInProgress DONE: " + workInProgress);
 
-                            trackFrame trackFrame = new trackFrame(cdi.getMainTitle(), cdi.getAuthorsMap(), cdi.getWorkTitleMap(), cdi.getTrackMap());                         
+                            trackFrame trackFrame = new trackFrame(cdi.getMainTitle(), cdi.getAuthorsMap(), cdi.getWorkTitleMap(), cdi.getTrackMap());  
                             long finish = System.nanoTime();
                             long timeElapsed = finish - startTimeInformation;
                             String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
@@ -1194,7 +1194,7 @@ public class programGui extends javax.swing.JFrame
                         case STARTED:
                             workInProgress.add("workerGetInformationStart");
                             System.out.println("workInProgress STARTED: " + workInProgress);
-                            xmlFileDetailButton.setEnabled(false);
+                            xmlFileDetailButton.setEnabled(false);                              
                             loadDataProgressBar.setVisible(true);
                             loadDataProgressBar.setForeground(Color.BLACK);                               
                             loadDataProgressBar.setValue(0);

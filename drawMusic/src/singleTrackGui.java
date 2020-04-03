@@ -1,6 +1,5 @@
 
 import java.awt.Component;
-import java.awt.Font;
 import java.util.HashMap;
 
 /*
@@ -67,18 +66,6 @@ public class singleTrackGui extends javax.swing.JPanel
         else return null;
     }
     
-    public int getTitleWidth()
-    {
-        Font f = this.getFont();
-        return this.getFontMetrics(f).stringWidth("Track");
-    }
-    
-    public int getTitleHeight()
-    {
-        Font f = this.getFont();
-        return this.getFontMetrics(f).getHeight();
-    }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -97,7 +84,7 @@ public class singleTrackGui extends javax.swing.JPanel
         fileFormatValueLabel = new javax.swing.JLabel();
         encodingFormatValueLabel = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(255, 255, 255));
+        setBackground(new java.awt.Color(209, 209, 209));
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Track x", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
         setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
 

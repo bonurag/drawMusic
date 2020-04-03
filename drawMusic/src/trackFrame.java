@@ -18,33 +18,14 @@ public class trackFrame extends JFrame
 {
     singleTrackGui panelSingleTrack;
     generalInfoTrackGui panelGeneralInfo;
-    int numberOfTrackElement = 0;
-    int pstWidth = 0;
-    int pstHeight = 0;
-    int gniWidth = 0;
-    int gniHeight = 0;
     int xSize = 0;
     int ySize = 0;
-    int borderTitleHeight = 0;
     
     public trackFrame(String mainTitleInput, LinkedHashMap<String, String> authorsInput, LinkedHashMap<String, String> workTitleInput, LinkedHashMap<Integer, LinkedHashMap<String, String>> trackInput)
     { 
-        numberOfTrackElement = trackInput.size();
         panelGeneralInfo = new generalInfoTrackGui();
         panelSingleTrack = new singleTrackGui();     
-                
-        Dimension pst = panelSingleTrack.getPreferredSize();        
-        pstWidth = pst.width;
-        pstHeight = pst.height;
 
-        Dimension gni = panelGeneralInfo.getPreferredSize();
-        gniWidth = gni.width;
-        gniHeight = gni.height;
-        
-        borderTitleHeight = panelSingleTrack.getTitleHeight();
-        xSize = gniWidth;
-        ySize = ((pstHeight * numberOfTrackElement)+gniHeight+(borderTitleHeight * numberOfTrackElement));
-        
         //Set Main Title
         if(mainTitleInput.length() > 0)
         {
@@ -161,12 +142,14 @@ public class trackFrame extends JFrame
                                 panelSingleTrack.getComponentSingleTrackByName("encodingFormatLabel").setVisible(false);
                                 panelSingleTrack.getComponentSingleTrackByName("encodingFormatValueLabel").setVisible(false);
                             }
-                        }      
+                        }     
                     }
                 }
+                ySize += (int) panelSingleTrack.getPreferredSize().getHeight();
                 add(panelSingleTrack);
             }
         }  
+        ySize = (int)ySize + (int)panelGeneralInfo.getPreferredSize().getHeight();
     }
     
     public void showUI()
@@ -177,5 +160,6 @@ public class trackFrame extends JFrame
         setVisible(true);
         setResizable(false);
         setTitle("XML Additional Information");
+        pack();
     }
 }
