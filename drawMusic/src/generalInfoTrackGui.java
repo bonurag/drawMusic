@@ -1,3 +1,7 @@
+
+import java.awt.Component;
+import java.util.HashMap;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,11 +14,11 @@
  */
 public class generalInfoTrackGui extends javax.swing.JPanel {
 
-    /**
-     * Creates new form generalInfoTrackGui
-     */
+    private HashMap componentMap;
+    
     public generalInfoTrackGui() {
         initComponents();
+        createComponentMap();     
     }
     
     public void setMainTitleValueLabel(String inputValue)
@@ -30,6 +34,25 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
     public void setWorkTitleValueLabel(String inputValue)
     {
         workTitleValueLabel.setText(inputValue);
+    }
+    
+    private void createComponentMap()
+    {
+        componentMap = new HashMap<String,Component>();
+        Component[] components = this.getComponents();
+        for(int i=0; i < components.length; i++)
+        {
+            componentMap.put(components[i].getName(), components[i]);
+        }
+    }
+
+    public Component getComponentByName(String name)
+    {
+        if(componentMap.containsKey(name))
+        {
+            return (Component) componentMap.get(name);
+        }
+        else return null;
     }
     
     /**
@@ -62,31 +85,37 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
         mainTitleLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         mainTitleLabel.setForeground(new java.awt.Color(0, 0, 0));
         mainTitleLabel.setText("Main Title:");
+        mainTitleLabel.setName("mainTitleLabel"); // NOI18N
 
         workTitleLabel.setBackground(new java.awt.Color(255, 255, 255));
         workTitleLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         workTitleLabel.setForeground(new java.awt.Color(0, 0, 0));
         workTitleLabel.setText("Work Title:");
+        workTitleLabel.setName("workTitleLabel"); // NOI18N
 
         authorsLabel.setBackground(new java.awt.Color(255, 255, 255));
         authorsLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         authorsLabel.setForeground(new java.awt.Color(0, 0, 0));
         authorsLabel.setText("Authors:");
+        authorsLabel.setName("authorsLabel"); // NOI18N
 
         mainTitleValueLabel.setBackground(new java.awt.Color(255, 255, 255));
         mainTitleValueLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         mainTitleValueLabel.setForeground(new java.awt.Color(0, 0, 0));
         mainTitleValueLabel.setText("jLabel1");
+        mainTitleValueLabel.setName("mainTitleValueLabel"); // NOI18N
 
         workTitleValueLabel.setBackground(new java.awt.Color(255, 255, 255));
         workTitleValueLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         workTitleValueLabel.setForeground(new java.awt.Color(0, 0, 0));
         workTitleValueLabel.setText("jLabel4");
+        workTitleValueLabel.setName("workTitleValueLabel"); // NOI18N
 
         authorsValuesLabel.setBackground(new java.awt.Color(255, 255, 255));
         authorsValuesLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         authorsValuesLabel.setForeground(new java.awt.Color(0, 0, 0));
         authorsValuesLabel.setText("jLabel5");
+        authorsValuesLabel.setName("authorsValuesLabel"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

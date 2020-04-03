@@ -1120,7 +1120,7 @@ public class programGui extends javax.swing.JFrame
 
     private void xmlFileDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xmlFileDetailButtonActionPerformed
         xmlDetailSwingWorker cdi = new xmlDetailSwingWorker();
-        SwingWorker work = cdi.createWorker(openFileChoseer.getSelectedFile().getName());
+        SwingWorker work = cdi.createWorker(openFileChoseer.getSelectedFile());
 
         Object[] options = {"Si","No"};
         int state = JOptionPane.showOptionDialog(null, 

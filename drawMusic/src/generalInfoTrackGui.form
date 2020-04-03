@@ -107,6 +107,7 @@
           <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Main Title:"/>
+        <Property name="name" type="java.lang.String" value="mainTitleLabel" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="workTitleLabel">
@@ -121,6 +122,7 @@
           <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Work Title:"/>
+        <Property name="name" type="java.lang.String" value="workTitleLabel" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="authorsLabel">
@@ -135,6 +137,7 @@
           <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Authors:"/>
+        <Property name="name" type="java.lang.String" value="authorsLabel" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="mainTitleValueLabel">
@@ -149,6 +152,7 @@
           <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
+        <Property name="name" type="java.lang.String" value="mainTitleValueLabel" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="workTitleValueLabel">
@@ -163,6 +167,7 @@
           <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="jLabel4"/>
+        <Property name="name" type="java.lang.String" value="workTitleValueLabel" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="authorsValuesLabel">
@@ -177,6 +182,7 @@
           <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="jLabel5"/>
+        <Property name="name" type="java.lang.String" value="authorsValuesLabel" noResource="true"/>
       </Properties>
     </Component>
   </SubComponents>

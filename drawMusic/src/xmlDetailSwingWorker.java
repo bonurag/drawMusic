@@ -1,9 +1,8 @@
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
@@ -35,7 +34,7 @@ public class xmlDetailSwingWorker
     LinkedHashMap<Integer, LinkedHashMap<String, String>> trackMap = new LinkedHashMap<>();
     LinkedHashMap<String, String> trackAttributeMap = null;
     
-    public SwingWorker createWorker(String inputName)
+    public SwingWorker createWorker(File inputFile)
     {
         return new SwingWorker<Void, Void>()
         { 
@@ -43,9 +42,8 @@ public class xmlDetailSwingWorker
             protected Void doInBackground() throws Exception
             {
                 try
-                { 
-                    String fileName = inputName;          
-                    Document myXmlDocument = drawMusicData_Utils.getDoc(drawMusicData_Utils.readFile(fileName));
+                {         
+                    Document myXmlDocument = drawMusicData_Utils.getDoc(inputFile);
 
                     XPathFactory myXPathFactory = XPathFactory.newInstance();
                     XPath myXPath = myXPathFactory.newXPath();
@@ -77,10 +75,6 @@ public class xmlDetailSwingWorker
                                 }
                             }
                         }
-                        if(authorsMap.isEmpty())
-                        {
-                            authorsMap.put("author", "Nessun autore presente");
-                        }
                     }
                     else
                     {
@@ -106,10 +100,6 @@ public class xmlDetailSwingWorker
                         {
                             workTitleMap.put("work_title", "Nessun work title presente");
                         }
-                    }
-                    else
-                    {
-                        System.out.println("Nessun File da elaborare");
                     }
                     
                     String xPathElementTrackList = "//ieee1599/audio/track";
@@ -149,10 +139,6 @@ public class xmlDetailSwingWorker
                             trackMap.put(i, trackAttributeMap);
                         }    
                     }
-                    else
-                    {
-                        System.out.println("Nessun File da elaborare");
-                    }
                 }
                 catch (Exception e)
                 {
@@ -160,7 +146,6 @@ public class xmlDetailSwingWorker
                     Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, e);
                     System.exit(1);
                 }
-                //return authorsMap;
                 return null;
             }         
         };      

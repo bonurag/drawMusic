@@ -1,4 +1,5 @@
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.LinkedHashMap;
 import javax.swing.BoxLayout;
@@ -48,8 +49,16 @@ public class trackFrame extends JFrame
         System.out.println("ySize: " + ySize);
         
         //Set Main Title
-        mainTitleInput = !mainTitleInput.equals("") ? mainTitleInput : "Titolo non presente";
-        panelGeneralInfo.setMainTitleValueLabel(mainTitleInput);
+        if(mainTitleInput.length() > 0)
+        {
+            mainTitleInput = !mainTitleInput.equals("") ? mainTitleInput : "Titolo non presente";
+            panelGeneralInfo.setMainTitleValueLabel(mainTitleInput);
+        }
+        else
+        {
+            panelGeneralInfo.getComponentByName("mainTitleLabel").setVisible(false);
+            panelGeneralInfo.getComponentByName("mainTitleValueLabel").setVisible(false);
+        }
         
         //Set List Authors
         String authorResult = "";
@@ -68,8 +77,8 @@ public class trackFrame extends JFrame
         }
         else
         {
-            authorResult = "Nessun autore disponibile";
-            panelGeneralInfo.setAuthorsValuesLabel(authorResult);
+            panelGeneralInfo.getComponentByName("authorsLabel").setVisible(false);
+            panelGeneralInfo.getComponentByName("authorsValuesLabel").setVisible(false);
         }
         
         //Set List Work Title
@@ -85,13 +94,15 @@ public class trackFrame extends JFrame
         }
         else
         {
-            workTitleResult = "Nessun titolo disponibile";
-            panelGeneralInfo.setWorkTitleValueLabel(workTitleResult);
+            panelGeneralInfo.getComponentByName("workTitleLabel").setVisible(false);
+            panelGeneralInfo.getComponentByName("workTitleValueLabel").setVisible(false);
         }
         
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
         
-        add(panelGeneralInfo);
+        if(mainTitleInput.length() > 0 || authorsInput.size() > 0 || workTitleInput.size() > 0)
+            add(panelGeneralInfo);
+        
         if(trackInput.size() > 0)
         {
             for(int i=0; i<trackInput.size(); i++)
@@ -131,15 +142,7 @@ public class trackFrame extends JFrame
                 }
                 add(panelSingleTrack);
             }
-        }
-        else
-        {
-            String noTrack = "Nessuna traccia presente";
-            panelSingleTrack.setFileNameValueLabel(noTrack);
-            panelSingleTrack.setDurationValueLabel(noTrack);
-            panelSingleTrack.setFileFormatValueLabel(noTrack);
-            panelSingleTrack.setEncodingFormatValueLabel(noTrack);
-        }   
+        }  
     }
     
     public void showUI()

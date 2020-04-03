@@ -814,7 +814,10 @@ public class drawMusicData_Utils
     public static String trackDurationConverter(int secondsInput)
     {
         String result = "";
-       
+        String tmpSec = "";
+        
+        int tmpMin = 0;
+        
         String seconds = Integer.toString(secondsInput % 60);
         String minutes = Integer.toString((secondsInput/60) % 60);
         String hours = Integer.toString((secondsInput/60) / 60);
@@ -823,7 +826,18 @@ public class drawMusicData_Utils
         minutes = Integer.parseInt(minutes) < 9  ? "0"+minutes : minutes;
         hours = Integer.parseInt(hours) < 9  ? "0"+hours : hours;
         
-        result = minutes + ":" + seconds;
+        if(Integer.parseInt(seconds) <= 30)
+        {
+            tmpSec = "30";
+            tmpMin = Integer.parseInt(minutes);
+        }
+        else
+        {
+            tmpSec = "00";
+            tmpMin = Integer.parseInt(minutes) + 1;
+        }
+        
+        result = "circa " + tmpMin + ":" + tmpSec;
         return result;
     }
 }
