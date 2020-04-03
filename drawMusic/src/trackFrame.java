@@ -1,5 +1,4 @@
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.util.LinkedHashMap;
 import javax.swing.BoxLayout;
@@ -26,27 +25,25 @@ public class trackFrame extends JFrame
     int gniHeight = 0;
     int xSize = 0;
     int ySize = 0;
+    int borderTitleHeight = 0;
     
     public trackFrame(String mainTitleInput, LinkedHashMap<String, String> authorsInput, LinkedHashMap<String, String> workTitleInput, LinkedHashMap<Integer, LinkedHashMap<String, String>> trackInput)
     { 
         numberOfTrackElement = trackInput.size();
         panelGeneralInfo = new generalInfoTrackGui();
-        panelSingleTrack = new singleTrackGui();
-        
+        panelSingleTrack = new singleTrackGui();     
+                
         Dimension pst = panelSingleTrack.getPreferredSize();        
         pstWidth = pst.width;
         pstHeight = pst.height;
-        
+
         Dimension gni = panelGeneralInfo.getPreferredSize();
         gniWidth = gni.width;
         gniHeight = gni.height;
         
+        borderTitleHeight = panelSingleTrack.getTitleHeight();
         xSize = gniWidth;
-        ySize = ((pstHeight * numberOfTrackElement)+gniHeight+20);
-        
-        
-        System.out.println("xSize: " + xSize);
-        System.out.println("ySize: " + ySize);
+        ySize = ((pstHeight * numberOfTrackElement)+gniHeight+(borderTitleHeight * numberOfTrackElement));
         
         //Set Main Title
         if(mainTitleInput.length() > 0)
@@ -87,7 +84,6 @@ public class trackFrame extends JFrame
         {            
             for(String index : workTitleInput.keySet())
             {
-                System.out.println("keySet: " + index);
                 workTitleResult += workTitleInput.get(index)+"; ";
             }
             panelGeneralInfo.setWorkTitleValueLabel(workTitleResult.substring(0, workTitleResult.length()-2));
@@ -115,28 +111,56 @@ public class trackFrame extends JFrame
                     {
                         if(k.equals("file_name"))
                         {
-                            String fileName = trackInput.get(i).get(k);
-                            fileName = !fileName.equals("") ? fileName.substring(fileName.lastIndexOf("/") + 1) : "Nessun titolo presente";
-                            panelSingleTrack.setFileNameValueLabel(fileName);
+                            String fileName = trackInput.get(i).get(k);                       
+                            if(!fileName.equals(""))
+                            {
+                                panelSingleTrack.setFileNameValueLabel(fileName.substring(fileName.lastIndexOf("/") + 1));
+                            }
+                            else
+                            {
+                                panelSingleTrack.getComponentSingleTrackByName("fileNameLabel").setVisible(false);
+                                panelSingleTrack.getComponentSingleTrackByName("fileNameValueLabel").setVisible(false);
+                            }
                         }    
                         if(k.equals("track_duration"))
                         {
                             String trackDuration = trackInput.get(i).get(k);
-                            trackDuration = !trackDuration.equals("") ? trackDuration : "Durata non calcolabile";
-                            panelSingleTrack.setDurationValueLabel(trackDuration);
+                            if(!trackDuration.equals(""))
+                            {
+                                panelSingleTrack.setDurationValueLabel(trackDuration);
+                            }
+                            else
+                            {
+                                panelSingleTrack.getComponentSingleTrackByName("durationLabel").setVisible(false);
+                                panelSingleTrack.getComponentSingleTrackByName("durationValueLabel").setVisible(false);
+                            }
                         }    
                         if(k.equals("file_format"))
                         {
                             String fileFormat = trackInput.get(i).get(k);
-                            fileFormat = !fileFormat.equals("") ? fileFormat : "Formato non presente";
-                            panelSingleTrack.setFileFormatValueLabel(fileFormat);
+                            if(!fileFormat.equals(""))
+                            {
+                                panelSingleTrack.setFileFormatValueLabel(fileFormat);
+                            }
+                            else
+                            {
+                                panelSingleTrack.getComponentSingleTrackByName("fileFormatLabel").setVisible(false);
+                                panelSingleTrack.getComponentSingleTrackByName("fileFormatValueLabel").setVisible(false);
+                            }
                         }
-                            
+
                         if(k.equals("encoding_format"))
                         {
-                            String encodingFormato = trackInput.get(i).get(k);
-                            encodingFormato = !encodingFormato.equals("") ? encodingFormato : "Codifica non presente";
-                            panelSingleTrack.setEncodingFormatValueLabel(encodingFormato);
+                            String encodingFormat = trackInput.get(i).get(k);
+                            if(!encodingFormat.equals(""))
+                            {
+                                panelSingleTrack.setEncodingFormatValueLabel(encodingFormat);
+                            }
+                            else
+                            {
+                                panelSingleTrack.getComponentSingleTrackByName("encodingFormatLabel").setVisible(false);
+                                panelSingleTrack.getComponentSingleTrackByName("encodingFormatValueLabel").setVisible(false);
+                            }
                         }      
                     }
                 }
@@ -147,7 +171,7 @@ public class trackFrame extends JFrame
     
     public void showUI()
     {
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);  
         setSize(xSize, ySize);
         setLocationRelativeTo(null);
         setVisible(true);

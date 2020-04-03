@@ -160,7 +160,8 @@ class pitchFrame extends JFrame
         }
     }
 
-    public void showUI() {
+    public void showUI()
+    {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);    
         setSize(700, 700);
         setLocationRelativeTo(null);
@@ -168,11 +169,13 @@ class pitchFrame extends JFrame
         setResizable(false);
     }
     
-    public int getInputDataSize() {
+    public int getInputDataSize()
+    {
         return inputDataSize;
     }
 
-    public void setGraphName(String newName) {
+    public void setGraphName(String newName)
+    {
         String grapName = "";
         if(newName == "" && newName == null)
             grapName = "Graph";

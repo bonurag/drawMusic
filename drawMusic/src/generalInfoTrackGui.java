@@ -1,5 +1,6 @@
 
 import java.awt.Component;
+import java.awt.Font;
 import java.util.HashMap;
 
 /*
@@ -18,7 +19,7 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
     
     public generalInfoTrackGui() {
         initComponents();
-        createComponentMap();     
+        createComponentMap();  
     }
     
     public void setMainTitleValueLabel(String inputValue)
@@ -55,6 +56,18 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
         else return null;
     }
     
+    public int getTitleWidth()
+    {
+        Font f = this.getFont();
+        return this.getFontMetrics(f).stringWidth("Track");
+    }
+    
+    public int getTitleHeight()
+    {
+        Font f = this.getFont();
+        return this.getFontMetrics(f).getHeight();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,6 +93,7 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "General Information", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
         setForeground(new java.awt.Color(255, 255, 255));
+        setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
 
         mainTitleLabel.setBackground(new java.awt.Color(255, 255, 255));
         mainTitleLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N

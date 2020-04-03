@@ -36,13 +36,15 @@ public class programGui extends javax.swing.JFrame
     private long startTimeDuration;
     private long startTimeMelodic;
     private long startTimeHarmonic;
+    private long startTimeInformation;
     
     private final String workerPitchStart = "workerPitchStart";
     private final String workerPitchClassStart = "workerPitchClassStart";
     private final String workerDurationStart = "workerDurationStart";
     private final String workerMelodicStart = "workerMelodicStart";
     private final String workerHarmonicStart = "workerHarmonicStart";
-    
+    private final String workerGetInformationStart = "workerGetInformationStart";
+
     private ArrayList<String> workInProgress = new ArrayList<>();
     
     /**
@@ -1121,7 +1123,7 @@ public class programGui extends javax.swing.JFrame
     private void xmlFileDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xmlFileDetailButtonActionPerformed
         xmlDetailSwingWorker cdi = new xmlDetailSwingWorker();
         SwingWorker work = cdi.createWorker(openFileChoseer.getSelectedFile());
-
+        
         Object[] options = {"Si","No"};
         int state = JOptionPane.showOptionDialog(null, 
                     "Sei sicuro di voler procedere con l'elaborazione dei dati?",
@@ -1130,6 +1132,7 @@ public class programGui extends javax.swing.JFrame
                     JOptionPane.INFORMATION_MESSAGE, null, options, null);
         if(state == JOptionPane.YES_OPTION)
         { 
+            startTimeInformation = System.nanoTime();
             work.execute();
         }
 
@@ -1139,24 +1142,74 @@ public class programGui extends javax.swing.JFrame
             public void propertyChange(PropertyChangeEvent evt) {
                 if ("state".equals(evt.getPropertyName())) {
                     SwingWorker.StateValue state = (SwingWorker.StateValue) evt.getNewValue();
-                    switch (state) {
+                    switch (state)
+                    {
                         case DONE:
                         {
-                            trackFrame tr = new trackFrame(cdi.getMainTitle(), cdi.getAuthorsMap(), cdi.getWorkTitleMap(), cdi.getTrackMap());
-                            tr.showUI();
-                            xmlFileDetailButton.setEnabled(true);
+                            workInProgress.remove("workerGetInformationStart");
+                            System.out.println("workInProgress DONE: " + workInProgress);
+
+                            trackFrame trackFrame = new trackFrame(cdi.getMainTitle(), cdi.getAuthorsMap(), cdi.getWorkTitleMap(), cdi.getTrackMap());                         
+                            long finish = System.nanoTime();
+                            long timeElapsed = finish - startTimeInformation;
+                            String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
+
+                            String loadCompletedMessage = "Caricamento Completato in "+executionTime; 
+                            statusProgressBarText.setText(loadCompletedMessage);
+                            int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                            getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
+                            xmlFileDetailButton.setEnabled(false);
+                            trackFrame.showUI();
+                            
+                            trackFrame.addWindowListener(new java.awt.event.WindowAdapter()
+                            {
+                                @Override
+                                public void windowClosing(java.awt.event.WindowEvent windowEvent)
+                                {
+                                    Object[] options = {"Si","No"};
+                                    int state = JOptionPane.showOptionDialog(trackFrame, 
+                                                "Sei sicuro di voler chiudere questa finestra?",
+                                                "Chiudi Finestra?", 
+                                                JOptionPane.YES_NO_OPTION,
+                                                JOptionPane.INFORMATION_MESSAGE, null, options, null);
+                                    if(state == JOptionPane.YES_OPTION)
+                                    {
+                                        windowEvent.getWindow().dispose();
+                                        statusProgressBarText.setText("");
+                                        xmlFileDetailButton.setEnabled(true);
+                                        loadDataProgressBar.setValue(0);
+                                        if(workInProgress.isEmpty())
+                                            loadDataProgressBar.setVisible(false);
+                                    }
+                                }
+                            });
+                            
                             System.out.println("Title: " + cdi.getMainTitle());
                             System.out.println("Authors: " + cdi.getAuthorsMap());
                             System.out.println("Work Title: " + cdi.getWorkTitleMap()); 
                             System.out.println("Track: " + cdi.getTrackMap());
                         }
                         break;
+                        
                         case STARTED:
+                            workInProgress.add("workerGetInformationStart");
+                            System.out.println("workInProgress STARTED: " + workInProgress);
                             xmlFileDetailButton.setEnabled(false);
-                        break;
+                            loadDataProgressBar.setVisible(true);
+                            loadDataProgressBar.setForeground(Color.BLACK);                               
+                            loadDataProgressBar.setValue(0);
+                            statusProgressBarText.setText("Caricamento in corso");
+                            int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                            getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
+                            break;
                     }
-                } else if ("progress".equals(evt.getPropertyName())){
+                } else if ("progress".equals(evt.getPropertyName())){ 
+                    statusProgressBarText.setText("Caricamento in corso");
+                    int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                    getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
+                    int progress = (Integer)evt.getNewValue();
                     xmlFileDetailButton.setEnabled(false);
+                    loadDataProgressBar.setValue(progress);
                 }
             }
         });            

@@ -41,6 +41,8 @@ public class xmlDetailSwingWorker
             @Override
             protected Void doInBackground() throws Exception
             {
+                double stepForProgress = 0;
+                setProgress(0);
                 try
                 {         
                     Document myXmlDocument = drawMusicData_Utils.getDoc(inputFile);
@@ -50,7 +52,6 @@ public class xmlDetailSwingWorker
 
                     String xPathTitleExpr = "string(//ieee1599/general/description/main_title)";
                     mainTitle = myXPath.evaluate(xPathTitleExpr, myXmlDocument);
-
 
                     String xPathElementAuthorsList = "//ieee1599/general/description/author";
                     NodeList authorList = (NodeList) (myXPath.evaluate(xPathElementAuthorsList, myXmlDocument, XPathConstants.NODESET));
@@ -74,13 +75,16 @@ public class xmlDetailSwingWorker
                                     }
                                 }
                             }
-                        }
+                            stepForProgress = (double)(i*100)/(double)authorList.getLength();
+                            if(stepForProgress > (double) 100)
+                                stepForProgress = 100;
+                            //System.out.println("stepForProgress " + stepForProgress);
+                            setProgress((int)Math.ceil(stepForProgress));
+                        } 
+                        if(stepForProgress < (double) 100)
+                            setProgress(100);
                     }
-                    else
-                    {
-                        System.out.println("Nessun File da elaborare");
-                    } 
-                    
+
                     String xPathElementWorkTitleList = "//ieee1599/general/description/work_title";
                     NodeList workTitleList = (NodeList) (myXPath.evaluate(xPathElementWorkTitleList, myXmlDocument, XPathConstants.NODESET));
                     Node currenWorkTitleNode;
@@ -95,13 +99,16 @@ public class xmlDetailSwingWorker
                                 String workTitleValue = workTitleElem.getTextContent();
                                 workTitleMap.put(Integer.toString(i), workTitleValue);
                             }
+                            stepForProgress = (double)(i*100)/(double)workTitleList.getLength();
+                            if(stepForProgress > (double) 100)
+                                stepForProgress = 100;
+                            //System.out.println("stepForProgress " + stepForProgress);
+                            setProgress((int)Math.ceil(stepForProgress));
                         }
-                        if(workTitleMap.isEmpty())
-                        {
-                            workTitleMap.put("work_title", "Nessun work title presente");
-                        }
+                        if(stepForProgress < (double) 100)
+                            setProgress(100);
                     }
-                    
+
                     String xPathElementTrackList = "//ieee1599/audio/track";
                     NodeList trackList = (NodeList) (myXPath.evaluate(xPathElementTrackList, myXmlDocument, XPathConstants.NODESET));
                     Node currenTrackNode;
@@ -137,7 +144,14 @@ public class xmlDetailSwingWorker
                                 }
                             }
                             trackMap.put(i, trackAttributeMap);
-                        }    
+                            stepForProgress = (double)(i*100)/(double)workTitleList.getLength();
+                            if(stepForProgress > (double) 100)
+                                stepForProgress = 100;
+                            //System.out.println("stepForProgress " + stepForProgress);
+                            setProgress((int)Math.ceil(stepForProgress));
+                        } 
+                        if(stepForProgress < (double) 100)
+                            setProgress(100);
                     }
                 }
                 catch (Exception e)
