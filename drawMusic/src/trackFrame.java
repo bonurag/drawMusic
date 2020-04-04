@@ -1,5 +1,4 @@
 
-import java.awt.Dimension;
 import java.util.LinkedHashMap;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -21,12 +20,19 @@ public class trackFrame extends JFrame
     int xSize = 0;
     int ySize = 0;
     
-    public trackFrame(String mainTitleInput, LinkedHashMap<String, String> authorsInput, LinkedHashMap<String, String> workTitleInput, LinkedHashMap<Integer, LinkedHashMap<String, String>> trackInput)
+    public trackFrame(String mainTitleInput,
+                        LinkedHashMap<String, String> authorsInput,
+                        LinkedHashMap<String, String> otherTitleInput,
+                        String numberInput,
+                        LinkedHashMap<String, String> workTitleInput,
+                        String workNumberInput,
+                        LinkedHashMap<String, String> genresInput,
+                        LinkedHashMap<Integer,LinkedHashMap<String, String>> trackInput)
     { 
         panelGeneralInfo = new generalInfoTrackGui();
         panelSingleTrack = new singleTrackGui();     
 
-        //Set Main Title
+//============================================= Set Main Title ============================================================
         if(mainTitleInput.length() > 0)
         {
             mainTitleInput = !mainTitleInput.equals("") ? mainTitleInput : "Titolo non presente";
@@ -37,8 +43,8 @@ public class trackFrame extends JFrame
             panelGeneralInfo.getComponentByName("mainTitleLabel").setVisible(false);
             panelGeneralInfo.getComponentByName("mainTitleValueLabel").setVisible(false);
         }
-        
-        //Set List Authors
+
+//============================================= Set List Authors ============================================================
         String authorResult = "";
         String authorType = "";
         if(authorsInput.size() > 0)
@@ -58,8 +64,36 @@ public class trackFrame extends JFrame
             panelGeneralInfo.getComponentByName("authorsLabel").setVisible(false);
             panelGeneralInfo.getComponentByName("authorsValuesLabel").setVisible(false);
         }
+
+//============================================= Set List Other Title ============================================================
+        String otherTitleResult = "";
+        if(otherTitleInput.size() > 0)
+        {            
+            for(String index : otherTitleInput.keySet())
+            {
+                otherTitleResult += otherTitleInput.get(index)+"; ";
+            }
+            panelGeneralInfo.setOtherTitleValueLabel(otherTitleResult.substring(0, otherTitleResult.length()-2));
+        }
+        else
+        {
+            panelGeneralInfo.getComponentByName("otherTitleLabel").setVisible(false);
+            panelGeneralInfo.getComponentByName("otherTitleValueLabel").setVisible(false);
+        }
         
-        //Set List Work Title
+        //Set Number
+        if(numberInput.length() > 0)
+        {
+            numberInput = !numberInput.equals("") ? numberInput : "Numero non presente";
+            panelGeneralInfo.setNumberValueLabel(numberInput);
+        }
+        else
+        {
+            panelGeneralInfo.getComponentByName("numberLabel").setVisible(false);
+            panelGeneralInfo.getComponentByName("numberValueLabel").setVisible(false);
+        }
+        
+//============================================= Set List Work Title ============================================================       
         String workTitleResult = "";
         if(workTitleInput.size() > 0)
         {            
@@ -74,12 +108,45 @@ public class trackFrame extends JFrame
             panelGeneralInfo.getComponentByName("workTitleLabel").setVisible(false);
             panelGeneralInfo.getComponentByName("workTitleValueLabel").setVisible(false);
         }
+
+//============================================= Set Work Number ============================================================         
+        if(workNumberInput.length() > 0)
+        {
+            workNumberInput = !workNumberInput.equals("") ? workNumberInput : "Valore non presente";
+            panelGeneralInfo.setWorkNumberValueLabel(workNumberInput);
+        }
+        else
+        {
+            panelGeneralInfo.getComponentByName("workNumberLabel").setVisible(false);
+            panelGeneralInfo.getComponentByName("workNumberValueLabel").setVisible(false);
+        }
+
+//============================================= Set List Genres ============================================================
+        String genreName = "";
+        String genresNameResult = "";
+        if(genresInput.size() > 0)
+        {            
+            for(String name : genresInput.keySet())
+            {
+                genreName = genresInput.get(name);
+                genresNameResult += genreName+"; ";
+            }
+            System.out.println("genresNameResult: " + genresNameResult);
+            panelGeneralInfo.setGenresValueLabel(genresNameResult.substring(0, genresNameResult.length()-2));
+        }
+        else
+        {
+            panelGeneralInfo.getComponentByName("genresLabel").setVisible(false);
+            panelGeneralInfo.getComponentByName("genresValueLabel").setVisible(false);
+        }
+
         
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
         
-        if(mainTitleInput.length() > 0 || authorsInput.size() > 0 || workTitleInput.size() > 0)
+        if(mainTitleInput.length() > 0 || authorsInput.size() > 0 || otherTitleInput.size() > 0 || numberInput.length() > 0 || workTitleInput.size() > 0 || workNumberInput.length() > 0 || genresInput.size() > 0)
             add(panelGeneralInfo);
         
+//============================================= Set TrackList Element ============================================================
         if(trackInput.size() > 0)
         {
             for(int i=0; i<trackInput.size(); i++)
@@ -148,7 +215,11 @@ public class trackFrame extends JFrame
                 ySize += (int) panelSingleTrack.getPreferredSize().getHeight();
                 add(panelSingleTrack);
             }
-        }  
+        } 
+        int xSizePanelSingleTrack = (int)panelSingleTrack.getPreferredSize().getWidth();
+        int xSizePanelGeneralInfo = (int)panelGeneralInfo.getPreferredSize().getWidth();
+        System.out.println("xSizePanelSingleTrack: " + xSizePanelSingleTrack);
+        System.out.println("xSizePanelGeneralInfo: " + xSizePanelGeneralInfo);
         ySize = (int)ySize + (int)panelGeneralInfo.getPreferredSize().getHeight();
     }
     

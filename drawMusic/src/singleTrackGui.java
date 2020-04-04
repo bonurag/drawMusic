@@ -112,16 +112,20 @@ public class singleTrackGui extends javax.swing.JPanel
         durationLabel.setText("Duration:");
         durationLabel.setName("durationLabel"); // NOI18N
 
-        fileNameValueLabel.setText("jLabel1");
+        fileNameValueLabel.setForeground(new java.awt.Color(0, 0, 0));
+        fileNameValueLabel.setText("fieldName");
         fileNameValueLabel.setName("fileNameValueLabel"); // NOI18N
 
-        durationValueLabel.setText("jLabel1");
+        durationValueLabel.setForeground(new java.awt.Color(0, 0, 0));
+        durationValueLabel.setText("duration");
         durationValueLabel.setName("durationValueLabel"); // NOI18N
 
-        fileFormatValueLabel.setText("jLabel1");
+        fileFormatValueLabel.setForeground(new java.awt.Color(0, 0, 0));
+        fileFormatValueLabel.setText("format");
         fileFormatValueLabel.setName("fileFormatValueLabel"); // NOI18N
 
-        encodingFormatValueLabel.setText("jLabel1");
+        encodingFormatValueLabel.setForeground(new java.awt.Color(0, 0, 0));
+        encodingFormatValueLabel.setText("encoding");
         encodingFormatValueLabel.setName("encodingFormatValueLabel"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -147,7 +151,7 @@ public class singleTrackGui extends javax.swing.JPanel
                         .addComponent(fileNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(fileNameValueLabel)))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

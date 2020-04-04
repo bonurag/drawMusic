@@ -28,10 +28,13 @@ import org.w3c.dom.NodeList;
 public class xmlDetailSwingWorker
 {
     String mainTitle = "";
-    Boolean dataProcess = false;
-   
+    String number = "";
+    String workNumber = "";
+    
     LinkedHashMap<String, String> authorsMap = new LinkedHashMap<>();
+    LinkedHashMap<String, String> otherTitleMap = new LinkedHashMap<>();
     LinkedHashMap<String, String> workTitleMap = new LinkedHashMap<>();
+    LinkedHashMap<String, String> genresMap = new LinkedHashMap<>();
     
     LinkedHashMap<Integer, LinkedHashMap<String, String>> trackMap = new LinkedHashMap<>();
     LinkedHashMap<String, String> trackAttributeMap = null;
@@ -52,15 +55,16 @@ public class xmlDetailSwingWorker
                     XPathFactory myXPathFactory = XPathFactory.newInstance();
                     XPath myXPath = myXPathFactory.newXPath();
 
+//=================================== Calculate Main Title ==========================================
                     String xPathTitleExpr = "string(//ieee1599/general/description/main_title)";
                     mainTitle = myXPath.evaluate(xPathTitleExpr, myXmlDocument);
-
+                    
+//=================================== Calculate Authors ==========================================
                     String xPathElementAuthorsList = "//ieee1599/general/description/author";
                     NodeList authorList = (NodeList) (myXPath.evaluate(xPathElementAuthorsList, myXmlDocument, XPathConstants.NODESET));
                     Node currenAuthorNode;
                     if(authorList.getLength() > 0)
                     {
-                        dataProcess = true;
                         for (int i = 0; i < authorList.getLength(); i++)
                         {
                             if(authorList.item(i) != null)
@@ -85,13 +89,42 @@ public class xmlDetailSwingWorker
                     {
                         
                     }
+              
+//=================================== Calculate otherTitle ==========================================                   
+                    String xPathElementOtherTitleList = "//ieee1599/general/description/other_title";
+                    NodeList otherTitleList = (NodeList) (myXPath.evaluate(xPathElementOtherTitleList, myXmlDocument, XPathConstants.NODESET));
+                    Node currenOtherTitleNode;
+                    if(otherTitleList.getLength() > 0)
+                    {
+                        for (int i = 0; i < otherTitleList.getLength(); i++)
+                        {
+                            if(otherTitleList.item(i) != null)
+                            {
+                                System.out.println("Inside otherTitleList");
+                                currenOtherTitleNode = otherTitleList.item(i);
+                                Element otherTitleElem = (Element) currenOtherTitleNode;
+                                String otherTitleValue = otherTitleElem.getTextContent();
+                                System.out.println("Inside otherTitleValue: " + otherTitleValue);
+                                otherTitleMap.put(Integer.toString(i), otherTitleValue);
+                            }
+                        }
+                        setProgress(60);
+                    }
+                    else
+                    {
 
+                    }
+
+//=================================== Calculate Number ==========================================
+                    String xPathNumberExpr = "string(//ieee1599/general/description/number)";
+                    number = myXPath.evaluate(xPathNumberExpr, myXmlDocument);
+
+//=================================== Calculate WorkTitle ==========================================
                     String xPathElementWorkTitleList = "//ieee1599/general/description/work_title";
                     NodeList workTitleList = (NodeList) (myXPath.evaluate(xPathElementWorkTitleList, myXmlDocument, XPathConstants.NODESET));
                     Node currenWorkTitleNode;
                     if(workTitleList.getLength() > 0)
                     {
-                        dataProcess = true;
                         for (int i = 0; i < workTitleList.getLength(); i++)
                         {
                             if(workTitleList.item(i) != null)
@@ -108,13 +141,48 @@ public class xmlDetailSwingWorker
                     {
 
                     }
+                    
+//=================================== Calculate Work Number ==========================================
+                    String xPathWorkNumberExpr = "string(//ieee1599/general/description/work_number)";
+                    workNumber = myXPath.evaluate(xPathWorkNumberExpr, myXmlDocument);
 
+//=================================== Calculate Genres ==========================================
+                    String xPathGenresList = "//ieee1599/general/description/genres/genre";
+                    NodeList genresList = (NodeList) (myXPath.evaluate(xPathGenresList, myXmlDocument, XPathConstants.NODESET));
+                    Node currenGenreNode;
+                    if(genresList.getLength() > 0)
+                    {
+                        for (int i = 0; i < genresList.getLength(); i++)
+                        {
+                            if(genresList.item(i) != null)
+                            {
+                                currenGenreNode = genresList.item(i);
+                                Element genreElem = (Element) currenGenreNode;
+
+                                if(genreElem.hasAttributes())
+                                {
+                                    if (!genreElem.getAttribute("name").equals("")) 
+                                    {
+                                        String genreName = genreElem.getAttribute("name");
+                                        System.out.println("genreName: " + genreName);
+                                        genresMap.put(genreName, genreName);
+                                    }
+                                }
+                            }
+                        }
+                        setProgress(75);
+                    }
+                    else
+                    {
+                        
+                    }
+
+//=================================== Calculate Track Element ==========================================                   
                     String xPathElementTrackList = "//ieee1599/audio/track";
                     NodeList trackList = (NodeList) (myXPath.evaluate(xPathElementTrackList, myXmlDocument, XPathConstants.NODESET));
                     Node currenTrackNode;
                     if(trackList.getLength() > 0)
                     {
-                        dataProcess = true;
                         for (int i = 0; i < trackList.getLength(); i++)
                         {
                             trackAttributeMap = new LinkedHashMap<>();
@@ -175,10 +243,30 @@ public class xmlDetailSwingWorker
     {
         return authorsMap;
     }
+
+    public LinkedHashMap<String, String> getOtherTitleMap()
+    {
+        return otherTitleMap;
+    }
+    
+    public String getNumber()
+    {
+        return number;
+    }
     
     public LinkedHashMap<String, String> getWorkTitleMap()
     {
         return workTitleMap;
+    }
+    
+    public String getWorkNumber()
+    {
+        return workNumber;
+    }
+    
+    public LinkedHashMap<String, String> getGenresMap()
+    {
+        return genresMap;
     }
     
     public LinkedHashMap<Integer, LinkedHashMap<String, String>> getTrackMap()

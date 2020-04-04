@@ -3,7 +3,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -1149,7 +1148,7 @@ public class programGui extends javax.swing.JFrame
                             workInProgress.remove("workerGetInformationStart");
                             System.out.println("workInProgress DONE: " + workInProgress);
 
-                            trackFrame trackFrame = new trackFrame(cdi.getMainTitle(), cdi.getAuthorsMap(), cdi.getWorkTitleMap(), cdi.getTrackMap());  
+                            trackFrame trackFrame = new trackFrame(cdi.getMainTitle(), cdi.getAuthorsMap(),cdi.getOtherTitleMap(),cdi.getNumber() ,cdi.getWorkTitleMap(),cdi.getWorkNumber(), cdi.getGenresMap(), cdi.getTrackMap());  
                             long finish = System.nanoTime();
                             long timeElapsed = finish - startTimeInformation;
                             String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
@@ -1188,6 +1187,7 @@ public class programGui extends javax.swing.JFrame
                             System.out.println("Authors: " + cdi.getAuthorsMap());
                             System.out.println("Work Title: " + cdi.getWorkTitleMap()); 
                             System.out.println("Track: " + cdi.getTrackMap());
+                            System.out.println("Genres: " + cdi.getGenresMap());
                         }
                         break;
                         

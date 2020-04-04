@@ -31,9 +31,29 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
         authorsValuesLabel.setText(inputValue);
     }
     
+    public void setOtherTitleValueLabel(String inputValue)
+    {
+        otherTitleValueLabel.setText(inputValue);
+    }
+    
+    public void setNumberValueLabel(String inputValue)
+    {
+        numberValueLabel.setText(inputValue);
+    }
+    
     public void setWorkTitleValueLabel(String inputValue)
     {
         workTitleValueLabel.setText(inputValue);
+    }
+    
+    public void setWorkNumberValueLabel(String inputValue)
+    {
+        workNumberValueLabel.setText(inputValue);
+    }
+
+    public void setGenresValueLabel(String inputValue)
+    {
+        genresValueLabel.setText(inputValue);
     }
     
     private void createComponentMap()
@@ -43,6 +63,7 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
         for(int i=0; i < components.length; i++)
         {
             componentMap.put(components[i].getName(), components[i]);
+            //System.out.println("Component Name: " + components[i].getName());
         }
     }
 
@@ -66,18 +87,29 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
 
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         mainTitleLabel = new javax.swing.JLabel();
         workTitleLabel = new javax.swing.JLabel();
         authorsLabel = new javax.swing.JLabel();
         mainTitleValueLabel = new javax.swing.JLabel();
         workTitleValueLabel = new javax.swing.JLabel();
         authorsValuesLabel = new javax.swing.JLabel();
+        otherTitleLabel = new javax.swing.JLabel();
+        otherTitleValueLabel = new javax.swing.JLabel();
+        numberLabel = new javax.swing.JLabel();
+        numberValueLabel = new javax.swing.JLabel();
+        workNumberLabel = new javax.swing.JLabel();
+        workNumberValueLabel = new javax.swing.JLabel();
+        genresLabel = new javax.swing.JLabel();
+        genresValueLabel = new javax.swing.JLabel();
 
         jLabel3.setText("jLabel3");
 
         jLabel2.setText("jLabel2");
 
-        setBackground(new java.awt.Color(209, 209, 209));
+        jLabel4.setText("jLabel4");
+
+        setBackground(new java.awt.Color(215, 215, 215));
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "General Information", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
         setForeground(new java.awt.Color(255, 255, 255));
         setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
@@ -103,20 +135,60 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
         mainTitleValueLabel.setBackground(new java.awt.Color(255, 255, 255));
         mainTitleValueLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         mainTitleValueLabel.setForeground(new java.awt.Color(0, 0, 0));
-        mainTitleValueLabel.setText("jLabel1");
+        mainTitleValueLabel.setText("mainTitle");
         mainTitleValueLabel.setName("mainTitleValueLabel"); // NOI18N
 
         workTitleValueLabel.setBackground(new java.awt.Color(255, 255, 255));
         workTitleValueLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         workTitleValueLabel.setForeground(new java.awt.Color(0, 0, 0));
-        workTitleValueLabel.setText("jLabel4");
+        workTitleValueLabel.setText("workTitle");
         workTitleValueLabel.setName("workTitleValueLabel"); // NOI18N
 
         authorsValuesLabel.setBackground(new java.awt.Color(255, 255, 255));
         authorsValuesLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         authorsValuesLabel.setForeground(new java.awt.Color(0, 0, 0));
-        authorsValuesLabel.setText("jLabel5");
+        authorsValuesLabel.setText("authors");
         authorsValuesLabel.setName("authorsValuesLabel"); // NOI18N
+
+        otherTitleLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
+        otherTitleLabel.setForeground(new java.awt.Color(0, 0, 0));
+        otherTitleLabel.setText("Other Title:");
+        otherTitleLabel.setName("otherTitleLabel"); // NOI18N
+
+        otherTitleValueLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        otherTitleValueLabel.setForeground(new java.awt.Color(0, 0, 0));
+        otherTitleValueLabel.setText("otherTitle");
+        otherTitleValueLabel.setName("otherTitleValueLabel"); // NOI18N
+
+        numberLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
+        numberLabel.setForeground(new java.awt.Color(0, 0, 0));
+        numberLabel.setText("Number:");
+        numberLabel.setName("numberLabel"); // NOI18N
+
+        numberValueLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        numberValueLabel.setForeground(new java.awt.Color(0, 0, 0));
+        numberValueLabel.setText("number");
+        numberValueLabel.setName("numberValueLabel"); // NOI18N
+
+        workNumberLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
+        workNumberLabel.setForeground(new java.awt.Color(0, 0, 0));
+        workNumberLabel.setText("Work Number:");
+        workNumberLabel.setName("workNumberLabel"); // NOI18N
+
+        workNumberValueLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        workNumberValueLabel.setForeground(new java.awt.Color(0, 0, 0));
+        workNumberValueLabel.setText("workNumber");
+        workNumberValueLabel.setName("workNumberValueLabel"); // NOI18N
+
+        genresLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
+        genresLabel.setForeground(new java.awt.Color(0, 0, 0));
+        genresLabel.setText("Genres:");
+        genresLabel.setName("genresLabel"); // NOI18N
+
+        genresValueLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        genresValueLabel.setForeground(new java.awt.Color(0, 0, 0));
+        genresValueLabel.setText("genresValue");
+        genresValueLabel.setName("genresValueLabel"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -129,7 +201,7 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
                         .addComponent(mainTitleLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(mainTitleValueLabel)
-                        .addGap(98, 375, Short.MAX_VALUE))
+                        .addGap(98, 362, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -137,9 +209,25 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(authorsValuesLabel))
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(otherTitleLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(otherTitleValueLabel))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(numberLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(numberValueLabel))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(workTitleLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(workTitleValueLabel)))
+                                .addComponent(workTitleValueLabel))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(genresLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(genresValueLabel))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(workNumberLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(workNumberValueLabel)))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -148,15 +236,31 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mainTitleLabel)
                     .addComponent(mainTitleValueLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(authorsValuesLabel)
                     .addComponent(authorsLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(otherTitleLabel)
+                    .addComponent(otherTitleValueLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(numberLabel)
+                    .addComponent(numberValueLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(workTitleLabel)
                     .addComponent(workTitleValueLabel))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(workNumberLabel)
+                    .addComponent(workNumberValueLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(genresLabel)
+                    .addComponent(genresValueLabel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -164,10 +268,19 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel authorsLabel;
     private javax.swing.JLabel authorsValuesLabel;
+    private javax.swing.JLabel genresLabel;
+    private javax.swing.JLabel genresValueLabel;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel mainTitleLabel;
     private javax.swing.JLabel mainTitleValueLabel;
+    private javax.swing.JLabel numberLabel;
+    private javax.swing.JLabel numberValueLabel;
+    private javax.swing.JLabel otherTitleLabel;
+    private javax.swing.JLabel otherTitleValueLabel;
+    private javax.swing.JLabel workNumberLabel;
+    private javax.swing.JLabel workNumberValueLabel;
     private javax.swing.JLabel workTitleLabel;
     private javax.swing.JLabel workTitleValueLabel;
     // End of variables declaration//GEN-END:variables
