@@ -14,7 +14,7 @@ public class trackFrame extends JFrame
     
     private static final String EMPTY_VALUE = "N/A";
     private int ySize = 0;
-
+    private Boolean dataPresent = true;
     public trackFrame(String mainTitleInput,
                         LinkedHashMap<String, String> authorsInput,
                         LinkedHashMap<String, String> otherTitleInput,
@@ -24,183 +24,191 @@ public class trackFrame extends JFrame
                         LinkedHashMap<String, String> genresInput,
                         LinkedHashMap<Integer,LinkedHashMap<String, String>> trackInput)
     { 
-        panelGeneralInfo = new generalInfoTrackGui();
-        panelSingleTrack = new singleTrackGui();     
-        
-        inizializeComponentPanelGeneralInfo();     
-        inizializeComponentPanelSingleTracko();
-        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
-        
-//============================================= Set Main Title ============================================================
-        if(mainTitleInput.length() > 0)
-            panelGeneralInfo.setMainTitleValueLabel(mainTitleInput);
-             
-//============================================= Set List Authors ============================================================
-        String authorResult = "";
-        String authorType = "";
-        if(authorsInput.size() > 0)
-        {            
-            for(String name : authorsInput.keySet())
-            {
-                authorType = authorsInput.get(name);
-                if(name.contains(","))
-                    name = name.replaceAll(",", "");
-                authorType = !authorType.equals("") ? " ("+authorType+")" : "";
-                authorResult += name+authorType+"; ";
-            }
-            panelGeneralInfo.setAuthorsValuesLabel(authorResult.substring(0, authorResult.length()-2));
-        }
-   
-//============================================= Set List Other Title ============================================================
-        String otherTitleResult = "";
-        if(otherTitleInput.size() > 0)
-        {            
-            for(String index : otherTitleInput.keySet())
-            {
-                otherTitleResult += otherTitleInput.get(index)+"; ";
-            }
-            panelGeneralInfo.setOtherTitleValueLabel(otherTitleResult.substring(0, otherTitleResult.length()-2));
-        }
-    
-//============================================= Set NUmber ============================================================
-        if(numberInput.length() > 0)
-            panelGeneralInfo.setNumberValueLabel(numberInput);
-
-//============================================= Set List Work Title ============================================================       
-        String workTitleResult = "";
-        if(workTitleInput.size() > 0)
-        {            
-            for(String index : workTitleInput.keySet())
-            {
-                workTitleResult += workTitleInput.get(index)+"; ";
-            }
-            panelGeneralInfo.setWorkTitleValueLabel(workTitleResult.substring(0, workTitleResult.length()-2));
-        }
-
-//============================================= Set Work Number ============================================================         
-        if(workNumberInput.length() > 0)
-            panelGeneralInfo.setWorkNumberValueLabel(workNumberInput);
-            
-//============================================= Set List Genres ============================================================
-        String genreName = "";
-        String genresNameResult = "";
-        if(genresInput.size() > 0)
-        {            
-            for(String name : genresInput.keySet())
-            {
-                genreName = genresInput.get(name);
-                genresNameResult += genreName+"; ";
-            }
-            panelGeneralInfo.setGenresValueLabel(genresNameResult.substring(0, genresNameResult.length()-2));
-        }
-        
-        if(mainTitleInput.length() > 0 || authorsInput.size() > 0 || otherTitleInput.size() > 0 || numberInput.length() > 0 || workTitleInput.size() > 0 || workNumberInput.length() > 0 || genresInput.size() > 0)
-            add(panelGeneralInfo);
-        
-//============================================= Set TrackList Element ============================================================
-        if(trackInput.size() > 0)
+        if(!(mainTitleInput.length() > 0) &&  !(authorsInput.size() > 0) && !(otherTitleInput.size() > 0) && !(numberInput.length() > 0) &&
+        !(workTitleInput.size() > 0) && !(workNumberInput.length() > 0) && !(genresInput.size() > 0) && !(trackInput.size() > 0))
         {
-            for(int i=0; i<trackInput.size(); i++)
-            {
-                panelSingleTrack = new singleTrackGui();
-                panelSingleTrack.setBorderTitle("Track "+(i+1));
-                if(!trackInput.get(i).isEmpty())
+            dataPresent = false;
+        }
+        else
+        {
+            panelGeneralInfo = new generalInfoTrackGui();
+            panelSingleTrack = new singleTrackGui();     
+
+            inizializeComponentPanelGeneralInfo();     
+            inizializeComponentPanelSingleTracko();
+            getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
+
+            //============================================= Set Main Title ============================================================
+            if(mainTitleInput.length() > 0)
+                panelGeneralInfo.setMainTitleValueLabel(mainTitleInput);
+
+            //============================================= Set List Authors ============================================================
+            String authorResult = "";
+            String authorType = "";
+            if(authorsInput.size() > 0)
+            {            
+                for(String name : authorsInput.keySet())
                 {
-                    for(String k : trackInput.get(i).keySet())
+                    authorType = authorsInput.get(name);
+                    if(name.contains(","))
+                        name = name.replaceAll(",", "");
+                    authorType = !authorType.equals("") ? " ("+authorType+")" : "";
+                    authorResult += name+authorType+"; ";
+                }
+                panelGeneralInfo.setAuthorsValuesLabel(authorResult.substring(0, authorResult.length()-2));
+            }
+
+            //============================================= Set List Other Title ============================================================
+            String otherTitleResult = "";
+            if(otherTitleInput.size() > 0)
+            {            
+                for(String index : otherTitleInput.keySet())
+                {
+                    otherTitleResult += otherTitleInput.get(index)+"; ";
+                }
+                panelGeneralInfo.setOtherTitleValueLabel(otherTitleResult.substring(0, otherTitleResult.length()-2));
+            }
+
+            //============================================= Set NUmber ============================================================
+            if(numberInput.length() > 0)
+                panelGeneralInfo.setNumberValueLabel(numberInput);
+
+            //============================================= Set List Work Title ============================================================       
+            String workTitleResult = "";
+            if(workTitleInput.size() > 0)
+            {            
+                for(String index : workTitleInput.keySet())
+                {
+                    workTitleResult += workTitleInput.get(index)+"; ";
+                }
+                panelGeneralInfo.setWorkTitleValueLabel(workTitleResult.substring(0, workTitleResult.length()-2));
+            }
+
+            //============================================= Set Work Number ============================================================         
+            if(workNumberInput.length() > 0)
+                panelGeneralInfo.setWorkNumberValueLabel(workNumberInput);
+
+            //============================================= Set List Genres ============================================================
+            String genreName = "";
+            String genresNameResult = "";
+            if(genresInput.size() > 0)
+            {            
+                for(String name : genresInput.keySet())
+                {
+                    genreName = genresInput.get(name);
+                    genresNameResult += genreName+"; ";
+                }
+                panelGeneralInfo.setGenresValueLabel(genresNameResult.substring(0, genresNameResult.length()-2));
+            }
+
+            if(mainTitleInput.length() > 0 || authorsInput.size() > 0 || otherTitleInput.size() > 0 || numberInput.length() > 0 || workTitleInput.size() > 0 || workNumberInput.length() > 0 || genresInput.size() > 0)
+                add(panelGeneralInfo);
+
+            //============================================= Set TrackList Element ============================================================
+            if(trackInput.size() > 0)
+            {
+                for(int i=0; i<trackInput.size(); i++)
+                {
+                    panelSingleTrack = new singleTrackGui();
+                    panelSingleTrack.setBorderTitle("Track "+(i+1));
+                    if(!trackInput.get(i).isEmpty())
                     {
-                        //====================== Set Track Name ====================== 
-                        if(k.equals("file_name"))
+                        for(String k : trackInput.get(i).keySet())
                         {
-                            String fileName = trackInput.get(i).get(k);                       
-                            if(!fileName.equals(""))
+                            //====================== Set Track Name ====================== 
+                            if(k.equals("file_name"))
                             {
-                                if(fileName.contains("/"))
-                                    fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
-                                if(fileName.contains("."))
-                                    fileName = fileName.substring(0, fileName.lastIndexOf("."));
-                                panelSingleTrack.setFileNameValueLabel(fileName);
-                            }
-                        }  
-                        else if(!trackInput.get(i).containsKey("file_name"))
-                        {
-                            panelSingleTrack.setFileNameValueLabel(EMPTY_VALUE);
-                        }
-                        
-                        //====================== Set Track Duration ======================
-                        if(k.equals("track_duration"))
-                        {
-                            String trackDuration = trackInput.get(i).get(k);
-                            if(!trackDuration.equals(""))
+                                String fileName = trackInput.get(i).get(k);                       
+                                if(!fileName.equals(""))
+                                {
+                                    if(fileName.contains("/"))
+                                        fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+                                    if(fileName.contains("."))
+                                        fileName = fileName.substring(0, fileName.lastIndexOf("."));
+                                    panelSingleTrack.setFileNameValueLabel(fileName);
+                                }
+                            }  
+                            else if(!trackInput.get(i).containsKey("file_name"))
                             {
-                                panelSingleTrack.setDurationValueLabel(trackDuration);
+                                panelSingleTrack.setFileNameValueLabel(EMPTY_VALUE);
                             }
-                        } 
-                        else if(!trackInput.get(i).containsKey("track_duration"))
-                        {
-                            panelSingleTrack.setDurationValueLabel(EMPTY_VALUE);
-                        }
-                        
-                        //====================== Set Track File Format ======================
-                        if(k.equals("file_format"))
-                        {
-                            String fileFormat = trackInput.get(i).get(k);
-                            if(!fileFormat.equals(""))
+
+                            //====================== Set Track Duration ======================
+                            if(k.equals("track_duration"))
                             {
-                                panelSingleTrack.setFileFormatValueLabel(fileFormat.substring( 0, fileFormat.indexOf("_")).toUpperCase());
-                            }
-                        }
-                        else if(!trackInput.get(i).containsKey("file_format"))
-                        {
-                            panelSingleTrack.setFileFormatValueLabel(EMPTY_VALUE);
-                        }
-                        
-                        //====================== Set Track Encoding File Format ======================
-                        if(k.equals("encoding_format"))
-                        {
-                            String encodingFormat = trackInput.get(i).get(k);
-                            if(!encodingFormat.equals(""))
+                                String trackDuration = trackInput.get(i).get(k);
+                                if(!trackDuration.equals(""))
+                                {
+                                    panelSingleTrack.setDurationValueLabel(trackDuration);
+                                }
+                            } 
+                            else if(!trackInput.get(i).containsKey("track_duration"))
                             {
-                                panelSingleTrack.setEncodingFormatValueLabel("."+encodingFormat.substring(encodingFormat.lastIndexOf("_") + 1));
+                                panelSingleTrack.setDurationValueLabel(EMPTY_VALUE);
                             }
-                        }  
-                        else if(!trackInput.get(i).containsKey("encoding_format"))
-                        {
-                            panelSingleTrack.setEncodingFormatValueLabel(EMPTY_VALUE);
-                        }
-                        
-                        //====================== Set Track Performers ======================
-                        if(k.equals("performers")) 
-                        {
-                            String performers = trackInput.get(i).get(k);
-                            if(!performers.equals(""))
+
+                            //====================== Set Track File Format ======================
+                            if(k.equals("file_format"))
                             {
-                                panelSingleTrack.setPerformersValueLabel(performers);
+                                String fileFormat = trackInput.get(i).get(k);
+                                if(!fileFormat.equals(""))
+                                {
+                                    panelSingleTrack.setFileFormatValueLabel(fileFormat.substring( 0, fileFormat.indexOf("_")).toUpperCase());
+                                }
                             }
-                        }
-                        else if(!trackInput.get(i).containsKey("performers"))
-                        {
-                            panelSingleTrack.setPerformersValueLabel(EMPTY_VALUE);
-                        }
-                        
-                        //====================== Set Track Genres ======================
-                        if(k.equals("trackGenres"))
-                        {
-                            String genresTrack = trackInput.get(i).get(k);
-                            if(!genresTrack.equals(""))
+                            else if(!trackInput.get(i).containsKey("file_format"))
                             {
-                                panelSingleTrack.setGenresSingleTrackValueLabel(genresTrack);
+                                panelSingleTrack.setFileFormatValueLabel(EMPTY_VALUE);
                             }
-                        }
-                        else if(!trackInput.get(i).containsKey("trackGenres"))
-                        {
-                            panelSingleTrack.setGenresSingleTrackValueLabel(EMPTY_VALUE);
+
+                            //====================== Set Track Encoding File Format ======================
+                            if(k.equals("encoding_format"))
+                            {
+                                String encodingFormat = trackInput.get(i).get(k);
+                                if(!encodingFormat.equals(""))
+                                {
+                                    panelSingleTrack.setEncodingFormatValueLabel("."+encodingFormat.substring(encodingFormat.lastIndexOf("_") + 1));
+                                }
+                            }  
+                            else if(!trackInput.get(i).containsKey("encoding_format"))
+                            {
+                                panelSingleTrack.setEncodingFormatValueLabel(EMPTY_VALUE);
+                            }
+
+                            //====================== Set Track Performers ======================
+                            if(k.equals("performers")) 
+                            {
+                                String performers = trackInput.get(i).get(k);
+                                if(!performers.equals(""))
+                                {
+                                    panelSingleTrack.setPerformersValueLabel(performers);
+                                }
+                            }
+                            else if(!trackInput.get(i).containsKey("performers"))
+                            {
+                                panelSingleTrack.setPerformersValueLabel(EMPTY_VALUE);
+                            }
+
+                            //====================== Set Track Genres ======================
+                            if(k.equals("trackGenres"))
+                            {
+                                String genresTrack = trackInput.get(i).get(k);
+                                if(!genresTrack.equals(""))
+                                {
+                                    panelSingleTrack.setGenresSingleTrackValueLabel(genresTrack);
+                                }
+                            }
+                            else if(!trackInput.get(i).containsKey("trackGenres"))
+                            {
+                                panelSingleTrack.setGenresSingleTrackValueLabel(EMPTY_VALUE);
+                            }
                         }
                     }
+                    ySize += (int) panelSingleTrack.getPreferredSize().getHeight();
+                    add(panelSingleTrack);
                 }
-                ySize += (int) panelSingleTrack.getPreferredSize().getHeight();
-                add(panelSingleTrack);
+                ySize = (int)ySize + (int)panelGeneralInfo.getPreferredSize().getHeight();
             }
-            ySize = (int)ySize + (int)panelGeneralInfo.getPreferredSize().getHeight();
         }
     }
     
@@ -213,6 +221,11 @@ public class trackFrame extends JFrame
         setResizable(false);
         pack();
         setVisible(true);
+    }
+    
+    public Boolean getDataPresent()
+    {
+        return dataPresent;
     }
     
     public void inizializeComponentPanelGeneralInfo()

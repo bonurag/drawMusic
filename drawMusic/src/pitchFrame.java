@@ -7,14 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -27,7 +19,7 @@ class pitchFrame extends JFrame
     private int inputDataSize = 0;
     private Color chooseColor = Color.RED;
 
-    public pitchFrame(Object inputDataWork) throws ParserConfigurationException, TransformerException
+    public pitchFrame(Object inputDataWork)
     {       
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
         System.out.println("inputData: " + inputData);

@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -11,15 +12,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *\
@@ -670,14 +662,10 @@ public class programGui extends javax.swing.JFrame
                                     Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
                                 } catch (ExecutionException ex) {
                                     Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ParserConfigurationException ex) {
-                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (TransformerException ex) {
-                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
                                 break;
-
+                           
                             case STARTED:
                                 workInProgress.add("workerPitchStart");
                                 System.out.println("workInProgress STARTED: " + workInProgress);
@@ -690,6 +678,7 @@ public class programGui extends javax.swing.JFrame
                                 int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
                                 getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                 break;
+                            
                         }
                     } else if ("progress".equals(evt.getPropertyName())) {
                         statusProgressBarText.setText("Caricamento in corso");
@@ -1155,24 +1144,31 @@ public class programGui extends javax.swing.JFrame
                             System.out.println("workInProgress DONE: " + workInProgress);
 
                             trackFrame trackFrame = new trackFrame(cdi.getMainTitle(), cdi.getAuthorsMap(),cdi.getOtherTitleMap(),cdi.getNumber() ,cdi.getWorkTitleMap(),cdi.getWorkNumber(), cdi.getGenresMap(), cdi.getTrackMap());  
-                            if(!(cdi.getMainTitle().length() > 0) &&  !(cdi.getAuthorsMap().size() > 0) && !(cdi.getOtherTitleMap().size() > 0) && !(cdi.getNumber().length() > 0) &&
-                            !(cdi.getWorkTitleMap().size() > 0) && !(cdi.getWorkNumber().length() > 0) && !(cdi.getGenresMap().size() > 0) && !(cdi.getTrackMap().size() > 0))
-                            {
-                                String informationMessage = "Non sono presenti dati da elaborare!";
-                                JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);  
-                            }
-                            
+                            Boolean dataPresent = trackFrame.getDataPresent();
                             long finish = System.nanoTime();
                             long timeElapsed = finish - startTimeInformation;
                             String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);
+                            if(dataPresent)
+                            {
+                                String loadCompletedMessage = "Caricamento Completato in "+executionTime; 
+                                statusProgressBarText.setText(loadCompletedMessage);
+                                int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
+                                getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
+                                xmlFileDetailButton.setEnabled(false);
 
-                            String loadCompletedMessage = "Caricamento Completato in "+executionTime; 
-                            statusProgressBarText.setText(loadCompletedMessage);
-                            int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
-                            getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
-                            xmlFileDetailButton.setEnabled(false);
-                            trackFrame.showUI();
-                            
+                                trackFrame.showUI();
+                            }
+                            else
+                            {
+                                statusProgressBarText.setText("");
+                                xmlFileDetailButton.setEnabled(true);
+
+                                loadDataProgressBar.setValue(0);
+                                loadDataProgressBar.setVisible(false);
+                                String informationMessage = "Non sono presenti dati da elaborare!";
+                                JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);    
+                            }
+
                             trackFrame.addWindowListener(new java.awt.event.WindowAdapter()
                             {
                                 @Override
@@ -1195,12 +1191,13 @@ public class programGui extends javax.swing.JFrame
                                     }
                                 }
                             });
-                            
+                            /*
                             System.out.println("Title: " + cdi.getMainTitle());
                             System.out.println("Authors: " + cdi.getAuthorsMap());
                             System.out.println("Work Title: " + cdi.getWorkTitleMap()); 
                             System.out.println("Track: " + cdi.getTrackMap());
                             System.out.println("Genres: " + cdi.getGenresMap());
+                            */
                         }
                         break;
                         
