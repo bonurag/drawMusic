@@ -1,4 +1,9 @@
+package gui.frame;
 
+
+import gui.panel.cartesianGui;
+import dataUtils.drawMusicData_Utils;
+import gui.panel.cartesianGui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
@@ -12,7 +17,7 @@ import javax.swing.JFrame;
  *
  * @author Giuseppe
  */
-class pitchClassFrame extends JFrame
+public class pitchClassFrame extends JFrame
 {
     private String graphName = "Pitch Class Graph";
     cartesianGui panel;

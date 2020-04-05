@@ -1,4 +1,6 @@
+package swingworker;
 
+import dataUtils.drawMusicData_Utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -132,7 +134,7 @@ public class melodicIntervallSwingWorker
                 catch (Exception e)
                 {
                     System.out.println("Errore nell'elaborazione del file");
-                    Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, e);
+                    Logger.getLogger(melodicIntervallSwingWorker.class.getName()).log(Level.SEVERE, null, e);
                     System.exit(1);
                 }
                 return melodicIntervalMap;
@@ -147,7 +149,7 @@ public class melodicIntervallSwingWorker
                 }
                 catch (InterruptedException | ExecutionException ex)
                 {
-                    Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(melodicIntervallSwingWorker.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 //System.out.println("Finished with status " + calculateData);
             }                     

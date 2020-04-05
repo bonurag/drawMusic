@@ -1,4 +1,6 @@
+package swingworker;
 
+import dataUtils.drawMusicData_Utils;
 import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.concurrent.ExecutionException;
@@ -93,7 +95,7 @@ public class durationSwingWorker
                 catch (Exception e)
                 {
                     System.out.println("Errore nell'elaborazione del file");
-                    Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, e);
+                    Logger.getLogger(durationSwingWorker.class.getName()).log(Level.SEVERE, null, e);
                     System.exit(1);
                 }
                 return rhythmMap;
@@ -108,7 +110,7 @@ public class durationSwingWorker
                 }
                 catch (InterruptedException | ExecutionException ex)
                 {
-                    Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(durationSwingWorker.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 //System.out.println("Finished with status " + calculateData);
             }                     

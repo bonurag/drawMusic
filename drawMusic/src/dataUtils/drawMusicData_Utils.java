@@ -1,3 +1,4 @@
+package dataUtils;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -50,7 +51,7 @@ public class drawMusicData_Utils
     private static Boolean enableValidationFromGui = false;
     private static Boolean enableIgnoringWhitespaceFromGui = false;
     
-    enum Rappresentation
+    public enum Rappresentation
     {
         DIATONICA,
         ANGLOSASSONE,
@@ -769,7 +770,7 @@ public class drawMusicData_Utils
                 }
                 catch (IOException ex)
                 {
-                    Logger.getLogger(pitchFrame.class.getName()).log(Level.SEVERE, null, ex);
+                     System.out.println(ex.getMessage());
                 }
             }
             else

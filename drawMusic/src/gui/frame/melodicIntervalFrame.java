@@ -1,6 +1,12 @@
+package gui.frame;
 
+
+import gui.panel.cartesianGui;
+import dataUtils.drawMusicData_Utils;
+import gui.panel.cartesianGui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.util.LinkedHashMap;
 import javax.swing.JButton;
@@ -12,17 +18,17 @@ import javax.swing.JFrame;
  *
  * @author Giuseppe
  */
-class pitchFrame extends JFrame
+public class melodicIntervalFrame extends JFrame
 {
-    private String graphName = "Pitch Graph";
+    private String graphName = "Melodic Interval Graph";
     cartesianGui panel;
     private int inputDataSize = 0;
     private Color chooseColor = Color.RED;
-
-    public pitchFrame(Object inputDataWork)
+    
+    public melodicIntervalFrame(Object inputDataWork)
     {       
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
-        System.out.println("inputData: " + inputData);
+        
         if(inputData.containsKey("Empty"))
         {
             inputDataSize = 0;
@@ -40,15 +46,15 @@ class pitchFrame extends JFrame
             saveButton.setToolTipText("Cattura uno screenshoot del grafico!");
             saveButton.setVisible(true);
             
-            JButton xmlExportButton = new JButton();
-            xmlExportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/xml_export.png"))); 
-            xmlExportButton.setToolTipText("Esporta i risultati in un file xml");
-            xmlExportButton.setVisible(true);
-            
             JButton colorButton = new JButton();
             colorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_small.png"))); 
             colorButton.setToolTipText("Scegli un colore per le barre");
             colorButton.setVisible(true);
+            
+            JButton xmlExportButton = new JButton();
+            xmlExportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/xml_export.png"))); 
+            xmlExportButton.setToolTipText("Esporta i risultati in un file xml");
+            xmlExportButton.setVisible(true);
             
             JCheckBox checkBoxBarLabel = new JCheckBox();
             checkBoxBarLabel.setVisible(true);
@@ -72,9 +78,9 @@ class pitchFrame extends JFrame
             checkBoxYdrawLine.setSelected(panel.getDisableYLabelView());
             
             inputDataSize = inputData.size();
-            panel = new cartesianGui(inputData); 
+            panel = new cartesianGui(inputData);
             panel.setBackground(Color.WHITE);
-            panel.setxAxisName("PITCH");
+            panel.setxAxisName("INTERVALLO");
             panel.setyAxisName("Q.TY");
             panel.setBarColor(chooseColor);
             panel.add(saveButton);
@@ -83,11 +89,11 @@ class pitchFrame extends JFrame
             panel.add(checkBoxYdrawLine);
             panel.add(colorButton);
             panel.add(xmlExportButton);
-            panel.setName("pitchFrame");
+            panel.setName("melodicIntervalFrame");
             add(panel);
             
             drawMusicData_Utils.saveScreenShoot(saveButton, panel);
-            drawMusicData_Utils.exportXml(xmlExportButton, inputData, "pitch", getGraphName());
+            drawMusicData_Utils.exportXml(xmlExportButton, inputData, "melodic_interval", getGraphName());
             
             checkBoxBarLabel.addItemListener((ItemEvent e) ->
             {
@@ -136,13 +142,17 @@ class pitchFrame extends JFrame
                     panel.repaint();
                 }
             });
-
-            colorButton.addActionListener((ActionEvent e) ->
+            
+            colorButton.addActionListener(new ActionListener()
             {
-                chooseColor = JColorChooser.showDialog(null,"Scegli un colore",Color.RED);
-                panel.setBarColor(chooseColor);
-                panel.repaint();
-            });  
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    chooseColor = JColorChooser.showDialog(null,"Scegli un colore",Color.RED);
+                    panel.setBarColor(chooseColor);
+                    panel.repaint();
+                }
+            });
         }
     }
 
@@ -159,7 +169,7 @@ class pitchFrame extends JFrame
     {
         return inputDataSize;
     }
-
+    
     public void setGraphName(String newName)
     {
         String grapName = "";

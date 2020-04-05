@@ -1,3 +1,5 @@
+package gui.panel;
+
 
 import java.awt.Component;
 import java.util.HashMap;

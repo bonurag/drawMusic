@@ -1,4 +1,7 @@
+package gui.panel;
 
+
+import dataUtils.drawMusicData_Utils;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;

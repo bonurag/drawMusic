@@ -1,7 +1,9 @@
+package gui.frame;
 
+import dataUtils.drawMusicData_Utils;
+import gui.panel.cartesianGui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.util.LinkedHashMap;
 import javax.swing.JButton;
@@ -13,17 +15,17 @@ import javax.swing.JFrame;
  *
  * @author Giuseppe
  */
-class durationFrame extends JFrame
+public class pitchFrame extends JFrame
 {
-    private String graphName = "Duration Graph";
+    private String graphName = "Pitch Graph";
     cartesianGui panel;
     private int inputDataSize = 0;
     private Color chooseColor = Color.RED;
-    
-    public durationFrame(Object inputDataWork, String inputDurationType)
-    {
+
+    public pitchFrame(Object inputDataWork)
+    {       
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
-        
+        System.out.println("inputData: " + inputData);
         if(inputData.containsKey("Empty"))
         {
             inputDataSize = 0;
@@ -41,15 +43,15 @@ class durationFrame extends JFrame
             saveButton.setToolTipText("Cattura uno screenshoot del grafico!");
             saveButton.setVisible(true);
             
-            JButton colorButton = new JButton();
-            colorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_small.png"))); 
-            colorButton.setToolTipText("Scegli un colore per le barre");
-            colorButton.setVisible(true);
-            
             JButton xmlExportButton = new JButton();
             xmlExportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/xml_export.png"))); 
             xmlExportButton.setToolTipText("Esporta i risultati in un file xml");
             xmlExportButton.setVisible(true);
+            
+            JButton colorButton = new JButton();
+            colorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_small.png"))); 
+            colorButton.setToolTipText("Scegli un colore per le barre");
+            colorButton.setVisible(true);
             
             JCheckBox checkBoxBarLabel = new JCheckBox();
             checkBoxBarLabel.setVisible(true);
@@ -71,9 +73,11 @@ class durationFrame extends JFrame
             checkBoxYdrawLine.setText(yDrawLineLabel);
             checkBoxYdrawLine.setToolTipText("En/Dis visualizzazione indicatori asse Y");
             checkBoxYdrawLine.setSelected(panel.getDisableYLabelView());
-                                 
+            
+            inputDataSize = inputData.size();
+            panel = new cartesianGui(inputData); 
             panel.setBackground(Color.WHITE);
-            panel.setxAxisName("DURATA");
+            panel.setxAxisName("PITCH");
             panel.setyAxisName("Q.TY");
             panel.setBarColor(chooseColor);
             panel.add(saveButton);
@@ -82,20 +86,11 @@ class durationFrame extends JFrame
             panel.add(checkBoxYdrawLine);
             panel.add(colorButton);
             panel.add(xmlExportButton);
-            panel.setName("durationFrame");
+            panel.setName("pitchFrame");
             add(panel);
-
-            drawMusicData_Utils.saveScreenShoot(saveButton, panel);
             
-            String xmlElementName = "";
-            if(inputDurationType.equals("CHORD"))     
-                xmlElementName = "chord_duration";
-            else if(inputDurationType.equals("REST"))
-                xmlElementName = "rest_duration";
-            else if(inputDurationType.equals("BOTH"))
-                xmlElementName = "all_duration";
-
-            drawMusicData_Utils.exportXml(xmlExportButton, inputData, xmlElementName, getGraphName(), inputDurationType);
+            drawMusicData_Utils.saveScreenShoot(saveButton, panel);
+            drawMusicData_Utils.exportXml(xmlExportButton, inputData, "pitch", getGraphName());
             
             checkBoxBarLabel.addItemListener((ItemEvent e) ->
             {
@@ -144,17 +139,13 @@ class durationFrame extends JFrame
                     panel.repaint();
                 }
             });
-            
-            colorButton.addActionListener(new ActionListener()
+
+            colorButton.addActionListener((ActionEvent e) ->
             {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    chooseColor = JColorChooser.showDialog(null,"Scegli un colore",Color.RED);
-                    panel.setBarColor(chooseColor);
-                    panel.repaint();
-                }
-            });
+                chooseColor = JColorChooser.showDialog(null,"Scegli un colore",Color.RED);
+                panel.setBarColor(chooseColor);
+                panel.repaint();
+            });  
         }
     }
 

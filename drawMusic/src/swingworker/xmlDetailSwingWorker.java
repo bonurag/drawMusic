@@ -1,4 +1,6 @@
+package swingworker;
 
+import dataUtils.drawMusicData_Utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -271,7 +273,7 @@ public class xmlDetailSwingWorker
                 catch (Exception e)
                 {
                     System.out.println("Errore nell'elaborazione del file");
-                    Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, e);
+                    Logger.getLogger(xmlDetailSwingWorker.class.getName()).log(Level.SEVERE, null, e);
                     System.exit(1);
                 }
                 return null;

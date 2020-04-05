@@ -1,3 +1,4 @@
+package gui.main;
 
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
@@ -12,6 +13,18 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import swingworker.pitchSwingWorker;
+import swingworker.durationSwingWorker;
+import swingworker.melodicIntervallSwingWorker;
+import swingworker.harmonicIntervallSwingWorker;
+import swingworker.xmlDetailSwingWorker;
+import gui.frame.durationFrame;
+import gui.frame.harmonicIntervalFrame;
+import gui.frame.melodicIntervalFrame;
+import gui.frame.pitchFrame;
+import gui.frame.pitchClassFrame;
+import gui.frame.trackFrame;
+import dataUtils.drawMusicData_Utils;
 
 /**
  *\
@@ -181,7 +194,6 @@ public class programGui extends javax.swing.JFrame
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(680, 320));
         setName("programGui"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(700, 350));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

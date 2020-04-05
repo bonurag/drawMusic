@@ -1,4 +1,6 @@
+package swingworker;
 
+import dataUtils.drawMusicData_Utils;
 import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
@@ -132,7 +134,7 @@ public class pitchSwingWorker
                 }
                 catch (InterruptedException | ExecutionException ex)
                 {
-                    Logger.getLogger(testMethod.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(pitchSwingWorker.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 //System.out.println("Finished with status " + calculateData);
             }                     

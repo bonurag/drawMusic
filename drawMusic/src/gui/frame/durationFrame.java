@@ -1,4 +1,9 @@
+package gui.frame;
 
+
+import gui.panel.cartesianGui;
+import dataUtils.drawMusicData_Utils;
+import gui.panel.cartesianGui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,15 +18,15 @@ import javax.swing.JFrame;
  *
  * @author Giuseppe
  */
-class melodicIntervalFrame extends JFrame
+public class durationFrame extends JFrame
 {
-    private String graphName = "Melodic Interval Graph";
+    private String graphName = "Duration Graph";
     cartesianGui panel;
     private int inputDataSize = 0;
     private Color chooseColor = Color.RED;
     
-    public melodicIntervalFrame(Object inputDataWork)
-    {       
+    public durationFrame(Object inputDataWork, String inputDurationType)
+    {
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
         
         if(inputData.containsKey("Empty"))
@@ -71,11 +76,9 @@ class melodicIntervalFrame extends JFrame
             checkBoxYdrawLine.setText(yDrawLineLabel);
             checkBoxYdrawLine.setToolTipText("En/Dis visualizzazione indicatori asse Y");
             checkBoxYdrawLine.setSelected(panel.getDisableYLabelView());
-            
-            inputDataSize = inputData.size();
-            panel = new cartesianGui(inputData);
+                                 
             panel.setBackground(Color.WHITE);
-            panel.setxAxisName("INTERVALLO");
+            panel.setxAxisName("DURATA");
             panel.setyAxisName("Q.TY");
             panel.setBarColor(chooseColor);
             panel.add(saveButton);
@@ -84,11 +87,20 @@ class melodicIntervalFrame extends JFrame
             panel.add(checkBoxYdrawLine);
             panel.add(colorButton);
             panel.add(xmlExportButton);
-            panel.setName("melodicIntervalFrame");
+            panel.setName("durationFrame");
             add(panel);
-            
+
             drawMusicData_Utils.saveScreenShoot(saveButton, panel);
-            drawMusicData_Utils.exportXml(xmlExportButton, inputData, "melodic_interval", getGraphName());
+            
+            String xmlElementName = "";
+            if(inputDurationType.equals("CHORD"))     
+                xmlElementName = "chord_duration";
+            else if(inputDurationType.equals("REST"))
+                xmlElementName = "rest_duration";
+            else if(inputDurationType.equals("BOTH"))
+                xmlElementName = "all_duration";
+
+            drawMusicData_Utils.exportXml(xmlExportButton, inputData, xmlElementName, getGraphName(), inputDurationType);
             
             checkBoxBarLabel.addItemListener((ItemEvent e) ->
             {
@@ -164,7 +176,7 @@ class melodicIntervalFrame extends JFrame
     {
         return inputDataSize;
     }
-    
+
     public void setGraphName(String newName)
     {
         String grapName = "";

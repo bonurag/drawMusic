@@ -1,4 +1,7 @@
+package gui.frame;
 
+import gui.panel.generalInfoTrackGui;
+import gui.panel.singleTrackGui;
 import java.util.LinkedHashMap;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -35,7 +38,7 @@ public class trackFrame extends JFrame
             panelSingleTrack = new singleTrackGui();     
 
             inizializeComponentPanelGeneralInfo();     
-            inizializeComponentPanelSingleTracko();
+            inizializeComponentPanelSingleTrack();
             getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
             //============================================= Set Main Title ============================================================
@@ -259,7 +262,7 @@ public class trackFrame extends JFrame
         panelGeneralInfo.getComponentByName("genresValueLabel").setVisible(true);
     }
     
-    public void inizializeComponentPanelSingleTracko()
+    public void inizializeComponentPanelSingleTrack()
     {
         panelSingleTrack.setFileNameValueLabel(EMPTY_VALUE);
         panelSingleTrack.getComponentSingleTrackByName("fileNameLabel").setVisible(true);

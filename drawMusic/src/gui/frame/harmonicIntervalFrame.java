@@ -1,4 +1,9 @@
+package gui.frame;
 
+
+import gui.panel.cartesianGui;
+import dataUtils.drawMusicData_Utils;
+import gui.panel.cartesianGui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +18,7 @@ import javax.swing.JFrame;
  *
  * @author Giuseppe
  */
-class harmonicIntervalFrame extends JFrame
+public class harmonicIntervalFrame extends JFrame
 {
     private String graphName = "Harmonic Intervall Graph";
     cartesianGui panel;
