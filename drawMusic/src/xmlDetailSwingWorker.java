@@ -15,29 +15,23 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Giuseppe
  */
 public class xmlDetailSwingWorker
 {
-    String mainTitle = "";
-    String number = "";
-    String workNumber = "";
+    private String mainTitle = "";
+    private String number = "";
+    private String workNumber = "";
     
-    LinkedHashMap<String, String> authorsMap = new LinkedHashMap<>();
-    LinkedHashMap<String, String> otherTitleMap = new LinkedHashMap<>();
-    LinkedHashMap<String, String> workTitleMap = new LinkedHashMap<>();
-    LinkedHashMap<String, String> genresMap = new LinkedHashMap<>();
+    private LinkedHashMap<String, String> authorsMap = new LinkedHashMap<>();
+    private LinkedHashMap<String, String> otherTitleMap = new LinkedHashMap<>();
+    private LinkedHashMap<String, String> workTitleMap = new LinkedHashMap<>();
+    private LinkedHashMap<String, String> genresMap = new LinkedHashMap<>();
     
-    LinkedHashMap<Integer, LinkedHashMap<String, String>> trackMap = new LinkedHashMap<>();
-    LinkedHashMap<String, String> trackAttributeMap = null;
+    private LinkedHashMap<Integer, LinkedHashMap<String, String>> trackMap = new LinkedHashMap<>();
+    private LinkedHashMap<String, String> trackAttributeMap = null;
     
     public SwingWorker createWorker(File inputFile)
     {
@@ -58,6 +52,7 @@ public class xmlDetailSwingWorker
 //=================================== Calculate Main Title ==========================================
                     String xPathTitleExpr = "string(//ieee1599/general/description/main_title)";
                     mainTitle = myXPath.evaluate(xPathTitleExpr, myXmlDocument);
+                    setProgress(10);
                     
 //=================================== Calculate Authors ==========================================
                     String xPathElementAuthorsList = "//ieee1599/general/description/author";
@@ -83,13 +78,9 @@ public class xmlDetailSwingWorker
                                 }
                             }
                         }
-                        setProgress(25);
+                        setProgress(20);
                     }
-                    else
-                    {
-                        
-                    }
-              
+
 //=================================== Calculate otherTitle ==========================================                   
                     String xPathElementOtherTitleList = "//ieee1599/general/description/other_title";
                     NodeList otherTitleList = (NodeList) (myXPath.evaluate(xPathElementOtherTitleList, myXmlDocument, XPathConstants.NODESET));
@@ -108,17 +99,14 @@ public class xmlDetailSwingWorker
                                 otherTitleMap.put(Integer.toString(i), otherTitleValue);
                             }
                         }
-                        setProgress(60);
-                    }
-                    else
-                    {
-
+                        setProgress(30);
                     }
 
 //=================================== Calculate Number ==========================================
                     String xPathNumberExpr = "string(//ieee1599/general/description/number)";
                     number = myXPath.evaluate(xPathNumberExpr, myXmlDocument);
-
+                    setProgress(35);
+                    
 //=================================== Calculate WorkTitle ==========================================
                     String xPathElementWorkTitleList = "//ieee1599/general/description/work_title";
                     NodeList workTitleList = (NodeList) (myXPath.evaluate(xPathElementWorkTitleList, myXmlDocument, XPathConstants.NODESET));
@@ -135,17 +123,14 @@ public class xmlDetailSwingWorker
                                 workTitleMap.put(Integer.toString(i), workTitleValue);
                             }
                         }
-                        setProgress(50);
+                        setProgress(40);
                     }
-                    else
-                    {
 
-                    }
-                    
 //=================================== Calculate Work Number ==========================================
                     String xPathWorkNumberExpr = "string(//ieee1599/general/description/work_number)";
                     workNumber = myXPath.evaluate(xPathWorkNumberExpr, myXmlDocument);
-
+                    setProgress(45);
+                    
 //=================================== Calculate Genres ==========================================
                     String xPathGenresList = "//ieee1599/general/description/genres/genre";
                     NodeList genresList = (NodeList) (myXPath.evaluate(xPathGenresList, myXmlDocument, XPathConstants.NODESET));
@@ -164,17 +149,12 @@ public class xmlDetailSwingWorker
                                     if (!genreElem.getAttribute("name").equals("")) 
                                     {
                                         String genreName = genreElem.getAttribute("name");
-                                        System.out.println("genreName: " + genreName);
                                         genresMap.put(genreName, genreName);
                                     }
                                 }
                             }
                         }
-                        setProgress(75);
-                    }
-                    else
-                    {
-                        
+                        setProgress(50);
                     }
 
 //=================================== Calculate Track Element ==========================================                   
@@ -185,6 +165,9 @@ public class xmlDetailSwingWorker
                     {
                         for (int i = 0; i < trackList.getLength(); i++)
                         {
+                            String trackFileName = "";
+                            String performersResult = "";
+                            String genresTrackNameResult = "";
                             trackAttributeMap = new LinkedHashMap<>();
                             if(trackList.item(i) != null)
                             {
@@ -195,7 +178,7 @@ public class xmlDetailSwingWorker
                                 {
                                     if (!trackElem.getAttribute("file_name").equals(""))
                                     {
-                                        String trackFileName = trackElem.getAttribute("file_name");
+                                        trackFileName = trackElem.getAttribute("file_name");
                                         int trackDuration = getDurationFromTrack(trackFileName, myXmlDocument, myXPath);
                                         trackAttributeMap.put("file_name", trackFileName);
                                         trackAttributeMap.put("track_duration", drawMusicData_Utils.trackDurationConverter(trackDuration));
@@ -212,16 +195,78 @@ public class xmlDetailSwingWorker
                                     }
                                 }
                             }
+
+                            //=================================== Calculate Performers ==========================================
+                            String xPathElementPerformersList = "//ieee1599/audio/track[@file_name=\""+trackFileName+"\"]/track_general/performers/performer";
+                            NodeList performersList = (NodeList) (myXPath.evaluate(xPathElementPerformersList, myXmlDocument, XPathConstants.NODESET));
+                            Node currenPerformerNode;
+
+                            String performerName = "";
+                            String performerType = "";
+
+                            if(performersList.getLength() > 0)
+                            {
+                                for (int w = 0; w < performersList.getLength(); w++)
+                                {
+                                    if(performersList.item(w) != null)
+                                    {
+                                        currenPerformerNode = performersList.item(w);
+                                        Element performerElem = (Element) currenPerformerNode;
+
+                                        if(performerElem.hasAttributes())
+                                        {
+                                            if (!performerElem.getAttribute("name").equals("")) 
+                                            {
+                                                performerName = performerElem.getAttribute("name");    
+                                            }
+                                            if (!performerElem.getAttribute("type").equals("")) 
+                                            {
+                                                performerType = performerElem.getAttribute("type");
+                                                performerType = !performerType.equals("") ? " ("+performerType+")" : "";
+                                            }
+                                            performersResult += performerName+performerType+"; ";
+                                            trackAttributeMap.put("performers", performersResult.substring(0, performersResult.length()-2));    
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            //=================================== Calculate Genres In Track ==========================================
+                            String xPathElementGenresList = "//ieee1599/audio/track[@file_name=\""+trackFileName+"\"]/track_general/genres/genre";
+                            NodeList genresTrackList = (NodeList) (myXPath.evaluate(xPathElementGenresList, myXmlDocument, XPathConstants.NODESET));
+                            Node currenGenreTrackNode;
+
+                            String genreTrackName = "";
+
+                            if(genresTrackList.getLength() > 0)
+                            {
+                                for (int k = 0; k < genresTrackList.getLength(); k++)
+                                {
+                                    if(genresTrackList.item(k) != null)
+                                    {
+                                        currenGenreTrackNode = genresTrackList.item(k);
+                                        Element genreTrakElem = (Element) currenGenreTrackNode;
+
+                                        if(genreTrakElem.hasAttributes())
+                                        {
+                                            if (!genreTrakElem.getAttribute("name").equals("")) 
+                                            {
+                                                genreTrackName = genreTrakElem.getAttribute("name"); 
+                                                genreTrackName = !genreTrackName.equals("") ? genreTrackName : "";
+                                            }
+                                           
+                                            genresTrackNameResult += genreTrackName+"; ";
+                                            trackAttributeMap.put("trackGenres", genresTrackNameResult.substring(0, genresTrackNameResult.length()-2));    
+                                        }
+                                    }
+                                }
+                            }
+                            setProgress(100);
                             trackMap.put(i, trackAttributeMap);
-                        } 
-                        setProgress(100);
+                        }
+                        if(stepForProgress < (double) 100)
+                            setProgress(100);
                     }
-                    else
-                    {
-                        
-                    }
-                    if(stepForProgress < (double) 100)
-                        setProgress(100);
                 }
                 catch (Exception e)
                 {

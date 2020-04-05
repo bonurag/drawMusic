@@ -2,7 +2,6 @@
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -31,12 +30,16 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import java.sql.Timestamp;
+import java.util.Date;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 /**
  *
@@ -44,8 +47,8 @@ import org.xml.sax.SAXParseException;
  */
 public class drawMusicData_Utils
 {
-    public static Boolean enableValidationFromGui = false;
-    public static Boolean enableIgnoringWhitespaceFromGui = false;
+    private static Boolean enableValidationFromGui = false;
+    private static Boolean enableIgnoringWhitespaceFromGui = false;
     
     enum Rappresentation
     {
@@ -71,8 +74,8 @@ public class drawMusicData_Utils
         DocumentBuilderFactory f = null;
         try
         {
-            System.out.println("Validazione XML abilitata: " + enableValidationFromGui);
-            System.out.println("Esclusione Spazi Bianchi Elementi XML Abilitata: " + enableIgnoringWhitespaceFromGui);
+            //System.out.println("Validazione XML abilitata: " + enableValidationFromGui);
+            //System.out.println("Esclusione Spazi Bianchi Elementi XML Abilitata: " + enableIgnoringWhitespaceFromGui);
             File xmlFile = inputFile;
             f = DocumentBuilderFactory.newInstance();
             f.setValidating(enableValidationFromGui); 
@@ -742,41 +745,37 @@ public class drawMusicData_Utils
     
     public static void saveScreenShoot(JButton inputButton, JPanel inputPanel)
     {
-        inputButton.addActionListener(new ActionListener()
+        inputButton.addActionListener((ActionEvent e) ->
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(new FileNameExtensionFilter("png", "png"));
+            fileChooser.setFileFilter(new FileNameExtensionFilter("jpg", "jpg"));
+            String selectedExtension = fileChooser.getFileFilter().getDescription();
+            
+            BufferedImage bufImage = new BufferedImage(inputPanel.getWidth(), inputPanel.getHeight(),BufferedImage.TYPE_INT_RGB);
+            inputPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            inputButton.setVisible(false);
+            inputPanel.paint(bufImage.getGraphics());
+            
+            int option = fileChooser.showSaveDialog(null);
+            if(option == JFileChooser.APPROVE_OPTION)
             {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileFilter(new FileNameExtensionFilter("png", "png"));
-                fileChooser.setFileFilter(new FileNameExtensionFilter("jpg", "jpg"));  
-                String selectedExtension = fileChooser.getFileFilter().getDescription();
-
-                BufferedImage bufImage = new BufferedImage(inputPanel.getWidth(), inputPanel.getHeight(),BufferedImage.TYPE_INT_RGB);
-                inputPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-                inputButton.setVisible(false);
-                inputPanel.paint(bufImage.getGraphics());
-
-                int option = fileChooser.showSaveDialog(null);
-                if(option == JFileChooser.APPROVE_OPTION)
+                BufferedImage img = bufImage;
+                try
                 {
-                    BufferedImage img = bufImage;
-                    try
-                    {
-                        ImageIO.write(img, selectedExtension, new File(fileChooser.getSelectedFile().getAbsolutePath()+"."+selectedExtension));
-                        inputPanel.setBorder(BorderFactory.createEmptyBorder());
-                        inputButton.setVisible(true);
-                    }
-                    catch (IOException ex)
-                    {
-                        Logger.getLogger(pitchFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                else
-                {
+                    ImageIO.write(img, selectedExtension, new File(fileChooser.getSelectedFile().getAbsolutePath()+"."+selectedExtension));
                     inputPanel.setBorder(BorderFactory.createEmptyBorder());
                     inputButton.setVisible(true);
                 }
+                catch (IOException ex)
+                {
+                    Logger.getLogger(pitchFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else
+            {
+                inputPanel.setBorder(BorderFactory.createEmptyBorder());
+                inputButton.setVisible(true);
             }
         });
     }
@@ -800,14 +799,13 @@ public class drawMusicData_Utils
     
     public static int alignMessageToJBar(JProgressBar inputBar, JLabel inputLabel)
     {
-        int result = 0;
         FontMetrics fm = inputLabel.getFontMetrics(inputLabel.getFont());
         int labelWidth = fm.stringWidth(inputLabel.getText());
         int progressBarWidth = inputBar.getWidth();
         int coordinateX = inputBar.getX();  
         int centerPoint = (int)coordinateX + (int)(progressBarWidth/2);       
         int labelMiddlePoint = (int)(labelWidth/2);      
-        result = centerPoint - labelMiddlePoint;
+        int result = centerPoint - labelMiddlePoint;
         return result;
     }
     
@@ -815,7 +813,6 @@ public class drawMusicData_Utils
     {
         String result = "";
         String tmpSec = "";
-        
         int tmpMin = 0;
         
         String seconds = Integer.toString(secondsInput % 60);
@@ -839,6 +836,159 @@ public class drawMusicData_Utils
         
         result = "circa " + tmpMin + ":" + tmpSec;
         return result;
+    }
+    
+    public static void exportXml(JButton inputButton, LinkedHashMap<String, Integer> inputData, String elementInGraph, String graphName)
+    {
+        inputButton.addActionListener((ActionEvent e) -> 
+        {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(new FileNameExtensionFilter("xml", "xml"));
+            String selectedExtension = fileChooser.getFileFilter().getDescription();
+            Document resultDoc = null;
+            int option = fileChooser.showSaveDialog(null);
+            if(option == JFileChooser.APPROVE_OPTION)
+            {
+                try
+                {
+                    resultDoc = generateXmlFile(inputData, elementInGraph, graphName);
+                } 
+                catch (ParserConfigurationException ex)
+                {
+                    Logger.getLogger(drawMusicData_Utils.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                //Salvataggio nuovo file XML prendendo il file selezionato dal chooser e concatenando l'estensione
+                Result output = new StreamResult(new File(fileChooser.getSelectedFile().getAbsolutePath()+"."+selectedExtension));
+                Source input = new DOMSource(resultDoc);
+                try
+                {
+                    TransformerFactory tf = TransformerFactory.newInstance();
+                    Transformer t;
+                    t = tf.newTransformer();
+                    t.setOutputProperty(OutputKeys.INDENT, "yes");
+                    t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "3");
+                    t.transform(input, output);
+                }
+                catch (IllegalArgumentException | TransformerException ex)
+                {
+                     
+                }
+            }
+        });    
+    }
+    
+    public static void exportXml(JButton inputButton, LinkedHashMap<String, Integer> inputData, String elementInGraph, String graphName, String inputDurationType)
+    {
+        inputButton.addActionListener((ActionEvent e) -> 
+        {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(new FileNameExtensionFilter("xml", "xml"));
+            String selectedExtension = fileChooser.getFileFilter().getDescription();
+            Document resultDoc = null;
+            int option = fileChooser.showSaveDialog(null);
+            if(option == JFileChooser.APPROVE_OPTION)
+            {
+                try
+                {
+                    if(!inputDurationType.equals(""))
+                        resultDoc = generateXmlFile(inputData, elementInGraph, graphName, inputDurationType);
+                    else
+                        resultDoc = generateXmlFile(inputData, elementInGraph, graphName);        
+                } 
+                catch (ParserConfigurationException ex)
+                {
+                    Logger.getLogger(drawMusicData_Utils.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                //Salvataggio nuovo file XML prendendo il file selezionato dal chooser e concatenando l'estensione
+                Result output = new StreamResult(new File(fileChooser.getSelectedFile().getAbsolutePath()+"."+selectedExtension));
+                Source input = new DOMSource(resultDoc);
+                try
+                {
+                    TransformerFactory tf = TransformerFactory.newInstance();
+                    Transformer t;
+                    t = tf.newTransformer();
+                    t.setOutputProperty(OutputKeys.INDENT, "yes");
+                    t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "3");
+                    t.transform(input, output);
+                }
+                catch (IllegalArgumentException | TransformerException ex)
+                {
+                     
+                }
+            }
+        });    
+    }
+    
+    private static Document generateXmlFile(LinkedHashMap<String, Integer> inputData, String elementInGraph, String graphName) throws ParserConfigurationException
+    {
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        Document doc = docBuilder.newDocument();
+        
+        Date date = new Date();
+        long time = date.getTime();
+        Timestamp ts = new Timestamp(time);
+        
+        //Nodo Radice export_results
+        Element export_results = doc.createElement("export_results");
+        export_results.setAttribute("date", ""+ts);
+        doc.appendChild(export_results);
+        
+        //Figlo del nodo radice export_results
+        Element graph = doc.createElement("graph");
+        graph.setAttribute("name", graphName);
+        export_results.appendChild(graph);
+        
+        //Popolo iterando sulla mappa i nodi interni del TAG graph
+        for(String mapKey : inputData.keySet())
+        {
+            //System.out.println("Key: " + mapKey + " - - Value: " +  inputData.get(mapKey));
+            
+            Element singleElementInGraph = doc.createElement(elementInGraph);
+            singleElementInGraph.setTextContent(Integer.toString(inputData.get(mapKey)));
+            singleElementInGraph.setAttribute("type", mapKey);
+            graph.appendChild(singleElementInGraph);
+        }
+        return doc;
+    }
+    
+    private static Document generateXmlFile(LinkedHashMap<String, Integer> inputData, String elementInGraph, String graphName, String inputDurationType) throws ParserConfigurationException
+    {
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        Document doc = docBuilder.newDocument();
+        
+        Date date = new Date();
+        long time = date.getTime();
+        Timestamp ts = new Timestamp(time);
+        
+        //Nodo Radice export_results
+        Element export_results = doc.createElement("export_results");
+        export_results.setAttribute("date", ""+ts);
+        doc.appendChild(export_results);
+        
+        //Figlo del nodo radice export_results
+        Element graph = doc.createElement("graph");
+        graph.setAttribute("name", graphName);
+        export_results.appendChild(graph);
+        
+        //Popolo iterando sulla mappa i nodi interni del TAG graph
+        for(String mapKey : inputData.keySet())
+        {
+            //System.out.println("Key: " + mapKey + " - - Value: " +  inputData.get(mapKey));
+            
+            Element singleElementInGraph = doc.createElement(elementInGraph);
+            singleElementInGraph.setTextContent(Integer.toString(inputData.get(mapKey)));
+            if(inputDurationType.equals("CHORD") || inputDurationType.equals("REST") || inputDurationType.equals("BOTH"))
+            {
+                singleElementInGraph.setAttribute("den", mapKey);
+                singleElementInGraph.setAttribute("num", "1");    
+            }
+            graph.appendChild(singleElementInGraph);
+        }
+        return doc;
     }
 }
 

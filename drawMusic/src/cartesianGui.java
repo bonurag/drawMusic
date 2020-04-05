@@ -14,10 +14,6 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 import javax.swing.JPanel;
 
-/*
-    This Class it was created to manage the contents of the Cartesian diagram
- */
-
 /**
  *
  * @author Giuseppe
@@ -51,7 +47,9 @@ public class cartesianGui extends JPanel
     // width of bar inside the diagram
     public static final int HISTOGRAM_BAR_WIDTH = 24;
     
-    public static final int HISTOGRAM_BAR_WIDTH_MIN = 12;
+    public static final int HISTOGRAM_BAR_WIDTH_MED = 12;
+    
+    public static final int HISTOGRAM_BAR_WIDTH_MIN = 6;
     
     // distance from top of panel to the max highest bar
     public static final int OFFSET_BAR_TO_TOP_PANEL = 100;
@@ -245,7 +243,22 @@ public class cartesianGui extends JPanel
                 g2.setColor(AXIS_COLOR);
                 g2.fillRect(X_AXIS_FIRST_X_COORD + (i * xLength) - (HISTOGRAM_BAR_WIDTH/2), X_AXIS_SECOND_X_COORD - (int)barHeight, HISTOGRAM_BAR_WIDTH, (int)barHeight);
             }
-            else
+            else if(xCoordList.size() >= 18 && xCoordList.size() <= 25)
+            {
+                if(i % 2 == 0)
+                {
+                    g2.drawString(xLabel, X_AXIS_FIRST_X_COORD + (i * xLength) - (widthValueXlabel/2), X_AXIS_Y_COORD + AXIS_STRING_MAJOR_DISTANCE);
+                }
+                else
+                {
+                    g2.drawString(xLabel, X_AXIS_FIRST_X_COORD + (i * xLength) - (widthValueXlabel/2), X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
+                }
+                
+                g2.setStroke(defaultStroke);  
+                g2.setColor(AXIS_COLOR);
+                g2.fillRect(X_AXIS_FIRST_X_COORD + (i * xLength) - (HISTOGRAM_BAR_WIDTH_MED/2), X_AXIS_SECOND_X_COORD - (int)barHeight, HISTOGRAM_BAR_WIDTH_MED, (int)barHeight);
+            }
+            else if(xCoordList.size() > 25)
             {
                 if(i % 2 == 0)
                 {
@@ -260,7 +273,7 @@ public class cartesianGui extends JPanel
                 g2.setColor(AXIS_COLOR);
                 g2.fillRect(X_AXIS_FIRST_X_COORD + (i * xLength) - (HISTOGRAM_BAR_WIDTH_MIN/2), X_AXIS_SECOND_X_COORD - (int)barHeight, HISTOGRAM_BAR_WIDTH_MIN, (int)barHeight);
             }
-        
+            
             if(enableView)
             {
                 g2.setColor(Color.BLACK);

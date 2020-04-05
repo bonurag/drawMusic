@@ -3,18 +3,11 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.LinkedHashMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -22,10 +15,10 @@ import javax.swing.JFrame;
  */
 class melodicIntervalFrame extends JFrame
 {
-    String graphName = "Graph";
+    private String graphName = "Melodic Interval Graph";
     cartesianGui panel;
-    int inputDataSize = 0;
-    Color chooseColor = Color.RED;
+    private int inputDataSize = 0;
+    private Color chooseColor = Color.RED;
     
     public melodicIntervalFrame(Object inputDataWork)
     {       
@@ -52,6 +45,11 @@ class melodicIntervalFrame extends JFrame
             colorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_small.png"))); 
             colorButton.setToolTipText("Scegli un colore per le barre");
             colorButton.setVisible(true);
+            
+            JButton xmlExportButton = new JButton();
+            xmlExportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/xml_export.png"))); 
+            xmlExportButton.setToolTipText("Esporta i risultati in un file xml");
+            xmlExportButton.setVisible(true);
             
             JCheckBox checkBoxBarLabel = new JCheckBox();
             checkBoxBarLabel.setVisible(true);
@@ -85,65 +83,58 @@ class melodicIntervalFrame extends JFrame
             panel.add(checkBoxXdrawLine);
             panel.add(checkBoxYdrawLine);
             panel.add(colorButton);
+            panel.add(xmlExportButton);
             panel.setName("melodicIntervalFrame");
             add(panel);
             
             drawMusicData_Utils.saveScreenShoot(saveButton, panel);
+            drawMusicData_Utils.exportXml(xmlExportButton, inputData, "melodic_interval", getGraphName());
             
-            checkBoxBarLabel.addItemListener(new ItemListener()
+            checkBoxBarLabel.addItemListener((ItemEvent e) ->
             {
-                public void itemStateChanged(ItemEvent e)
+                if(checkBoxBarLabel.isSelected())
                 {
-                    if(checkBoxBarLabel.isSelected())
-                    {
-                        checkBoxBarLabel.setText("Disable Bar Label");
-                        panel.setViewValueOnBar(true);
-                        panel.repaint();
-                    }
-                    else
-                    {
-                        checkBoxBarLabel.setText("Enable Bar Label");
-                        panel.setViewValueOnBar(false);
-                        panel.repaint();
-                    }
+                    checkBoxBarLabel.setText("Disable Bar Label");
+                    panel.setViewValueOnBar(true);
+                    panel.repaint();
+                }
+                else
+                {
+                    checkBoxBarLabel.setText("Enable Bar Label");
+                    panel.setViewValueOnBar(false);
+                    panel.repaint();
                 }
             }); 
             
-            checkBoxXdrawLine.addItemListener(new ItemListener()
+            checkBoxXdrawLine.addItemListener((ItemEvent e) ->
             {
-                public void itemStateChanged(ItemEvent e)
+                if(checkBoxXdrawLine.isSelected())
                 {
-                    if(checkBoxXdrawLine.isSelected())
-                    {
-                        checkBoxXdrawLine.setText("Disable X-Line");
-                        panel.setDisableXLabelView(true);
-                        panel.repaint();
-                    }
-                    else
-                    {
-                        checkBoxXdrawLine.setText("Enable X-Line");
-                        panel.setDisableXLabelView(false);
-                        panel.repaint();
-                    }
+                    checkBoxXdrawLine.setText("Disable X-Line");
+                    panel.setDisableXLabelView(true);
+                    panel.repaint();
+                }
+                else
+                {
+                    checkBoxXdrawLine.setText("Enable X-Line");
+                    panel.setDisableXLabelView(false);
+                    panel.repaint();
                 }
             });
                        
-            checkBoxYdrawLine.addItemListener(new ItemListener()
+            checkBoxYdrawLine.addItemListener((ItemEvent e) ->
             {
-                public void itemStateChanged(ItemEvent e)
+                if(checkBoxYdrawLine.isSelected())
                 {
-                    if(checkBoxYdrawLine.isSelected())
-                    {
-                        checkBoxYdrawLine.setText("Disable Y-Line");
-                        panel.setDisableYLabelView(true);
-                        panel.repaint();
-                    }
-                    else
-                    {
-                        checkBoxYdrawLine.setText("Enable Y-Line");
-                        panel.setDisableYLabelView(false);
-                        panel.repaint();
-                    }
+                    checkBoxYdrawLine.setText("Disable Y-Line");
+                    panel.setDisableYLabelView(true);
+                    panel.repaint();
+                }
+                else
+                {
+                    checkBoxYdrawLine.setText("Enable Y-Line");
+                    panel.setDisableYLabelView(false);
+                    panel.repaint();
                 }
             });
             
@@ -160,7 +151,8 @@ class melodicIntervalFrame extends JFrame
         }
     }
 
-    public void showUI() {
+    public void showUI()
+    {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);    
         setSize(700, 700);
         setLocationRelativeTo(null);
@@ -168,16 +160,23 @@ class melodicIntervalFrame extends JFrame
         setResizable(false);
     }
     
-    public int getInputDataSize() {
+    public int getInputDataSize()
+    {
         return inputDataSize;
     }
     
-    public void setGraphName(String newName) {
+    public void setGraphName(String newName)
+    {
         String grapName = "";
-        if(newName == "" && newName == null)
+        if("".equals(newName) && newName == null)
             grapName = "Graph";
         else
             grapName = newName;
         setTitle(grapName);
+    }
+    
+    public String getGraphName()
+    {
+        return graphName;
     }
 }

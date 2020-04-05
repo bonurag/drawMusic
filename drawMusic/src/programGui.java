@@ -11,6 +11,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 
 /*
@@ -668,6 +670,10 @@ public class programGui extends javax.swing.JFrame
                                     Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
                                 } catch (ExecutionException ex) {
                                     Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (ParserConfigurationException ex) {
+                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (TransformerException ex) {
+                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
                                 break;
@@ -735,7 +741,7 @@ public class programGui extends javax.swing.JFrame
                                 {
                                     workInProgress.remove("workerDurationStart");
                                     System.out.println("workInProgress DONE: " + workInProgress);
-                                    durationFrame durationFrame = new durationFrame(work.get());
+                                    durationFrame durationFrame = new durationFrame(work.get(), inputDurationType);
                                     int dataSize = durationFrame.getInputDataSize();
                                     long finish = System.nanoTime();
                                     long timeElapsed = finish - startTimeDuration;
@@ -1149,6 +1155,13 @@ public class programGui extends javax.swing.JFrame
                             System.out.println("workInProgress DONE: " + workInProgress);
 
                             trackFrame trackFrame = new trackFrame(cdi.getMainTitle(), cdi.getAuthorsMap(),cdi.getOtherTitleMap(),cdi.getNumber() ,cdi.getWorkTitleMap(),cdi.getWorkNumber(), cdi.getGenresMap(), cdi.getTrackMap());  
+                            if(!(cdi.getMainTitle().length() > 0) &&  !(cdi.getAuthorsMap().size() > 0) && !(cdi.getOtherTitleMap().size() > 0) && !(cdi.getNumber().length() > 0) &&
+                            !(cdi.getWorkTitleMap().size() > 0) && !(cdi.getWorkNumber().length() > 0) && !(cdi.getGenresMap().size() > 0) && !(cdi.getTrackMap().size() > 0))
+                            {
+                                String informationMessage = "Non sono presenti dati da elaborare!";
+                                JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);  
+                            }
+                            
                             long finish = System.nanoTime();
                             long timeElapsed = finish - startTimeInformation;
                             String executionTime = drawMusicData_Utils.getElapsedTimeFromMilliseconds(timeElapsed);

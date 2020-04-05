@@ -1,14 +1,14 @@
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.LinkedHashMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,15 +22,15 @@ import javax.swing.JFrame;
  */
 class pitchFrame extends JFrame
 {
-    String graphName = "Graph";
+    private String graphName = "Pitch Graph";
     cartesianGui panel;
-    int inputDataSize = 0;
-    Color chooseColor = Color.RED;
-    
-    public pitchFrame(Object inputDataWork)
+    private int inputDataSize = 0;
+    private Color chooseColor = Color.RED;
+
+    public pitchFrame(Object inputDataWork) throws ParserConfigurationException, TransformerException
     {       
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
-        
+        System.out.println("inputData: " + inputData);
         if(inputData.containsKey("Empty"))
         {
             inputDataSize = 0;
@@ -47,6 +47,11 @@ class pitchFrame extends JFrame
             saveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/screenshot.png"))); 
             saveButton.setToolTipText("Cattura uno screenshoot del grafico!");
             saveButton.setVisible(true);
+            
+            JButton xmlExportButton = new JButton();
+            xmlExportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/xml_export.png"))); 
+            xmlExportButton.setToolTipText("Esporta i risultati in un file xml");
+            xmlExportButton.setVisible(true);
             
             JButton colorButton = new JButton();
             colorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pickcolor_small.png"))); 
@@ -85,78 +90,67 @@ class pitchFrame extends JFrame
             panel.add(checkBoxXdrawLine);
             panel.add(checkBoxYdrawLine);
             panel.add(colorButton);
+            panel.add(xmlExportButton);
             panel.setName("pitchFrame");
             add(panel);
             
             drawMusicData_Utils.saveScreenShoot(saveButton, panel);
+            drawMusicData_Utils.exportXml(xmlExportButton, inputData, "pitch", getGraphName());
             
-            checkBoxBarLabel.addItemListener(new ItemListener()
+            checkBoxBarLabel.addItemListener((ItemEvent e) ->
             {
-                public void itemStateChanged(ItemEvent e)
+                if(checkBoxBarLabel.isSelected())
                 {
-                    if(checkBoxBarLabel.isSelected())
-                    {
-                        checkBoxBarLabel.setText("Disable Bar Label");
-                        panel.setViewValueOnBar(true);
-                        panel.repaint();
-                    }
-                    else
-                    {
-                        checkBoxBarLabel.setText("Enable Bar Label");
-                        panel.setViewValueOnBar(false);
-                        panel.repaint();
-                    }
+                    checkBoxBarLabel.setText("Disable Bar Label");
+                    panel.setViewValueOnBar(true);
+                    panel.repaint();
+                }
+                else
+                {
+                    checkBoxBarLabel.setText("Enable Bar Label");
+                    panel.setViewValueOnBar(false);
+                    panel.repaint();
                 }
             }); 
             
-            checkBoxXdrawLine.addItemListener(new ItemListener()
+            checkBoxXdrawLine.addItemListener((ItemEvent e) ->
             {
-                public void itemStateChanged(ItemEvent e)
+                if(checkBoxXdrawLine.isSelected())
                 {
-                    if(checkBoxXdrawLine.isSelected())
-                    {
-                        checkBoxXdrawLine.setText("Disable X-Line");
-                        panel.setDisableXLabelView(true);
-                        panel.repaint();
-                    }
-                    else
-                    {
-                        checkBoxXdrawLine.setText("Enable X-Line");
-                        panel.setDisableXLabelView(false);
-                        panel.repaint();
-                    }
+                    checkBoxXdrawLine.setText("Disable X-Line");
+                    panel.setDisableXLabelView(true);
+                    panel.repaint();
                 }
-            });
-                       
-            checkBoxYdrawLine.addItemListener(new ItemListener()
-            {
-                public void itemStateChanged(ItemEvent e)
+                else
                 {
-                    if(checkBoxYdrawLine.isSelected())
-                    {
-                        checkBoxYdrawLine.setText("Disable Y-Line");
-                        panel.setDisableYLabelView(true);
-                        panel.repaint();
-                    }
-                    else
-                    {
-                        checkBoxYdrawLine.setText("Enable Y-Line");
-                        panel.setDisableYLabelView(false);
-                        panel.repaint();
-                    }
-                }
-            });
-
-            colorButton.addActionListener(new ActionListener()
-            {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    chooseColor = JColorChooser.showDialog(null,"Scegli un colore",Color.RED);
-                    panel.setBarColor(chooseColor);
+                    checkBoxXdrawLine.setText("Enable X-Line");
+                    panel.setDisableXLabelView(false);
                     panel.repaint();
                 }
             });
+                       
+            checkBoxYdrawLine.addItemListener((ItemEvent e) ->
+            {
+                if(checkBoxYdrawLine.isSelected())
+                {
+                    checkBoxYdrawLine.setText("Disable Y-Line");
+                    panel.setDisableYLabelView(true);
+                    panel.repaint();
+                }
+                else
+                {
+                    checkBoxYdrawLine.setText("Enable Y-Line");
+                    panel.setDisableYLabelView(false);
+                    panel.repaint();
+                }
+            });
+
+            colorButton.addActionListener((ActionEvent e) ->
+            {
+                chooseColor = JColorChooser.showDialog(null,"Scegli un colore",Color.RED);
+                panel.setBarColor(chooseColor);
+                panel.repaint();
+            });  
         }
     }
 
@@ -177,10 +171,15 @@ class pitchFrame extends JFrame
     public void setGraphName(String newName)
     {
         String grapName = "";
-        if(newName == "" && newName == null)
+        if("".equals(newName) && newName == null)
             grapName = "Graph";
         else
             grapName = newName;
         setTitle(grapName);
+    }
+    
+    public String getGraphName()
+    {
+        return graphName;
     }
 }

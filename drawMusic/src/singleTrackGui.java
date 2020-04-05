@@ -2,12 +2,6 @@
 import java.awt.Component;
 import java.util.HashMap;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Giuseppe
@@ -19,7 +13,7 @@ public class singleTrackGui extends javax.swing.JPanel
     public singleTrackGui()
     {
         initComponents();
-        createComponentMap();   
+        createComponentMap(); 
     }
     
     public void setBorderTitle(String inputTitle)
@@ -47,6 +41,16 @@ public class singleTrackGui extends javax.swing.JPanel
         durationValueLabel.setText(inputValue);
     }
     
+    public void setPerformersValueLabel(String inputValue)
+    {
+        performersValueLabel.setText(inputValue);
+    }
+    
+    public void setGenresSingleTrackValueLabel(String inputValue)
+    {
+        genresSingleTrackValueLabel.setText(inputValue);
+    }
+    
     private void createComponentMap()
     {
         componentMapSingleTrack = new HashMap<String,Component>();
@@ -54,6 +58,7 @@ public class singleTrackGui extends javax.swing.JPanel
         for(int i=0; i < components.length; i++)
         {
             componentMapSingleTrack.put(components[i].getName(), components[i]);
+            //System.out.println("Component Name: " + components[i].getName());
         }
     }
 
@@ -83,92 +88,100 @@ public class singleTrackGui extends javax.swing.JPanel
         durationValueLabel = new javax.swing.JLabel();
         fileFormatValueLabel = new javax.swing.JLabel();
         encodingFormatValueLabel = new javax.swing.JLabel();
+        performersLabel = new javax.swing.JLabel();
+        performersValueLabel = new javax.swing.JLabel();
+        genresSingleTrackLabel = new javax.swing.JLabel();
+        genresSingleTrackValueLabel = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(209, 209, 209));
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Track x", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
         setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        setPreferredSize(new java.awt.Dimension(500, 110));
+        setLayout(null);
 
         fileNameLabel.setBackground(new java.awt.Color(255, 255, 255));
         fileNameLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         fileNameLabel.setForeground(new java.awt.Color(0, 0, 0));
         fileNameLabel.setText("File Name");
         fileNameLabel.setName("fileNameLabel"); // NOI18N
+        add(fileNameLabel);
+        fileNameLabel.setBounds(10, 20, 58, 18);
 
         fileFormatLabel.setBackground(new java.awt.Color(255, 255, 255));
         fileFormatLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         fileFormatLabel.setForeground(new java.awt.Color(0, 0, 0));
         fileFormatLabel.setText("File Format:");
         fileFormatLabel.setName("fileFormatLabel"); // NOI18N
+        add(fileFormatLabel);
+        fileFormatLabel.setBounds(10, 40, 71, 18);
 
         encodingFormatLabel.setBackground(new java.awt.Color(255, 255, 255));
         encodingFormatLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         encodingFormatLabel.setForeground(new java.awt.Color(0, 0, 0));
         encodingFormatLabel.setText("Encoding Format:");
         encodingFormatLabel.setName("encodingFormatLabel"); // NOI18N
+        add(encodingFormatLabel);
+        encodingFormatLabel.setBounds(170, 40, 99, 18);
 
         durationLabel.setBackground(new java.awt.Color(255, 255, 255));
         durationLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         durationLabel.setForeground(new java.awt.Color(0, 0, 0));
         durationLabel.setText("Duration:");
         durationLabel.setName("durationLabel"); // NOI18N
+        add(durationLabel);
+        durationLabel.setBounds(360, 40, 54, 18);
 
         fileNameValueLabel.setForeground(new java.awt.Color(0, 0, 0));
-        fileNameValueLabel.setText("fieldName");
+        fileNameValueLabel.setText("fileName");
         fileNameValueLabel.setName("fileNameValueLabel"); // NOI18N
+        add(fileNameValueLabel);
+        fileNameValueLabel.setBounds(75, 21, 410, 16);
 
         durationValueLabel.setForeground(new java.awt.Color(0, 0, 0));
         durationValueLabel.setText("duration");
         durationValueLabel.setName("durationValueLabel"); // NOI18N
+        add(durationValueLabel);
+        durationValueLabel.setBounds(420, 40, 70, 16);
 
         fileFormatValueLabel.setForeground(new java.awt.Color(0, 0, 0));
         fileFormatValueLabel.setText("format");
         fileFormatValueLabel.setName("fileFormatValueLabel"); // NOI18N
+        add(fileFormatValueLabel);
+        fileFormatValueLabel.setBounds(85, 40, 70, 16);
 
         encodingFormatValueLabel.setForeground(new java.awt.Color(0, 0, 0));
         encodingFormatValueLabel.setText("encoding");
         encodingFormatValueLabel.setName("encodingFormatValueLabel"); // NOI18N
+        add(encodingFormatValueLabel);
+        encodingFormatValueLabel.setBounds(275, 40, 70, 16);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(fileFormatLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fileFormatValueLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(encodingFormatLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(encodingFormatValueLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(durationLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(durationValueLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(fileNameLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fileNameValueLabel)))
-                .addContainerGap(93, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fileNameLabel)
-                    .addComponent(fileNameValueLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fileFormatLabel)
-                    .addComponent(fileFormatValueLabel)
-                    .addComponent(encodingFormatLabel)
-                    .addComponent(encodingFormatValueLabel)
-                    .addComponent(durationLabel)
-                    .addComponent(durationValueLabel))
-                .addContainerGap())
-        );
+        performersLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
+        performersLabel.setForeground(new java.awt.Color(0, 0, 0));
+        performersLabel.setText("Artists:");
+        performersLabel.setName("performersLabel"); // NOI18N
+        add(performersLabel);
+        performersLabel.setBounds(10, 60, 47, 18);
+
+        performersValueLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        performersValueLabel.setForeground(new java.awt.Color(0, 0, 0));
+        performersValueLabel.setText("artistsName");
+        performersValueLabel.setName("performersValueLabel"); // NOI18N
+        add(performersValueLabel);
+        performersValueLabel.setBounds(65, 60, 420, 18);
+
+        genresSingleTrackLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
+        genresSingleTrackLabel.setForeground(new java.awt.Color(0, 0, 0));
+        genresSingleTrackLabel.setText("Genres:");
+        genresSingleTrackLabel.setName("genresSingleTrackLabel"); // NOI18N
+        add(genresSingleTrackLabel);
+        genresSingleTrackLabel.setBounds(10, 80, 45, 18);
+
+        genresSingleTrackValueLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        genresSingleTrackValueLabel.setForeground(new java.awt.Color(0, 0, 0));
+        genresSingleTrackValueLabel.setText("genresValue");
+        genresSingleTrackValueLabel.setName("genresSingleTrackValueLabel"); // NOI18N
+        add(genresSingleTrackValueLabel);
+        genresSingleTrackValueLabel.setBounds(65, 80, 420, 18);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -181,5 +194,9 @@ public class singleTrackGui extends javax.swing.JPanel
     private javax.swing.JLabel fileFormatValueLabel;
     private javax.swing.JLabel fileNameLabel;
     private javax.swing.JLabel fileNameValueLabel;
+    private javax.swing.JLabel genresSingleTrackLabel;
+    private javax.swing.JLabel genresSingleTrackValueLabel;
+    private javax.swing.JLabel performersLabel;
+    private javax.swing.JLabel performersValueLabel;
     // End of variables declaration//GEN-END:variables
 }

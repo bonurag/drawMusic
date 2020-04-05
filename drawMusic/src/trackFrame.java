@@ -3,12 +3,6 @@ import java.util.LinkedHashMap;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Giuseppe
@@ -17,9 +11,10 @@ public class trackFrame extends JFrame
 {
     singleTrackGui panelSingleTrack;
     generalInfoTrackGui panelGeneralInfo;
-    int xSize = 0;
-    int ySize = 0;
     
+    private static final String EMPTY_VALUE = "N/A";
+    private int ySize = 0;
+
     public trackFrame(String mainTitleInput,
                         LinkedHashMap<String, String> authorsInput,
                         LinkedHashMap<String, String> otherTitleInput,
@@ -31,19 +26,15 @@ public class trackFrame extends JFrame
     { 
         panelGeneralInfo = new generalInfoTrackGui();
         panelSingleTrack = new singleTrackGui();     
-
+        
+        inizializeComponentPanelGeneralInfo();     
+        inizializeComponentPanelSingleTracko();
+        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
+        
 //============================================= Set Main Title ============================================================
         if(mainTitleInput.length() > 0)
-        {
-            mainTitleInput = !mainTitleInput.equals("") ? mainTitleInput : "Titolo non presente";
             panelGeneralInfo.setMainTitleValueLabel(mainTitleInput);
-        }
-        else
-        {
-            panelGeneralInfo.getComponentByName("mainTitleLabel").setVisible(false);
-            panelGeneralInfo.getComponentByName("mainTitleValueLabel").setVisible(false);
-        }
-
+             
 //============================================= Set List Authors ============================================================
         String authorResult = "";
         String authorType = "";
@@ -59,12 +50,7 @@ public class trackFrame extends JFrame
             }
             panelGeneralInfo.setAuthorsValuesLabel(authorResult.substring(0, authorResult.length()-2));
         }
-        else
-        {
-            panelGeneralInfo.getComponentByName("authorsLabel").setVisible(false);
-            panelGeneralInfo.getComponentByName("authorsValuesLabel").setVisible(false);
-        }
-
+   
 //============================================= Set List Other Title ============================================================
         String otherTitleResult = "";
         if(otherTitleInput.size() > 0)
@@ -75,24 +61,11 @@ public class trackFrame extends JFrame
             }
             panelGeneralInfo.setOtherTitleValueLabel(otherTitleResult.substring(0, otherTitleResult.length()-2));
         }
-        else
-        {
-            panelGeneralInfo.getComponentByName("otherTitleLabel").setVisible(false);
-            panelGeneralInfo.getComponentByName("otherTitleValueLabel").setVisible(false);
-        }
-        
-        //Set Number
+    
+//============================================= Set NUmber ============================================================
         if(numberInput.length() > 0)
-        {
-            numberInput = !numberInput.equals("") ? numberInput : "Numero non presente";
             panelGeneralInfo.setNumberValueLabel(numberInput);
-        }
-        else
-        {
-            panelGeneralInfo.getComponentByName("numberLabel").setVisible(false);
-            panelGeneralInfo.getComponentByName("numberValueLabel").setVisible(false);
-        }
-        
+
 //============================================= Set List Work Title ============================================================       
         String workTitleResult = "";
         if(workTitleInput.size() > 0)
@@ -103,24 +76,11 @@ public class trackFrame extends JFrame
             }
             panelGeneralInfo.setWorkTitleValueLabel(workTitleResult.substring(0, workTitleResult.length()-2));
         }
-        else
-        {
-            panelGeneralInfo.getComponentByName("workTitleLabel").setVisible(false);
-            panelGeneralInfo.getComponentByName("workTitleValueLabel").setVisible(false);
-        }
 
 //============================================= Set Work Number ============================================================         
         if(workNumberInput.length() > 0)
-        {
-            workNumberInput = !workNumberInput.equals("") ? workNumberInput : "Valore non presente";
             panelGeneralInfo.setWorkNumberValueLabel(workNumberInput);
-        }
-        else
-        {
-            panelGeneralInfo.getComponentByName("workNumberLabel").setVisible(false);
-            panelGeneralInfo.getComponentByName("workNumberValueLabel").setVisible(false);
-        }
-
+            
 //============================================= Set List Genres ============================================================
         String genreName = "";
         String genresNameResult = "";
@@ -131,17 +91,8 @@ public class trackFrame extends JFrame
                 genreName = genresInput.get(name);
                 genresNameResult += genreName+"; ";
             }
-            System.out.println("genresNameResult: " + genresNameResult);
             panelGeneralInfo.setGenresValueLabel(genresNameResult.substring(0, genresNameResult.length()-2));
         }
-        else
-        {
-            panelGeneralInfo.getComponentByName("genresLabel").setVisible(false);
-            panelGeneralInfo.getComponentByName("genresValueLabel").setVisible(false);
-        }
-
-        
-        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
         
         if(mainTitleInput.length() > 0 || authorsInput.size() > 0 || otherTitleInput.size() > 0 || numberInput.length() > 0 || workTitleInput.size() > 0 || workNumberInput.length() > 0 || genresInput.size() > 0)
             add(panelGeneralInfo);
@@ -157,19 +108,25 @@ public class trackFrame extends JFrame
                 {
                     for(String k : trackInput.get(i).keySet())
                     {
+                        //====================== Set Track Name ====================== 
                         if(k.equals("file_name"))
                         {
                             String fileName = trackInput.get(i).get(k);                       
                             if(!fileName.equals(""))
                             {
-                                panelSingleTrack.setFileNameValueLabel(fileName.substring(fileName.lastIndexOf("/") + 1));
+                                if(fileName.contains("/"))
+                                    fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+                                if(fileName.contains("."))
+                                    fileName = fileName.substring(0, fileName.lastIndexOf("."));
+                                panelSingleTrack.setFileNameValueLabel(fileName);
                             }
-                            else
-                            {
-                                panelSingleTrack.getComponentSingleTrackByName("fileNameLabel").setVisible(false);
-                                panelSingleTrack.getComponentSingleTrackByName("fileNameValueLabel").setVisible(false);
-                            }
-                        }    
+                        }  
+                        else if(!trackInput.get(i).containsKey("file_name"))
+                        {
+                            panelSingleTrack.setFileNameValueLabel(EMPTY_VALUE);
+                        }
+                        
+                        //====================== Set Track Duration ======================
                         if(k.equals("track_duration"))
                         {
                             String trackDuration = trackInput.get(i).get(k);
@@ -177,60 +134,142 @@ public class trackFrame extends JFrame
                             {
                                 panelSingleTrack.setDurationValueLabel(trackDuration);
                             }
-                            else
-                            {
-                                panelSingleTrack.getComponentSingleTrackByName("durationLabel").setVisible(false);
-                                panelSingleTrack.getComponentSingleTrackByName("durationValueLabel").setVisible(false);
-                            }
-                        }    
+                        } 
+                        else if(!trackInput.get(i).containsKey("track_duration"))
+                        {
+                            panelSingleTrack.setDurationValueLabel(EMPTY_VALUE);
+                        }
+                        
+                        //====================== Set Track File Format ======================
                         if(k.equals("file_format"))
                         {
                             String fileFormat = trackInput.get(i).get(k);
                             if(!fileFormat.equals(""))
                             {
-                                panelSingleTrack.setFileFormatValueLabel(fileFormat);
-                            }
-                            else
-                            {
-                                panelSingleTrack.getComponentSingleTrackByName("fileFormatLabel").setVisible(false);
-                                panelSingleTrack.getComponentSingleTrackByName("fileFormatValueLabel").setVisible(false);
+                                panelSingleTrack.setFileFormatValueLabel(fileFormat.substring( 0, fileFormat.indexOf("_")).toUpperCase());
                             }
                         }
-
+                        else if(!trackInput.get(i).containsKey("file_format"))
+                        {
+                            panelSingleTrack.setFileFormatValueLabel(EMPTY_VALUE);
+                        }
+                        
+                        //====================== Set Track Encoding File Format ======================
                         if(k.equals("encoding_format"))
                         {
                             String encodingFormat = trackInput.get(i).get(k);
                             if(!encodingFormat.equals(""))
                             {
-                                panelSingleTrack.setEncodingFormatValueLabel(encodingFormat);
+                                panelSingleTrack.setEncodingFormatValueLabel("."+encodingFormat.substring(encodingFormat.lastIndexOf("_") + 1));
                             }
-                            else
+                        }  
+                        else if(!trackInput.get(i).containsKey("encoding_format"))
+                        {
+                            panelSingleTrack.setEncodingFormatValueLabel(EMPTY_VALUE);
+                        }
+                        
+                        //====================== Set Track Performers ======================
+                        if(k.equals("performers")) 
+                        {
+                            String performers = trackInput.get(i).get(k);
+                            if(!performers.equals(""))
                             {
-                                panelSingleTrack.getComponentSingleTrackByName("encodingFormatLabel").setVisible(false);
-                                panelSingleTrack.getComponentSingleTrackByName("encodingFormatValueLabel").setVisible(false);
+                                panelSingleTrack.setPerformersValueLabel(performers);
                             }
-                        }     
+                        }
+                        else if(!trackInput.get(i).containsKey("performers"))
+                        {
+                            panelSingleTrack.setPerformersValueLabel(EMPTY_VALUE);
+                        }
+                        
+                        //====================== Set Track Genres ======================
+                        if(k.equals("trackGenres"))
+                        {
+                            String genresTrack = trackInput.get(i).get(k);
+                            if(!genresTrack.equals(""))
+                            {
+                                panelSingleTrack.setGenresSingleTrackValueLabel(genresTrack);
+                            }
+                        }
+                        else if(!trackInput.get(i).containsKey("trackGenres"))
+                        {
+                            panelSingleTrack.setGenresSingleTrackValueLabel(EMPTY_VALUE);
+                        }
                     }
                 }
                 ySize += (int) panelSingleTrack.getPreferredSize().getHeight();
                 add(panelSingleTrack);
             }
-        } 
-        int xSizePanelSingleTrack = (int)panelSingleTrack.getPreferredSize().getWidth();
-        int xSizePanelGeneralInfo = (int)panelGeneralInfo.getPreferredSize().getWidth();
-        System.out.println("xSizePanelSingleTrack: " + xSizePanelSingleTrack);
-        System.out.println("xSizePanelGeneralInfo: " + xSizePanelGeneralInfo);
-        ySize = (int)ySize + (int)panelGeneralInfo.getPreferredSize().getHeight();
+            ySize = (int)ySize + (int)panelGeneralInfo.getPreferredSize().getHeight();
+        }
     }
     
     public void showUI()
     {
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);  
-        setSize(xSize, ySize);
-        setLocationRelativeTo(null);
-        setVisible(true);
-        setResizable(false);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);          
         setTitle("XML Additional Information");
+        setSize(500, ySize);
+        setLocationRelativeTo(null);
+        setResizable(false);
         pack();
+        setVisible(true);
+    }
+    
+    public void inizializeComponentPanelGeneralInfo()
+    {
+        panelGeneralInfo.setMainTitleValueLabel(EMPTY_VALUE);
+        panelGeneralInfo.getComponentByName("mainTitleLabel").setVisible(true);
+        panelGeneralInfo.getComponentByName("mainTitleValueLabel").setVisible(true);
+        
+        panelGeneralInfo.setAuthorsValuesLabel(EMPTY_VALUE);
+        panelGeneralInfo.getComponentByName("authorsLabel").setVisible(true);
+        panelGeneralInfo.getComponentByName("authorsValuesLabel").setVisible(true);
+        
+        panelGeneralInfo.setOtherTitleValueLabel(EMPTY_VALUE);
+        panelGeneralInfo.getComponentByName("otherTitleLabel").setVisible(true);
+        panelGeneralInfo.getComponentByName("otherTitleValueLabel").setVisible(true);
+        
+        panelGeneralInfo.setNumberValueLabel(EMPTY_VALUE);
+        panelGeneralInfo.getComponentByName("numberLabel").setVisible(true);
+        panelGeneralInfo.getComponentByName("numberValueLabel").setVisible(true);
+        
+        panelGeneralInfo.setWorkTitleValueLabel(EMPTY_VALUE);
+        panelGeneralInfo.getComponentByName("workTitleLabel").setVisible(true);
+        panelGeneralInfo.getComponentByName("workTitleValueLabel").setVisible(true);
+        
+        panelGeneralInfo.setWorkNumberValueLabel(EMPTY_VALUE);
+        panelGeneralInfo.getComponentByName("workNumberLabel").setVisible(true);
+        panelGeneralInfo.getComponentByName("workNumberValueLabel").setVisible(true);
+        
+        panelGeneralInfo.setGenresValueLabel(EMPTY_VALUE);
+        panelGeneralInfo.getComponentByName("genresLabel").setVisible(true);
+        panelGeneralInfo.getComponentByName("genresValueLabel").setVisible(true);
+    }
+    
+    public void inizializeComponentPanelSingleTracko()
+    {
+        panelSingleTrack.setFileNameValueLabel(EMPTY_VALUE);
+        panelSingleTrack.getComponentSingleTrackByName("fileNameLabel").setVisible(true);
+        panelSingleTrack.getComponentSingleTrackByName("fileNameValueLabel").setVisible(true);
+        
+        panelSingleTrack.setDurationValueLabel(EMPTY_VALUE);
+        panelSingleTrack.getComponentSingleTrackByName("durationLabel").setVisible(true);
+        panelSingleTrack.getComponentSingleTrackByName("durationValueLabel").setVisible(true);
+        
+        panelSingleTrack.setFileFormatValueLabel(EMPTY_VALUE);
+        panelSingleTrack.getComponentSingleTrackByName("fileFormatLabel").setVisible(true);
+        panelSingleTrack.getComponentSingleTrackByName("fileFormatValueLabel").setVisible(true);
+        
+        panelSingleTrack.setEncodingFormatValueLabel(EMPTY_VALUE);
+        panelSingleTrack.getComponentSingleTrackByName("encodingFormatLabel").setVisible(true);
+        panelSingleTrack.getComponentSingleTrackByName("encodingFormatValueLabel").setVisible(true);
+        
+        panelSingleTrack.setPerformersValueLabel(EMPTY_VALUE);
+        panelSingleTrack.getComponentSingleTrackByName("performersLabel").setVisible(true);
+        panelSingleTrack.getComponentSingleTrackByName("performersValueLabel").setVisible(true);
+
+        panelSingleTrack.setGenresSingleTrackValueLabel(EMPTY_VALUE);
+        panelSingleTrack.getComponentSingleTrackByName("genresSingleTrackLabel").setVisible(true);
+        panelSingleTrack.getComponentSingleTrackByName("genresSingleTrackValueLabel").setVisible(true);                        
     }
 }
