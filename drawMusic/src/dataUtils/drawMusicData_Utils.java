@@ -43,7 +43,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 /**
- * @author      Giuseppe Bonura <giuseppe.bonura@studenti.unimi.it>
+ * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
  * @version     1.0 (current version number of program)
  */
 public class drawMusicData_Utils
@@ -81,6 +81,7 @@ public class drawMusicData_Utils
     * Useful function for reading a file given its name.
     * @param  inputName file name to read
     * @return Returns a file object with name inputName
+    * @throws java.io.IOException
     */
     public static File readFile(String inputName) throws IOException
     {
@@ -97,6 +98,8 @@ public class drawMusicData_Utils
     * Useful function for return an XML document.
     * @param  inputFile object file reading from source
     * @return Root of the XML document tree, usefull for access into the document's data
+    * @throws javax.xml.parsers.ParserConfigurationException
+    * @throws java.io.IOException
     */
     public static Document getDoc(File inputFile) throws ParserConfigurationException, IOException
     {
@@ -111,60 +114,76 @@ public class drawMusicData_Utils
             f.setValidating(enableValidationFromGui); 
             f.setIgnoringElementContentWhitespace(enableIgnoringWhitespaceFromGui);
             DocumentBuilder b = f.newDocumentBuilder();
-            ErrorHandler h = new MyErrorHandler();
+            ErrorHandler h = new xmlValidationErrorHandler();
             b.setErrorHandler(h);
             parsedDocument = (Document) b.parse(xmlFile);
         }
-        catch (ParserConfigurationException e)
+        catch (ParserConfigurationException | SAXException | IOException e)
         {
             System.out.println(e.toString());      
         }
-        catch (SAXException e)
-        {
-            System.out.println(e.toString());      
-        }
-        catch (IOException e)
-        {
-            System.out.println(e.toString());      
-        }   
         if(f.isValidating() && enableValidationFromGui)
-        {
             return parsedDocument;
-        }
         else
             return parsedDocument;     
     }
     
+    /**
+    * Method for set static variable that enable or disable xml validation from the GUI
+    * @param  inputStatus input status for option true: Active false: Disable
+    */
     public static void setXmlEnableValidationFromGui(Boolean inputStatus)
     {
         enableValidationFromGui = inputStatus;
     }
     
+    /**
+    * Method for set static variable that enable or disable xml blank ignoring option
+    * @param  inputStatus input status for option true: Active false: Disable
+    */
     public static void setXmlEnableIgnoringWhitespaceFromGui(Boolean inputStatus)
     {
         enableIgnoringWhitespaceFromGui = inputStatus;
     }
    
-    private static class MyErrorHandler implements ErrorHandler
+    private static class xmlValidationErrorHandler implements ErrorHandler
     {
+        /**
+        * Method used for catch Warning of SAXParseException and print it during xml validation
+        * @throws org.xml.sax.SAXParseException
+        */
+        @Override
         public void warning(SAXParseException e) throws SAXException
         {
            System.out.println("Warning: "); 
            printInfo(e);
         }
         
+        /**
+        * Method used for catch Error of SAXParseException and print it during xml validation
+        * @throws org.xml.sax.SAXParseException
+        */
+        @Override
         public void error(SAXParseException e) throws SAXException
         {
            System.out.println("Error: "); 
            printInfo(e);
         }
         
+        /**
+        * Method used for catch Fattal error of SAXParseException and print it during xml validation
+        * @throws org.xml.sax.SAXParseException
+        */
+        @Override
         public void fatalError(SAXParseException e) throws SAXException
         {
            System.out.println("Fattal error: "); 
            printInfo(e);
         }
         
+        /**
+        * Method for print all infomation catched during xml validation
+        */
         private void printInfo(SAXParseException e)
         {
            System.out.println("   Public ID: "+e.getPublicId());
@@ -174,7 +193,14 @@ public class drawMusicData_Utils
            System.out.println("   Message: "+e.getMessage());
         }
     }
-
+    
+    /**
+    * Method used for order data at the end of pitch computation
+    * @param  inputMap It is a map that contains the result of the data extracted from the xml file
+    * @param  debug Is a flag useful for enable or disable system debug inside the method
+    * @param  typeOrder Is the type of rappresentation that is possible use for note
+    * @return ordered input data 
+    */
     public static LinkedHashMap<String, Integer> getOrderedResult(TreeMap<String, Integer> inputMap, Boolean debug, Rappresentation typeOrder)
     {      
         Boolean mergeNote = false;
@@ -289,8 +315,13 @@ public class drawMusicData_Utils
         return outputMap;
     }
     
-    public static void getOrderedDurationResult(LinkedHashMap<String, Integer> inputMap, Boolean debug) {
-        
+    /**
+    * Method used for print order data at the end of duration computation
+    * @param  inputMap It is a map that contains the duration result extracted from the xml file
+    * @param  debug Is a flag useful for enable or disable system debug inside the method
+    */
+    public static void getOrderedDurationResult(LinkedHashMap<String, Integer> inputMap, Boolean debug)
+    { 
         if(debug)
         {
             System.out.println("getOrderResult keySet " + inputMap.keySet());
@@ -298,7 +329,12 @@ public class drawMusicData_Utils
         }  
     }
     
-    public static String getNoteTranscoding(String note)
+    /**
+    * Method used for given in output the diatonic corresponding anglo-saxon note 
+    * @param  angloSaxonNote It's a note in anglo-saxon format
+    * @return Diatonic corresponding note
+    */
+    public static String getNoteTranscoding(String angloSaxonNote)
     {
         LinkedHashMap<String,String> noteTranscoding = new LinkedHashMap<>();
         noteTranscoding.put("C", "Do");
@@ -308,9 +344,14 @@ public class drawMusicData_Utils
         noteTranscoding.put("G", "Sol");
         noteTranscoding.put("A", "La");
         noteTranscoding.put("B", "Si");
-        return noteTranscoding.get(note.toUpperCase());
+        return noteTranscoding.get(angloSaxonNote.toUpperCase());
     }
     
+    /**
+    * Method used to encode abstract literal incidents from an xml file
+    * @param  accident Litteral accidental form
+    * @return Encoded output in symbol if input is one of this value FLAT, DOUBLE_FLAT, NATURAL, DOUBLE_FLAT SHARP otherwise empty
+    */
     public static String getNoteAccidental(String accident)
     {
         String emptyValue = "";
@@ -328,6 +369,11 @@ public class drawMusicData_Utils
             return emptyValue;
     }
     
+    /**
+    * Method used for extract to the pitch nodelist the element attributes
+    * @param  inputNode Take in input the result of xpath evalution //chord/notehead/pitch
+    * @return A list of notes composed by: step, actual_accidental, octave. Example C#2
+    */
     public static ArrayList<String> getListFromNodeList(NodeList inputNode)
     {
         String[] tempArray = new String [inputNode.getLength()];
@@ -349,16 +395,21 @@ public class drawMusicData_Utils
         return tempList;
     }
     
-    public static ArrayList<String> getPciName(ArrayList<ArrayList<Integer>> pciInput)
+    /**
+    * Method used to get the name of a range
+    * @param  binomialInput List of binomial coefficient (PC,NC)
+    * @return Short name of corresponding interval 
+    */
+    public static ArrayList<String> getIntervalName(ArrayList<ArrayList<Integer>> binomialInput)
     {
         ArrayList<String> pciNameList = new ArrayList<>();
         ArrayList<Integer> tmpListPci = new ArrayList<>();
         ArrayList<ArrayList<String>> intervalMatrix = generateMatrixBRI();
-        if(!pciInput.isEmpty())
+        if(!binomialInput.isEmpty())
         {
-            for(int k=0; k<pciInput.size(); k++)
+            for(int k=0; k<binomialInput.size(); k++)
             {
-                tmpListPci = pciInput.get(k);
+                tmpListPci = binomialInput.get(k);
                 int PC = tmpListPci.get(0);
                 int NC = tmpListPci.get(1);
 
@@ -375,8 +426,12 @@ public class drawMusicData_Utils
         return pciNameList;
     }
     
-    //Per determinare l’intervallo tra due note, si sottrae la prima nota dalla
-    //seconda. Tale calcolo corrisponde all’operazione di sottrazione
+    /**
+    * Method used to compute the calculation of an interval between two notes
+    * @param  inputPermutation List of all of permutation founded during process of xml file reading
+    * @param  binomialMap Map of binomial coefficient for each note
+    * @return A list of (PC,NC) 
+    */
     public static ArrayList<ArrayList<Integer>> calculateInterval(ArrayList<String> inputPermutation, TreeMap<String, ArrayList<Integer>> binomialMap)
     {
         ArrayList<ArrayList<Integer>> intervalResult = new ArrayList<>();
@@ -409,7 +464,11 @@ public class drawMusicData_Utils
         return intervalResult;
     }
     
-    //Metodo che calcola il CONTINUOUS NAME CODE passanto in input un pitch
+    /**
+    * Method used to compute the Continuous Name Code of a input pitch
+    * @param  inputNote Pitch note value
+    * @return Continuous Name Code 
+    */
     public static Integer calculateCNC(String inputNote)
     {
         Integer octave = Integer.parseInt(inputNote.substring(inputNote.length()-1, inputNote.length()));
@@ -419,6 +478,11 @@ public class drawMusicData_Utils
         return (octave * 7) + nameClass;        
     }
     
+    /**
+    * Method used to get the pitch value of a input note
+    * @param  inputNote Input note composed by: step, actual_accidental, octave. Example C#2
+    * @return Pitch value
+    */
     public static Integer getPitchClass(String inputNote)
     {
         //System.out.println("Inside getPitchClass inputNote: " + inputNote);
@@ -460,7 +524,12 @@ public class drawMusicData_Utils
         return pitchClassValue;
     }
     
-    public static Integer getNameClass(String inputNote)
+    /**
+    * Method used to get the corresponding name class value of a input step note
+    * @param  inputStep Input note composed by: step. Example C, A, E
+    * @return Name Class value otherwise -1
+    */
+    public static Integer getNameClass(String inputStep)
     {
         //System.out.println("Inside getNameClass inputNote: " + inputNote);
         
@@ -484,7 +553,7 @@ public class drawMusicData_Utils
     
         for(Integer index : nameClassMap.keySet())
         {
-            if(nameClassMap.get(index).equals(inputNote))
+            if(nameClassMap.get(index).equals(inputStep))
             {
                 nameClassValue = index;
             }    
@@ -493,6 +562,11 @@ public class drawMusicData_Utils
         return nameClassValue;
     }
     
+    /**
+    * Method used to get the corresponding binomial coefficient of a list of note in chord
+    * @param  inputMap Map that have for value a list of pitch for each chord compute in xml file and by key an incremental integer
+    * @return A list of (PC,NC)
+    */
     public static ArrayList<ArrayList<Integer>> getMelodicBinomialFromChord(TreeMap<Integer,ArrayList<String>> inputMap)
     {
         ArrayList<String> previousValueList = new ArrayList<>();
@@ -559,60 +633,11 @@ public class drawMusicData_Utils
         //System.out.println("binomialMap Size " + binomialMap.size());
         return calculateInterval(permutationList, binomialMap);    
     }
-    /*
-    public static TreeMap<String, Integer> getXmlStatisticsPitch(String xmlToOpen, String typeOfNotes)
-    {
-        TreeMap<String, Integer> pitchNoteMap = new TreeMap<>();
-        try
-        {
-            String fileName = xmlToOpen;
-            Document doc = getDoc(readFile(fileName));
-            
-            //Altezza
-            NodeList pitchNodeList = doc.getElementsByTagName("pitch");
-            // Non è possibile usare un foreach perché NodeList non implementa l'interfaccia Iterable
-            Node currentNode;
-            for(int i=0; i<pitchNodeList.getLength(); i++)
-            {
-                if(pitchNodeList.item(i) != null)
-                {
-                    currentNode = pitchNodeList.item(i);
-                    Element pitchElem = (Element) currentNode;
-                    if (!pitchElem.getAttribute("step").equals("")) 
-                    {
-                        String currentPitch = "";
-                        String currentAccidental = "";
-                        if(typeOfNotes.equals("A")) //Anglosassone
-                        {
-                            currentPitch = pitchElem.getAttribute("step").toUpperCase();
-                        }     
-                        else if(typeOfNotes.equals("D")) //Diatonica
-                        {
-                            currentPitch = getNoteTranscoding(pitchElem.getAttribute("step"));
-                            currentAccidental = getNoteAccidental(pitchElem.getAttribute("actual_accidental"));
-                        }
-
-                        if(pitchNoteMap.containsKey(currentPitch+currentAccidental))
-                        {
-                            int counter = pitchNoteMap.get(currentPitch+currentAccidental);
-                            counter += 1;
-                            pitchNoteMap.put(currentPitch+currentAccidental,counter);
-                        }
-                        else
-                        {
-                            pitchNoteMap.put(currentPitch+currentAccidental,1);
-                        }
-                    }
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            System.out.println("Errore nell'elaborazione del file");
-            System.exit(1);
-        }
-        return pitchNoteMap;
-    }
+    
+    /**
+    * Method used to find minimum difference between any two elements in a list
+    * @param  inputValue List of integer value
+    * @return minimum value in a list
     */
     public static Integer getMinGapInValue(ArrayList<Integer> inputValue)
     {
@@ -629,6 +654,10 @@ public class drawMusicData_Utils
         return minDiff;
     }
     
+    /**
+    * Method used to generate a matrix that contains the binomial interval representation
+    * @return Binomial Interval Rappresentation Matrix
+    */
     public static ArrayList<ArrayList<String>> generateMatrixBRI()
     {
 	ArrayList<ArrayList<String>> binomialRapInterval = new ArrayList<>();
@@ -773,6 +802,11 @@ public class drawMusicData_Utils
 	return binomialRapInterval;
     }
     
+    /**
+    * Method used to catch a screenshot of generated graph and save copy in jpg or png format
+    * @param  inputButton An instance of JButton
+    * @param  inputPanel An instance JPanel that contain a JButton
+    */
     public static void saveScreenShoot(JButton inputButton, JPanel inputPanel)
     {
         inputButton.addActionListener((ActionEvent e) ->
@@ -810,6 +844,11 @@ public class drawMusicData_Utils
         });
     }
     
+    /**
+    * Method used to compute elapsed time during the swing worker execution
+    * @param  inputTime Millisedond of elapsed time
+    * @return A string of format HH:mm:ss:ms
+    */
     public static String getElapsedTimeFromMilliseconds(long inputTime)
     {
         String format = String.format("%%0%dd", 2);
@@ -827,6 +866,12 @@ public class drawMusicData_Utils
         return time;
     }
     
+    /**
+    * Method used to auto-center the message under the JProgressbar dynamically
+    * @param  inputBar An instance of JProgressBar
+    * @param  inputLabel An instance of JLabel
+    * @return An integer value of X axis to use in input at AbsoluteConstraints method
+    */
     public static int alignMessageToJBar(JProgressBar inputBar, JLabel inputLabel)
     {
         FontMetrics fm = inputLabel.getFontMetrics(inputLabel.getFont());
@@ -839,6 +884,11 @@ public class drawMusicData_Utils
         return result;
     }
     
+    /**
+    * Method used to get an indicative track duration time with an approximation of half a minute
+    * @param  secondsInput The value in seconds extracted from the start_time attribute of the track_event tags
+    * @return A string that corrisponign a circa mm:ss track duration
+    */
     public static String trackDurationConverter(int secondsInput)
     {
         String result = "";
@@ -868,6 +918,13 @@ public class drawMusicData_Utils
         return result;
     }
     
+    /**
+    * Method used to find export an XML version of the data represented in the generated graph
+    * @param  inputButton Export button on which add an actionlistener
+    * @param  inputData Map that have for value the count element and for key the name of counted element
+    * @param  elementInGraph Name of a list of element that contains the input data 
+    * @param  graphName Value of attribute name in a element graph
+    */
     public static void exportXml(JButton inputButton, LinkedHashMap<String, Integer> inputData, String elementInGraph, String graphName)
     {
         inputButton.addActionListener((ActionEvent e) -> 
@@ -908,6 +965,14 @@ public class drawMusicData_Utils
         });    
     }
     
+    /**
+    * Method used to export an XML version of the data represented in the generated graph with duration type specific
+    * @param  inputButton Export button on which add an actionlistener
+    * @param  inputData Map that have for value the count element and for key the name of counted element
+    * @param  elementInGraph Name of a list of element that contains the input data 
+    * @param  graphName Value of attribute name in a element graph
+    * @param  inputDurationType Type of duration choice in GUI before generate graph, permitted value: CHORD, REST and BOTH
+    */
     public static void exportXml(JButton inputButton, LinkedHashMap<String, Integer> inputData, String elementInGraph, String graphName, String inputDurationType)
     {
         inputButton.addActionListener((ActionEvent e) -> 
@@ -951,6 +1016,15 @@ public class drawMusicData_Utils
         });    
     }
     
+    /**
+    * Method used to generate the contents of the xml file using the calculated data
+    * @param  inputButton Export button on which add an actionlistener
+    * @param  inputData Map that have for value the count element and for key the name of counted element
+    * @param  elementInGraph Name of a list of element that contains the input data 
+    * @param  graphName Value of attribute name in a element graph
+    * @return  A new XML document
+    * @throws javax.xml.parsers.ParserConfigurationException;
+    */
     private static Document generateXmlFile(LinkedHashMap<String, Integer> inputData, String elementInGraph, String graphName) throws ParserConfigurationException
     {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -984,6 +1058,16 @@ public class drawMusicData_Utils
         return doc;
     }
     
+    /**
+    * Method used to generate the contents of the xml file using the calculated data with duration type specific
+    * @param  inputButton Export button on which add an actionlistener
+    * @param  inputData Map that have for value the count element and for key the name of counted element
+    * @param  elementInGraph Name of a list of element that contains the input data 
+    * @param  graphName Value of attribute name in a element graph
+    * @param  inputDurationType Type of duration choice in GUI before generate graph, permitted value: CHORD, REST and BOTH
+    * @return  A new XML document
+    * @throws javax.xml.parsers.ParserConfigurationException;
+    */
     private static Document generateXmlFile(LinkedHashMap<String, Integer> inputData, String elementInGraph, String graphName, String inputDurationType) throws ParserConfigurationException
     {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();

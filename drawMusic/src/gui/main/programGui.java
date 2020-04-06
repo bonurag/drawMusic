@@ -44,14 +44,14 @@ public class programGui extends javax.swing.JFrame
     private long startTimeHarmonic;
     private long startTimeInformation;
     
-    private final String workerPitchStart = "workerPitchStart";
-    private final String workerPitchClassStart = "workerPitchClassStart";
-    private final String workerDurationStart = "workerDurationStart";
-    private final String workerMelodicStart = "workerMelodicStart";
-    private final String workerHarmonicStart = "workerHarmonicStart";
-    private final String workerGetInformationStart = "workerGetInformationStart";
+    public static final String WORKERPITCHSTART = "workerPitchStart";
+    public static final String WORKERPITCHCLASSSTART = "workerPitchClassStart";
+    public static final String WORKERDURATIONSTART = "workerDurationStart";
+    public static final String WORKERMELODICSTART = "workerMelodicStart";
+    public static final String WORKERHARMONICSTART = "workerHarmonicStart";
+    public static final String WORKERGETINFORMATIONSTART = "workerGetInformationStart";
 
-    private ArrayList<String> workInProgress = new ArrayList<>();
+    private final ArrayList<String> workInProgress = new ArrayList<>();
     
     /**
      * Creates new form programGui
@@ -72,7 +72,7 @@ public class programGui extends javax.swing.JFrame
         whiteSpaceEnableCheckBox.setText("Abilita Ignora Spazi XML");      
     }
     
-    public void lockIcon()
+    private void lockIcon()
     {
         generatePitchClassButton.setEnabled(false);
         generatePitchButton.setEnabled(false);
@@ -81,7 +81,7 @@ public class programGui extends javax.swing.JFrame
         generateHarmonicIntervalButton.setEnabled(false);
     }
     
-    public void lockTextBox()
+    private void lockTextBox()
     {
         nomeGraficoTextField_1.setEnabled(false);
         nomeGraficoTextField_2.setEnabled(false);
@@ -90,27 +90,27 @@ public class programGui extends javax.swing.JFrame
         nomeGraficoTextField_5.setEnabled(false);
     }
     
-    public void lockComboBox()
+    private void lockComboBox()
     {
         durationTypeComboBox.setEnabled(false);
     }
     
-    public void lockCheckBoxValidationXml()
+    private void lockCheckBoxValidationXml()
     {
         xmlValidationEnableCheckBox.setEnabled(false);
     }
     
-    public void lockCheckBoxWhiteSpaceXml()
+    private void lockCheckBoxWhiteSpaceXml()
     {
         whiteSpaceEnableCheckBox.setEnabled(false);
     }
     
-    public void lockDetailButton()
+    private void lockDetailButton()
     {
         xmlFileDetailButton.setEnabled(false);
     }
     
-    public void unLockIcon()
+    private void unLockIcon()
     {
         generatePitchClassButton.setEnabled(true);
         generatePitchButton.setEnabled(true);
@@ -119,7 +119,7 @@ public class programGui extends javax.swing.JFrame
         generateHarmonicIntervalButton.setEnabled(true);
     }
     
-    public void unLockTextBox()
+    private void unLockTextBox()
     {
         nomeGraficoTextField_1.setEnabled(true);
         nomeGraficoTextField_2.setEnabled(true);
@@ -128,22 +128,22 @@ public class programGui extends javax.swing.JFrame
         nomeGraficoTextField_5.setEnabled(true);
     }
 
-    public void unLockComboBox()
+    private void unLockComboBox()
     {
         durationTypeComboBox.setEnabled(true);
     }
     
-    public void unLockCheckBoxValidationXml()
+    private void unLockCheckBoxValidationXml()
     {
         xmlValidationEnableCheckBox.setEnabled(true);
     }
     
-    public void unLockCheckBoxWhiteSpaceXml()
+    private void unLockCheckBoxWhiteSpaceXml()
     {
         whiteSpaceEnableCheckBox.setEnabled(true);
     }
     
-    public void unLockDetailButton()
+    private void unLockDetailButton()
     {
         xmlFileDetailButton.setEnabled(true);
     }
@@ -486,7 +486,7 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
-                                    workInProgress.remove("workerPitchClassStart");
+                                    workInProgress.remove(WORKERPITCHCLASSSTART);
                                     System.out.println("workInProgress DONE: " + workInProgress);
                                     pitchClassFrame pitchClassFrame = new pitchClassFrame(work.get());
                                     int dataSize = pitchClassFrame.getInputDataSize();
@@ -553,7 +553,7 @@ public class programGui extends javax.swing.JFrame
                                 break;
 
                             case STARTED:
-                                workInProgress.add("workerPitchClassStart");
+                                workInProgress.add(WORKERPITCHCLASSSTART);
                                 System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generatePitchClassButton.setEnabled(false);
@@ -613,7 +613,7 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
-                                    workInProgress.remove("workerPitchStart");
+                                    workInProgress.remove(WORKERPITCHSTART);
                                     System.out.println("workInProgress DONE: " + workInProgress);
                                     pitchFrame pitchFrame = new pitchFrame(work.get());
                                     int dataSize = pitchFrame.getInputDataSize();
@@ -680,7 +680,7 @@ public class programGui extends javax.swing.JFrame
                                 break;
                            
                             case STARTED:
-                                workInProgress.add("workerPitchStart");
+                                workInProgress.add(WORKERPITCHSTART);
                                 System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generatePitchButton.setEnabled(false);
@@ -741,7 +741,7 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
-                                    workInProgress.remove("workerDurationStart");
+                                    workInProgress.remove(WORKERDURATIONSTART);
                                     System.out.println("workInProgress DONE: " + workInProgress);
                                     durationFrame durationFrame = new durationFrame(work.get(), inputDurationType);
                                     int dataSize = durationFrame.getInputDataSize();
@@ -811,7 +811,7 @@ public class programGui extends javax.swing.JFrame
                                 break;
 
                             case STARTED:
-                                workInProgress.add("workerDurationStart");
+                                workInProgress.add(WORKERDURATIONSTART);
                                 System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generateDurationButton.setEnabled(false);
@@ -872,7 +872,7 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
-                                    workInProgress.remove("workerMelodicStart");
+                                    workInProgress.remove(WORKERMELODICSTART);
                                     System.out.println("workInProgress DONE: " + workInProgress);
                                     melodicIntervalFrame melodicIntervalFrame = new melodicIntervalFrame(work.get());
                                     int dataSize = melodicIntervalFrame.getInputDataSize();
@@ -939,7 +939,7 @@ public class programGui extends javax.swing.JFrame
                                 break;
 
                             case STARTED:
-                                workInProgress.add("workerMelodicStart");
+                                workInProgress.add(WORKERMELODICSTART);
                                 System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generateMelodicIntervalButton.setEnabled(false);
@@ -999,7 +999,7 @@ public class programGui extends javax.swing.JFrame
                             {
                                 try 
                                 {
-                                    workInProgress.remove("workerHarmonicStart");
+                                    workInProgress.remove(WORKERHARMONICSTART);
                                     System.out.println("workInProgress DONE: " + workInProgress);
                                     harmonicIntervalFrame harmonicIntervalFrame = new harmonicIntervalFrame(work.get());
                                     int dataSize = harmonicIntervalFrame.getInputDataSize();
@@ -1066,7 +1066,7 @@ public class programGui extends javax.swing.JFrame
                                 break;
 
                             case STARTED:
-                                workInProgress.add("workerHarmonicStart");
+                                workInProgress.add(WORKERHARMONICSTART);
                                 System.out.println("workInProgress STARTED: " + workInProgress);
                                 loadDataProgressBar.setVisible(true);
                                 generateHarmonicIntervalButton.setEnabled(false);
@@ -1153,7 +1153,7 @@ public class programGui extends javax.swing.JFrame
                     {
                         case DONE:
                         {
-                            workInProgress.remove("workerGetInformationStart");
+                            workInProgress.remove(WORKERGETINFORMATIONSTART);
                             System.out.println("workInProgress DONE: " + workInProgress);
 
                             trackFrame trackFrame = new trackFrame(cdi.getMainTitle(), cdi.getAuthorsMap(),cdi.getOtherTitleMap(),cdi.getNumber() ,cdi.getWorkTitleMap(),cdi.getWorkNumber(), cdi.getGenresMap(), cdi.getTrackMap());  
@@ -1215,7 +1215,7 @@ public class programGui extends javax.swing.JFrame
                         break;
                         
                         case STARTED:
-                            workInProgress.add("workerGetInformationStart");
+                            workInProgress.add(WORKERGETINFORMATIONSTART);
                             System.out.println("workInProgress STARTED: " + workInProgress);
                             xmlFileDetailButton.setEnabled(false);                              
                             loadDataProgressBar.setVisible(true);

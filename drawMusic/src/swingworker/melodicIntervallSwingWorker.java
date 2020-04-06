@@ -96,11 +96,11 @@ public class melodicIntervallSwingWorker
                         if(stepForProgress < (double) 100)
                             setProgress(100);
 
-                        ArrayList<String> pciNameLis = drawMusicData_Utils.getPciName(drawMusicData_Utils.getMelodicBinomialFromChord(pitchMap));
+                        ArrayList<String> intervalNameLis = drawMusicData_Utils.getIntervalName(drawMusicData_Utils.getMelodicBinomialFromChord(pitchMap));
 
-                        //System.out.println("getPciName: " + pciNameLis);
+                        //System.out.println("intervalNameLis: " + intervalNameLis);
 
-                        for(String intervalKey : pciNameLis)
+                        for(String intervalKey : intervalNameLis)
                         {
                             if(melodicIntervalMap.containsKey(intervalKey))
                             {

@@ -117,10 +117,10 @@ public class harmonicIntervallSwingWorker
                             }
                             //System.out.println("notesListPermutation: " + notesListPermutation); 
 
-                            ArrayList<String> pciNameLis = drawMusicData_Utils.getPciName(drawMusicData_Utils.calculateInterval(notesListPermutation,binomialNoteMap));
-                            //System.out.println("getPciName: " + pciNameLis);
+                            ArrayList<String> intervalNameLis = drawMusicData_Utils.getIntervalName(drawMusicData_Utils.calculateInterval(notesListPermutation,binomialNoteMap));
+                            //System.out.println("intervalNameLis: " + intervalNameLis);
 
-                            for(String intervalKey : pciNameLis)
+                            for(String intervalKey : intervalNameLis)
                             {
                                 if(harmonicIntervalMap.containsKey(intervalKey))
                                 {
