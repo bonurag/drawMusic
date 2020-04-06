@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
-import java.util.Arrays;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -17,19 +16,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Giuseppe
  */
 public class pitchSwingWorker
 {
+    private static Boolean isError = false;
+    
     public SwingWorker createWorker(File inputFile, String rappresentationType, String typeOfNotes)
     {
         return new SwingWorker<LinkedHashMap<String, Integer>, Void>()
@@ -113,8 +107,9 @@ public class pitchSwingWorker
                 }
                 catch (Exception e)
                 {
-                    System.out.println("Exception:" + Arrays.toString(e.getStackTrace()));
-                    System.exit(1);
+                    isError = true;
+                    System.out.println("Errore nell'elaborazione del file - isError Value: " + isError);
+                    Logger.getLogger(pitchSwingWorker.class.getName()).log(Level.SEVERE, null, e);
                 }
                 if(!finalPitchNoteMap.isEmpty())
                     return finalPitchNoteMap;
@@ -138,6 +133,11 @@ public class pitchSwingWorker
                 }
                 //System.out.println("Finished with status " + calculateData);
             }                     
-        };      
+        };          
+    }
+    
+    public static Boolean getIsError()
+    {
+        return isError;
     }
 }

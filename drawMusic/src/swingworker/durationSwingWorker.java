@@ -21,6 +21,8 @@ import org.w3c.dom.NodeList;
  */
 public class durationSwingWorker
 {
+    private static Boolean isError = false;
+    
     public SwingWorker createWorker(File inputFile, String inputDurationType)
     {
         return new SwingWorker<LinkedHashMap<String, Integer>, Void>()
@@ -94,9 +96,9 @@ public class durationSwingWorker
                 }
                 catch (Exception e)
                 {
-                    System.out.println("Errore nell'elaborazione del file");
+                    isError = true;
+                    System.out.println("Errore nell'elaborazione del file - isError Value: " + isError);
                     Logger.getLogger(durationSwingWorker.class.getName()).log(Level.SEVERE, null, e);
-                    System.exit(1);
                 }
                 return rhythmMap;
             }
@@ -115,5 +117,10 @@ public class durationSwingWorker
                 //System.out.println("Finished with status " + calculateData);
             }                     
         };      
+    }
+    
+    public static Boolean getIsError()
+    {
+        return isError;
     }
 }

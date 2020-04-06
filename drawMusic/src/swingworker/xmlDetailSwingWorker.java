@@ -23,6 +23,8 @@ import org.w3c.dom.NodeList;
  */
 public class xmlDetailSwingWorker
 {
+    private static Boolean isError = false;
+        
     private String mainTitle = "";
     private String number = "";
     private String workNumber = "";
@@ -272,13 +274,18 @@ public class xmlDetailSwingWorker
                 }
                 catch (Exception e)
                 {
-                    System.out.println("Errore nell'elaborazione del file");
+                    isError = true;
+                    System.out.println("Errore nell'elaborazione del file - isError Value: " + isError);
                     Logger.getLogger(xmlDetailSwingWorker.class.getName()).log(Level.SEVERE, null, e);
-                    System.exit(1);
                 }
                 return null;
             }         
         };      
+    }
+    
+    public static Boolean getIsError()
+    {
+        return isError;
     }
     
     public String getMainTitle()

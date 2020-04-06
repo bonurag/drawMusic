@@ -43,24 +43,48 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 /**
- *
- * @author Giuseppe
+ * @author      Giuseppe Bonura <giuseppe.bonura@studenti.unimi.it>
+ * @version     1.0 (current version number of program)
  */
 public class drawMusicData_Utils
 {
+    /**
+    * Enable xml validation from the GUI
+    */
     private static Boolean enableValidationFromGui = false;
+    
+    /**
+    * Setting to ignore whitespace in the xml file from the GUI
+    */
     private static Boolean enableIgnoringWhitespaceFromGui = false;
     
+    /**
+    * @author Giuseppe Bonura
+    */    
     public enum Rappresentation
     {
+        /**
+        * This Value is used inside the method getOrderedResult for represent data using diatonic scale
+        */
         DIATONICA,
+        /**
+        * This Value is used inside the method getOrderedResult for represent data using anglosaxon scale
+        */
         ANGLOSASSONE,
+        /**
+        * This Value is used inside the method getOrderedResult for represent pitch data
+        */
         PITCH_CLASS
     }
-
-    public static File readFile(String name) throws IOException
+    
+    /**
+    * Useful function for reading a file given its name.
+    * @param  inputName file name to read
+    * @return Returns a file object with name inputName
+    */
+    public static File readFile(String inputName) throws IOException
     {
-        String fileName = name; 
+        String fileName = inputName; 
         File file = new File(fileName);
         if (!file.canRead())
         {
@@ -69,6 +93,11 @@ public class drawMusicData_Utils
         return file;      
     }
     
+    /**
+    * Useful function for return an XML document.
+    * @param  inputFile object file reading from source
+    * @return Root of the XML document tree, usefull for access into the document's data
+    */
     public static Document getDoc(File inputFile) throws ParserConfigurationException, IOException
     {
         Document parsedDocument = null;
@@ -92,7 +121,7 @@ public class drawMusicData_Utils
         }
         catch (SAXException e)
         {
-                System.out.println(e.toString());      
+            System.out.println(e.toString());      
         }
         catch (IOException e)
         {

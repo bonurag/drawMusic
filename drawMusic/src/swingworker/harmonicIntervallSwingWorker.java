@@ -16,18 +16,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Giuseppe
  */
 public class harmonicIntervallSwingWorker
 {
+    private static Boolean isError = false;
+    
     public SwingWorker createWorker(File inputFile)
     {
         return new SwingWorker<LinkedHashMap<String, Integer>, Void>()
@@ -163,9 +159,9 @@ public class harmonicIntervallSwingWorker
                 }
                 catch (Exception e)
                 { 
-                    System.out.println("Errore nell'elaborazione del file");
+                    isError = true;
+                    System.out.println("Errore nell'elaborazione del file - isError Value: " + isError);
                     Logger.getLogger(harmonicIntervallSwingWorker.class.getName()).log(Level.SEVERE, null, e);
-                    System.exit(1);
                 }
                 return harmonicIntervalMap;      
             }
@@ -184,5 +180,10 @@ public class harmonicIntervallSwingWorker
                 //System.out.println("Finished with status " + calculateData);
             }     
         };      
+    }
+    
+    public static Boolean getIsError()
+    {
+        return isError;
     }
 }

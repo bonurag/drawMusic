@@ -503,7 +503,7 @@ public class programGui extends javax.swing.JFrame
                                         nomeGraficoTextField_1.setEnabled(false);
                                         pitchClassFrame.showUI();
                                     }
-                                    else
+                                    else if(!(dataSize > 0) || l.getIsError())
                                     {
                                         statusProgressBarText.setText("");
                                         generatePitchClassButton.setEnabled(true);
@@ -589,6 +589,7 @@ public class programGui extends javax.swing.JFrame
         {                        
             pitchSwingWorker l = new pitchSwingWorker();
             SwingWorker work = l.createWorker(openFileChoseer.getSelectedFile(), "ANGLOSASSONE", "A");
+            
             Object[] options = {"Si","No"};
             int state = JOptionPane.showOptionDialog(null, 
                         "Sei sicuro di voler procedere con l'elaborazione dei dati?",
@@ -629,7 +630,7 @@ public class programGui extends javax.swing.JFrame
                                         nomeGraficoTextField_2.setEnabled(false);
                                         pitchFrame.showUI();   
                                     }
-                                    else
+                                    else if(!(dataSize > 0) || l.getIsError())
                                     {
                                         statusProgressBarText.setText("");
                                         generatePitchButton.setEnabled(true);
@@ -638,7 +639,7 @@ public class programGui extends javax.swing.JFrame
                                         loadDataProgressBar.setValue(0);
                                         loadDataProgressBar.setVisible(false);
                                         String informationMessage = "Non sono presenti dati da elaborare!";
-                                        JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);    
+                                        JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);        
                                     }
                                     
                                     String graphName = nomeGraficoTextField_4.getText();
@@ -758,7 +759,7 @@ public class programGui extends javax.swing.JFrame
                                         durationTypeComboBox.setEnabled(false);
                                         durationFrame.showUI();
                                     }
-                                    else
+                                    else if(!(dataSize > 0) || l.getIsError())
                                     {
                                         statusProgressBarText.setText("");
                                         generateDurationButton.setEnabled(true);
@@ -888,7 +889,7 @@ public class programGui extends javax.swing.JFrame
                                         nomeGraficoTextField_4.setEnabled(false);
                                         melodicIntervalFrame.showUI();    
                                     }
-                                    else
+                                    else if(!(dataSize > 0) || l.getIsError())
                                     {
                                         statusProgressBarText.setText("");
                                         generateMelodicIntervalButton.setEnabled(true);
@@ -1015,7 +1016,7 @@ public class programGui extends javax.swing.JFrame
                                         nomeGraficoTextField_5.setEnabled(false);
                                         harmonicIntervalFrame.showUI();
                                     }
-                                    else
+                                    else if(!(dataSize > 0) || l.getIsError())
                                     {
                                         statusProgressBarText.setText("");
                                         generateHarmonicIntervalButton.setEnabled(true);
@@ -1170,7 +1171,7 @@ public class programGui extends javax.swing.JFrame
 
                                 trackFrame.showUI();
                             }
-                            else
+                            else if(!dataPresent || cdi.getIsError())
                             {
                                 statusProgressBarText.setText("");
                                 xmlFileDetailButton.setEnabled(true);

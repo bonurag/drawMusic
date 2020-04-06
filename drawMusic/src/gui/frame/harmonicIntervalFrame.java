@@ -1,7 +1,5 @@
 package gui.frame;
 
-
-import gui.panel.cartesianGui;
 import dataUtils.drawMusicData_Utils;
 import gui.panel.cartesianGui;
 import java.awt.Color;
@@ -28,7 +26,7 @@ public class harmonicIntervalFrame extends JFrame
     public harmonicIntervalFrame(Object inputDataWork)
     {
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
-
+        System.out.println("inputData: " + inputData);    
         if(inputData.containsKey("Empty"))
         {
             inputDataSize = 0;

@@ -28,7 +28,7 @@ public class melodicIntervalFrame extends JFrame
     public melodicIntervalFrame(Object inputDataWork)
     {       
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
-        
+        System.out.println("inputData: " + inputData);
         if(inputData.containsKey("Empty"))
         {
             inputDataSize = 0;
