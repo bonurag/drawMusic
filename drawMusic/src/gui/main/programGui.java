@@ -25,6 +25,7 @@ import gui.frame.pitchFrame;
 import gui.frame.pitchClassFrame;
 import gui.frame.trackFrame;
 import dataUtils.drawMusicData_Utils;
+import java.awt.HeadlessException;
 
 /**
  * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
@@ -581,7 +582,7 @@ public class programGui extends javax.swing.JFrame
                                         nomeGraficoTextField_1.setEnabled(false);
                                         pitchClassFrame.showUI();
                                     }
-                                    else if(!(dataSize > 0) || l.getIsError())
+                                    else if(!(dataSize > 0) || pitchSwingWorker.getIsError())
                                     {
                                         statusProgressBarText.setText("");
                                         generatePitchClassButton.setEnabled(true);
@@ -622,9 +623,9 @@ public class programGui extends javax.swing.JFrame
                                             }
                                         }
                                     });
-                                } catch (InterruptedException ex) {
-                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ExecutionException ex) {
+                                }
+                                catch (InterruptedException | ExecutionException ex)
+                                {
                                     Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
@@ -655,7 +656,7 @@ public class programGui extends javax.swing.JFrame
                 }
             });         
         }
-        catch(Exception e)
+        catch(HeadlessException e)
         {
             String informationMessage = "Non sono presenti dati da elaborare!";
             JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
@@ -708,7 +709,7 @@ public class programGui extends javax.swing.JFrame
                                         nomeGraficoTextField_2.setEnabled(false);
                                         pitchFrame.showUI();   
                                     }
-                                    else if(!(dataSize > 0) || l.getIsError())
+                                    else if(!(dataSize > 0) || pitchSwingWorker.getIsError())
                                     {
                                         statusProgressBarText.setText("");
                                         generatePitchButton.setEnabled(true);
@@ -749,9 +750,9 @@ public class programGui extends javax.swing.JFrame
                                             }
                                         }
                                     });
-                                } catch (InterruptedException ex) {
-                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ExecutionException ex) {
+                                }
+                                catch (InterruptedException | ExecutionException ex)
+                                {
                                     Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
@@ -783,7 +784,7 @@ public class programGui extends javax.swing.JFrame
                 }
             });         
         }
-        catch(Exception e)
+        catch(HeadlessException e)
         {
             String informationMessage = "Non sono presenti dati da elaborare!";
             JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
@@ -837,7 +838,7 @@ public class programGui extends javax.swing.JFrame
                                         durationTypeComboBox.setEnabled(false);
                                         durationFrame.showUI();
                                     }
-                                    else if(!(dataSize > 0) || l.getIsError())
+                                    else if(!(dataSize > 0) || durationSwingWorker.getIsError())
                                     {
                                         statusProgressBarText.setText("");
                                         generateDurationButton.setEnabled(true);
@@ -880,9 +881,9 @@ public class programGui extends javax.swing.JFrame
                                             }
                                         }
                                     });
-                                } catch (InterruptedException ex) {
-                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ExecutionException ex) {
+                                }
+                                catch (InterruptedException | ExecutionException ex)
+                                {
                                     Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
@@ -915,7 +916,7 @@ public class programGui extends javax.swing.JFrame
                 }
             });         
         }
-        catch(Exception e)
+        catch(HeadlessException e)
         {
             String informationMessage = "Non sono presenti dati da elaborare!";
             JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
@@ -967,7 +968,7 @@ public class programGui extends javax.swing.JFrame
                                         nomeGraficoTextField_4.setEnabled(false);
                                         melodicIntervalFrame.showUI();    
                                     }
-                                    else if(!(dataSize > 0) || l.getIsError())
+                                    else if(!(dataSize > 0) || melodicIntervallSwingWorker.getIsError())
                                     {
                                         statusProgressBarText.setText("");
                                         generateMelodicIntervalButton.setEnabled(true);
@@ -1008,9 +1009,9 @@ public class programGui extends javax.swing.JFrame
                                             }
                                         }
                                     });
-                                } catch (InterruptedException ex) {
-                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ExecutionException ex) {
+                                }
+                                catch (InterruptedException | ExecutionException ex)
+                                {
                                     Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
@@ -1041,7 +1042,7 @@ public class programGui extends javax.swing.JFrame
                 }
             }); 
         }
-        catch(Exception e)
+        catch(HeadlessException e)
         {
             String informationMessage = "Non sono presenti dati da elaborare!";
             JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
@@ -1094,7 +1095,7 @@ public class programGui extends javax.swing.JFrame
                                         nomeGraficoTextField_5.setEnabled(false);
                                         harmonicIntervalFrame.showUI();
                                     }
-                                    else if(!(dataSize > 0) || l.getIsError())
+                                    else if(!(dataSize > 0) || harmonicIntervallSwingWorker.getIsError())
                                     {
                                         statusProgressBarText.setText("");
                                         generateHarmonicIntervalButton.setEnabled(true);
@@ -1135,9 +1136,9 @@ public class programGui extends javax.swing.JFrame
                                             }
                                         }
                                     });
-                                } catch (InterruptedException ex) {
-                                    Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ExecutionException ex) {
+                                }
+                                catch (InterruptedException | ExecutionException ex)
+                                {
                                     Logger.getLogger(programGui.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
@@ -1168,7 +1169,7 @@ public class programGui extends javax.swing.JFrame
                 }
             });         
         }
-        catch(Exception e)
+        catch(HeadlessException e)
         {
             String informationMessage = "Non sono presenti dati da elaborare!";
             JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);
@@ -1249,7 +1250,7 @@ public class programGui extends javax.swing.JFrame
 
                                 trackFrame.showUI();
                             }
-                            else if(!dataPresent || cdi.getIsError())
+                            else if(!dataPresent || xmlDetailSwingWorker.getIsError())
                             {
                                 statusProgressBarText.setText("");
                                 xmlFileDetailButton.setEnabled(true);
@@ -1325,27 +1326,31 @@ public class programGui extends javax.swing.JFrame
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+            {
+                if ("Nimbus".equals(info.getName()))
+                {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(programGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(programGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(programGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        }
+        catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
+        {
             java.util.logging.Logger.getLogger(programGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+        java.awt.EventQueue.invokeLater(new Runnable()
+        {
+            @Override
+            public void run()
+            {
                 new programGui().setVisible(true);
             }
         });

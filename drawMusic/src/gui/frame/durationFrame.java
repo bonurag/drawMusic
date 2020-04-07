@@ -26,7 +26,7 @@ public class durationFrame extends JFrame
     /**
     * Default graph name
     */
-    private String graphName = "Duration Graph";
+    private final String graphName = "Duration Graph";
     
     /**
     * Size of the data calculated by the swing worker

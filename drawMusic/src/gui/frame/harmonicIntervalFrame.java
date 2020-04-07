@@ -26,7 +26,7 @@ public class harmonicIntervalFrame extends JFrame
     /**
     * Default graph name
     */
-    private String graphName = "Harmonic Intervall Graph";
+    private final String graphName = "Harmonic Intervall Graph";
     
     /**
     * Size of the data calculated by the swing worker

@@ -26,7 +26,7 @@ public class melodicIntervalFrame extends JFrame
     /**
     * Default graph name
     */
-    private String graphName = "Melodic Interval Graph";
+    private final String graphName = "Melodic Interval Graph";
     
     /**
     * Size of the data calculated by the swing worker

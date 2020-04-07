@@ -25,7 +25,7 @@ public class pitchClassFrame extends JFrame
     /**
     * Default graph name
     */
-    private String graphName = "Pitch Class Graph";
+    private final String graphName = "Pitch Class Graph";
     
     /**
     * Size of the data calculated by the swing worker
