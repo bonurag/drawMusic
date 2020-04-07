@@ -181,7 +181,7 @@ public class cartesianGui extends JPanel
     
     /**
     * Method for change the name on cartesian graph of X axis
-    * @param  y_AxisName Value of the name we want to assign to the X axis
+    * @param  x_AxisName Value of the name we want to assign to the X axis
     */
     public void setxAxisName(String x_AxisName)
     {
@@ -199,7 +199,7 @@ public class cartesianGui extends JPanel
     
     /**
     * Method that return if the value on istogram bar are visible or not
-    * @retun True if label are visible, False otherwise
+    * @return True if label are visible, False otherwise
     */
     public Boolean getViewValueOnBar()
     {
@@ -208,7 +208,7 @@ public class cartesianGui extends JPanel
 
     /**
     * Method for setting the name extracted from the XML file inside the JLabel having a specific name
-    * @retun Value saved in the JLabel otherTitleValueLabel
+    * @return Value saved in the JLabel otherTitleValueLabel
     */
     public Boolean getDisableXLabelView()
     {
@@ -217,7 +217,7 @@ public class cartesianGui extends JPanel
 
     /**
     * Method for setting the name extracted from the XML file inside the JLabel having a specific name
-    * @retun Value saved in the JLabel otherTitleValueLabel
+    * @return Value saved in the JLabel otherTitleValueLabel
     */
     public Boolean getDisableYLabelView()
     {

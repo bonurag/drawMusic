@@ -81,7 +81,7 @@ public class drawMusicData_Utils
     * Useful function for reading a file given its name.
     * @param  inputName file name to read
     * @return Returns a file object with name inputName
-    * @throws java.io.IOException
+    * @throws java.io.IOException This class is the general class of exceptions produced by failed or interrupted I/O operations
     */
     public static File readFile(String inputName) throws IOException
     {
@@ -98,8 +98,8 @@ public class drawMusicData_Utils
     * Useful function for return an XML document.
     * @param  inputFile object file reading from source
     * @return Root of the XML document tree, usefull for access into the document's data
-    * @throws javax.xml.parsers.ParserConfigurationException
-    * @throws java.io.IOException
+    * @throws javax.xml.parsers.ParserConfigurationException rise an exception during parse file.
+    * @throws java.io.IOException This class is the general class of exceptions produced by failed or interrupted I/O operations
     */
     public static Document getDoc(File inputFile) throws ParserConfigurationException, IOException
     {

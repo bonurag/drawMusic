@@ -401,6 +401,7 @@ public class xmlDetailSwingWorker
     * @param  trackName The value of tack name extract from each track in XML file
     * @param  inputDocument The same instance of Document Object used in the constructor
     * @param  inputXPath The same instance of XPath Object used in the constructor
+    * @throws javax.xml.xpath.XPathExpressionException represents an error in an XPath expression
     * @return The ceil value of sum  for min and max start_time attribute in track_event element for each track in seconds
     */
     public int getDurationFromTrack(String trackName, Document inputDocument, XPath inputXPath ) throws XPathExpressionException
