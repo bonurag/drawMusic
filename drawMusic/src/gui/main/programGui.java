@@ -27,35 +27,96 @@ import gui.frame.trackFrame;
 import dataUtils.drawMusicData_Utils;
 
 /**
- *\
- * @author Giuseppe
+ * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
+ * @version     1.0
  */
 public class programGui extends javax.swing.JFrame
 {   
+    /**
+    * Instance of FileNameExtensionFilter it is a useful object to define a list of extensions that are accepted by the JFileChooser
+    */
     private final FileNameExtensionFilter filter = new FileNameExtensionFilter("Documenti IEEE 1599", "xml");
-    private final JFileChooser openFileChoseer = new JFileChooser();
-    private final ImageIcon trueIcon = new ImageIcon("src/icon/green_check.png");
-    private final ImageIcon falseIcon = new ImageIcon("src/icon/gred_cross.png");
-    
-    private long startTimePitch;
-    private long startTimePitchClass;
-    private long startTimeDuration;
-    private long startTimeMelodic;
-    private long startTimeHarmonic;
-    private long startTimeInformation;
-    
-    public static final String WORKERPITCHSTART = "workerPitchStart";
-    public static final String WORKERPITCHCLASSSTART = "workerPitchClassStart";
-    public static final String WORKERDURATIONSTART = "workerDurationStart";
-    public static final String WORKERMELODICSTART = "workerMelodicStart";
-    public static final String WORKERHARMONICSTART = "workerHarmonicStart";
-    public static final String WORKERGETINFORMATIONSTART = "workerGetInformationStart";
-
-    private final ArrayList<String> workInProgress = new ArrayList<>();
     
     /**
-     * Creates new form programGui
-     */
+    * Instance of JFileChooser provides a simple mechanism for the user to choose a file
+    */
+    private final JFileChooser openFileChoseer = new JFileChooser();
+    
+    /**
+    * Used to save the accepted file icon
+    */
+    private final ImageIcon trueIcon = new ImageIcon("src/icon/green_check.png");
+    
+    /**
+    * Used to save the rejected file icon
+    */
+    private final ImageIcon falseIcon = new ImageIcon("src/icon/gred_cross.png");
+    
+    /**
+    * Used to save the timestamp when invoking the pitch calculation method
+    */
+    private long startTimePitch;
+    
+    /**
+    * Used to save the timestamp when invoking the pitch class calculation method
+    */
+    private long startTimePitchClass;
+    
+    /**
+    * Used to save the timestamp when invoking the duration calculation method
+    */
+    private long startTimeDuration;
+    
+    /**
+    * Used to save the timestamp when invoking the melodic interval calculation method
+    */
+    private long startTimeMelodic;
+    
+    /**
+    * Used to save the timestamp when invoking the harmonic interval calculation method
+    */
+    private long startTimeHarmonic;
+    
+    /**
+    * Used to save the timestamp when invoking the general information calculation method
+    */
+    private long startTimeInformation;
+    
+    /**
+    * Constant used to identify when the calculation operation of Pitch
+    */
+    public static final String WORKERPITCHSTART = "workerPitchStart";
+    
+    /**
+    * Constant used to identify when the calculation operation of Pitch Class
+    */
+    public static final String WORKERPITCHCLASSSTART = "workerPitchClassStart";
+    
+    /**
+    * Constant used to identify when the calculation operation of Duration
+    */
+    public static final String WORKERDURATIONSTART = "workerDurationStart";
+    
+    /**
+    * Constant used to identify when the calculation operation of Melodic Interval
+    */
+    public static final String WORKERMELODICSTART = "workerMelodicStart";
+    
+    /**
+    * Constant used to identify when the calculation operation of Harmonic Interval
+    */
+    public static final String WORKERHARMONICSTART = "workerHarmonicStart";
+    
+    /**
+    * Constant used to identify when the calculation operation of General Information
+    */
+    public static final String WORKERGETINFORMATIONSTART = "workerGetInformationStart";
+    
+    /**
+    * List use to save when all works are in progress
+    */
+    private final ArrayList<String> workInProgress = new ArrayList<>();
+
     public programGui()
     {
         initComponents();
@@ -65,13 +126,15 @@ public class programGui extends javax.swing.JFrame
         lockComboBox();
         lockCheckBoxValidationXml();
         lockCheckBoxWhiteSpaceXml();
-        lockDetailButton();
         loadDataProgressBar.setVisible(false);
         openFileName.setText("Nessun file selezionato!");
         xmlValidationEnableCheckBox.setText("Abilita validazione XML");
         whiteSpaceEnableCheckBox.setText("Abilita Ignora Spazi XML");      
     }
     
+    /**
+    * Method to initialize all JFrame buttons in a disabled state
+    */
     private void lockIcon()
     {
         generatePitchClassButton.setEnabled(false);
@@ -79,8 +142,12 @@ public class programGui extends javax.swing.JFrame
         generateDurationButton.setEnabled(false);
         generateMelodicIntervalButton.setEnabled(false);
         generateHarmonicIntervalButton.setEnabled(false);
+        xmlFileDetailButton.setEnabled(false);
     }
     
+    /**
+    * Method to initialize all JFrame text field in a disabled state
+    */
     private void lockTextBox()
     {
         nomeGraficoTextField_1.setEnabled(false);
@@ -90,26 +157,33 @@ public class programGui extends javax.swing.JFrame
         nomeGraficoTextField_5.setEnabled(false);
     }
     
+    /**
+    * Method to initialize all JFrame combo box in a disabled state
+    */
     private void lockComboBox()
     {
         durationTypeComboBox.setEnabled(false);
     }
     
+    /**
+    * Method to initialize all JFrame check box in a disabled state
+    */
     private void lockCheckBoxValidationXml()
     {
         xmlValidationEnableCheckBox.setEnabled(false);
     }
     
+    /**
+    * Method to initialize all JFrame check box in a disabled state
+    */
     private void lockCheckBoxWhiteSpaceXml()
     {
         whiteSpaceEnableCheckBox.setEnabled(false);
     }
     
-    private void lockDetailButton()
-    {
-        xmlFileDetailButton.setEnabled(false);
-    }
-    
+    /**
+    * Method to initialize all JFrame buttons in a enable state
+    */
     private void unLockIcon()
     {
         generatePitchClassButton.setEnabled(true);
@@ -117,8 +191,12 @@ public class programGui extends javax.swing.JFrame
         generateDurationButton.setEnabled(true);
         generateMelodicIntervalButton.setEnabled(true);
         generateHarmonicIntervalButton.setEnabled(true);
+        xmlFileDetailButton.setEnabled(true);
     }
     
+    /**
+    * Method to initialize all JFrame text field in a enable state
+    */
     private void unLockTextBox()
     {
         nomeGraficoTextField_1.setEnabled(true);
@@ -127,25 +205,29 @@ public class programGui extends javax.swing.JFrame
         nomeGraficoTextField_4.setEnabled(true);
         nomeGraficoTextField_5.setEnabled(true);
     }
-
+    
+    /**
+    * Method to initialize all JFrame combo box in a enable state
+    */
     private void unLockComboBox()
     {
         durationTypeComboBox.setEnabled(true);
     }
     
+    /**
+    * Method to initialize all JFrame check box in a enable state
+    */
     private void unLockCheckBoxValidationXml()
     {
         xmlValidationEnableCheckBox.setEnabled(true);
     }
     
+    /**
+    * Method to initialize all JFrame check box in a enable state
+    */
     private void unLockCheckBoxWhiteSpaceXml()
     {
         whiteSpaceEnableCheckBox.setEnabled(true);
-    }
-    
-    private void unLockDetailButton()
-    {
-        xmlFileDetailButton.setEnabled(true);
     }
 
     /**
@@ -414,7 +496,6 @@ public class programGui extends javax.swing.JFrame
                 lockComboBox();
                 lockCheckBoxValidationXml();
                 lockCheckBoxWhiteSpaceXml();
-                lockDetailButton();
                 openFileName.setText("Nessun file selezionato!");
                 JOptionPane.showMessageDialog(null, "File selezionato non esistente!", "Error", JOptionPane.ERROR_MESSAGE);
             }      
@@ -429,7 +510,6 @@ public class programGui extends javax.swing.JFrame
                 unLockComboBox();
                 unLockCheckBoxValidationXml();
                 unLockCheckBoxWhiteSpaceXml();
-                unLockDetailButton();
                 if(!fileterExt[0].equals(extension))
                 {
                     lockIcon();
@@ -437,7 +517,6 @@ public class programGui extends javax.swing.JFrame
                     lockComboBox();
                     lockCheckBoxValidationXml();
                     lockCheckBoxWhiteSpaceXml();
-                    lockDetailButton();
                     selectedFileIcon.setIcon(falseIcon);
                     openFileName.setText("File selezionato non riconosciuto!");
                     JOptionPane.showMessageDialog(null, "Attenzione estenzione del file non valida! Selezionare file ."+fileterExt[0], "Error", JOptionPane.ERROR_MESSAGE);
@@ -450,7 +529,6 @@ public class programGui extends javax.swing.JFrame
                 lockComboBox();
                 lockCheckBoxValidationXml();
                 lockCheckBoxWhiteSpaceXml();
-                lockDetailButton();
                 selectedFileIcon.setIcon(falseIcon);
                 openFileName.setText("File selezionato non esistente!");
                 JOptionPane.showMessageDialog(null, "Attenzione il file selezionato non è stato trovato!", "Error", JOptionPane.ERROR_MESSAGE);
