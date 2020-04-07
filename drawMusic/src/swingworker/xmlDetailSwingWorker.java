@@ -18,25 +18,66 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- *
- * @author Giuseppe
+ * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
+ * @version     1.0
  */
 public class xmlDetailSwingWorker
 {
+    /**
+    * Used to detect when the worker enters the catch
+    */
     private static Boolean isError = false;
-        
+    
+    /**
+    * Used to save the value of title present in XML file
+    */
     private String mainTitle = "";
+    
+    /**
+    * Used to save the number value extracted from the xml file
+    */
     private String number = "";
+    
+    /**
+    * Used to save the value of work number present in XML file
+    */
     private String workNumber = "";
     
+    /**
+    * Used to save the list of authors presents in XML file and the role of the author within the composition
+    */
     private LinkedHashMap<String, String> authorsMap = new LinkedHashMap<>();
+    
+    /**
+    * Used to save the list of other title presents in XML file, used to represent alternative titles of the piece
+    */
     private LinkedHashMap<String, String> otherTitleMap = new LinkedHashMap<>();
+    
+    /**
+    * Used to save the list of work title presents in XML file
+    */
     private LinkedHashMap<String, String> workTitleMap = new LinkedHashMap<>();
+    
+    /**
+    * Used to savethe list of genres refer to the track and not to the piece
+    */
     private LinkedHashMap<String, String> genresMap = new LinkedHashMap<>();
     
+    /**
+    * Used to save the list of track presents inside de XML file
+    */
     private LinkedHashMap<Integer, LinkedHashMap<String, String>> trackMap = new LinkedHashMap<>();
-    private LinkedHashMap<String, String> trackAttributeMap = null;
     
+    /**
+    * Used to save the list of attributes for each track presents inside de XML file
+    */
+    private LinkedHashMap<String, String> trackAttributesMap = null;
+    
+    /**
+    * Method used to perform lengthy GUI-interaction tasks in a background thread, and extract XML general information
+    * @param  inputFile The file object passed from main GUI and selected from JChooser
+    * @return The value of the operations computed by the worker on the input file
+    */
     public SwingWorker createWorker(File inputFile)
     {
         return new SwingWorker<Void, Void>()
@@ -53,12 +94,12 @@ public class xmlDetailSwingWorker
                     XPathFactory myXPathFactory = XPathFactory.newInstance();
                     XPath myXPath = myXPathFactory.newXPath();
 
-//=================================== Calculate Main Title ==========================================
+                    //=================================== Calculate Main Title ==========================================
                     String xPathTitleExpr = "string(//ieee1599/general/description/main_title)";
                     mainTitle = myXPath.evaluate(xPathTitleExpr, myXmlDocument);
                     setProgress(10);
                     
-//=================================== Calculate Authors ==========================================
+                    //=================================== Calculate Authors ==========================================
                     String xPathElementAuthorsList = "//ieee1599/general/description/author";
                     NodeList authorList = (NodeList) (myXPath.evaluate(xPathElementAuthorsList, myXmlDocument, XPathConstants.NODESET));
                     Node currenAuthorNode;
@@ -85,7 +126,7 @@ public class xmlDetailSwingWorker
                         setProgress(20);
                     }
 
-//=================================== Calculate otherTitle ==========================================                   
+                    //=================================== Calculate otherTitle ==========================================                   
                     String xPathElementOtherTitleList = "//ieee1599/general/description/other_title";
                     NodeList otherTitleList = (NodeList) (myXPath.evaluate(xPathElementOtherTitleList, myXmlDocument, XPathConstants.NODESET));
                     Node currenOtherTitleNode;
@@ -106,12 +147,12 @@ public class xmlDetailSwingWorker
                         setProgress(30);
                     }
 
-//=================================== Calculate Number ==========================================
+                    //=================================== Calculate Number ==========================================
                     String xPathNumberExpr = "string(//ieee1599/general/description/number)";
                     number = myXPath.evaluate(xPathNumberExpr, myXmlDocument);
                     setProgress(35);
                     
-//=================================== Calculate WorkTitle ==========================================
+                    //=================================== Calculate WorkTitle ==========================================
                     String xPathElementWorkTitleList = "//ieee1599/general/description/work_title";
                     NodeList workTitleList = (NodeList) (myXPath.evaluate(xPathElementWorkTitleList, myXmlDocument, XPathConstants.NODESET));
                     Node currenWorkTitleNode;
@@ -130,12 +171,12 @@ public class xmlDetailSwingWorker
                         setProgress(40);
                     }
 
-//=================================== Calculate Work Number ==========================================
+                    //=================================== Calculate Work Number ==========================================
                     String xPathWorkNumberExpr = "string(//ieee1599/general/description/work_number)";
                     workNumber = myXPath.evaluate(xPathWorkNumberExpr, myXmlDocument);
                     setProgress(45);
                     
-//=================================== Calculate Genres ==========================================
+                    //=================================== Calculate Genres ==========================================
                     String xPathGenresList = "//ieee1599/general/description/genres/genre";
                     NodeList genresList = (NodeList) (myXPath.evaluate(xPathGenresList, myXmlDocument, XPathConstants.NODESET));
                     Node currenGenreNode;
@@ -161,7 +202,7 @@ public class xmlDetailSwingWorker
                         setProgress(50);
                     }
 
-//=================================== Calculate Track Element ==========================================                   
+                    //=================================== Calculate Track Element ==========================================                   
                     String xPathElementTrackList = "//ieee1599/audio/track";
                     NodeList trackList = (NodeList) (myXPath.evaluate(xPathElementTrackList, myXmlDocument, XPathConstants.NODESET));
                     Node currenTrackNode;
@@ -172,7 +213,7 @@ public class xmlDetailSwingWorker
                             String trackFileName = "";
                             String performersResult = "";
                             String genresTrackNameResult = "";
-                            trackAttributeMap = new LinkedHashMap<>();
+                            trackAttributesMap = new LinkedHashMap<>();
                             if(trackList.item(i) != null)
                             {
                                 currenTrackNode = trackList.item(i);
@@ -184,18 +225,18 @@ public class xmlDetailSwingWorker
                                     {
                                         trackFileName = trackElem.getAttribute("file_name");
                                         int trackDuration = getDurationFromTrack(trackFileName, myXmlDocument, myXPath);
-                                        trackAttributeMap.put("file_name", trackFileName);
-                                        trackAttributeMap.put("track_duration", drawMusicData_Utils.trackDurationConverter(trackDuration));
+                                        trackAttributesMap.put("file_name", trackFileName);
+                                        trackAttributesMap.put("track_duration", drawMusicData_Utils.trackDurationConverter(trackDuration));
                                     }
                                     if (!trackElem.getAttribute("file_format").equals(""))
                                     {
                                         String fileFormat = trackElem.getAttribute("file_format");
-                                        trackAttributeMap.put("file_format", fileFormat);
+                                        trackAttributesMap.put("file_format", fileFormat);
                                     }
                                     if (!trackElem.getAttribute("encoding_format").equals(""))
                                     {
                                         String encodingFormatName = trackElem.getAttribute("encoding_format");
-                                        trackAttributeMap.put("encoding_format", encodingFormatName);
+                                        trackAttributesMap.put("encoding_format", encodingFormatName);
                                     }
                                 }
                             }
@@ -229,7 +270,7 @@ public class xmlDetailSwingWorker
                                                 performerType = !performerType.equals("") ? " ("+performerType+")" : "";
                                             }
                                             performersResult += performerName+performerType+"; ";
-                                            trackAttributeMap.put("performers", performersResult.substring(0, performersResult.length()-2));    
+                                            trackAttributesMap.put("performers", performersResult.substring(0, performersResult.length()-2));    
                                         }
                                     }
                                 }
@@ -260,13 +301,13 @@ public class xmlDetailSwingWorker
                                             }
                                            
                                             genresTrackNameResult += genreTrackName+"; ";
-                                            trackAttributeMap.put("trackGenres", genresTrackNameResult.substring(0, genresTrackNameResult.length()-2));    
+                                            trackAttributesMap.put("trackGenres", genresTrackNameResult.substring(0, genresTrackNameResult.length()-2));    
                                         }
                                     }
                                 }
                             }
                             setProgress(100);
-                            trackMap.put(i, trackAttributeMap);
+                            trackMap.put(i, trackAttributesMap);
                         }
                         if(stepForProgress < (double) 100)
                             setProgress(100);
@@ -283,51 +324,85 @@ public class xmlDetailSwingWorker
         };      
     }
     
+    /**
+    * @return True if the worker caught during his execution, False otherwise
+    */
     public static Boolean getIsError()
     {
         return isError;
     }
     
+    /**
+    * @return The value of mainTitle string
+    */
     public String getMainTitle()
     {
         return mainTitle;
     }
     
+    /**
+    * @return The value map of authors
+    */
     public LinkedHashMap<String, String> getAuthorsMap()
     {
         return authorsMap;
     }
-
+    
+    /**
+    * @return The value map of other title
+    */
     public LinkedHashMap<String, String> getOtherTitleMap()
     {
         return otherTitleMap;
     }
     
+    /**
+    * @return The value of number string
+    */
     public String getNumber()
     {
         return number;
     }
     
+    /**
+    * @return The value map work title
+    */
     public LinkedHashMap<String, String> getWorkTitleMap()
     {
         return workTitleMap;
     }
     
+    /**
+    * @return The value of work number string
+    */
     public String getWorkNumber()
     {
         return workNumber;
     }
     
+    /**
+    * @return The value map genres value
+    */
     public LinkedHashMap<String, String> getGenresMap()
     {
         return genresMap;
     }
     
+    /**
+    * @return The value map track list
+    */
     public LinkedHashMap<Integer, LinkedHashMap<String, String>> getTrackMap()
     {
         return trackMap;
     }
     
+    /**
+    * Method used for retrive time information in seconds for each track in XML file
+    * @param  trackName The value of tack name extract from each track in XML file
+    * @param  inputDocument The same instance of Document Object used in the constructor
+    * @param  inputXPath The same instance of XPath Object used in the constructor
+    * @return The ceil value of sum  for min and max start_time attribute in track_event element for each track in seconds
+    */
     public int getDurationFromTrack(String trackName, Document inputDocument, XPath inputXPath ) throws XPathExpressionException
     {
         String xPathTrackDurationExpr = "//ieee1599/audio/track[@file_name=\""+trackName+"\"]/track_indexing[@timing_type=\"seconds\"]/track_event";

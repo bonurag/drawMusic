@@ -16,13 +16,22 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- *
- * @author Giuseppe
+ * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
+ * @version     1.0
  */
 public class durationSwingWorker
 {
+    /**
+    * Used to detect when the worker enters the catch
+    */
     private static Boolean isError = false;
     
+    /**
+    * Method used to perform lengthy GUI-interaction tasks in a background thread, and compute the calculations for the extraction of duration information
+    * @param  inputFile The file object passed from main GUI and selected from JChooser
+    * @param  inputDurationType The duration to be measured coming from the main GUI, chosen from: CHORD, REST or BOTH
+    * @return The value of the operations computed by the worker on the input file
+    */
     public SwingWorker createWorker(File inputFile, String inputDurationType)
     {
         return new SwingWorker<LinkedHashMap<String, Integer>, Void>()
@@ -119,6 +128,9 @@ public class durationSwingWorker
         };      
     }
     
+    /**
+    * @return True if the worker caught during his execution, False otherwise
+    */
     public static Boolean getIsError()
     {
         return isError;

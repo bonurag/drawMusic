@@ -42,7 +42,7 @@ public class durationFrame extends JFrame
     * Inside the class constructor, everything that the duration graph page must contain has been added,
     * plus other useful methods for passing parameters or interacting with the class itself from the outside.
     * @param  inputDataWork Is an Object that contains the data calculated by the worker
-    * @param  inputDurationType The duration to be measured coming from the main GUI
+    * @param  inputDurationType The duration to be measured coming from the main GUI, chosen from: CHORD, REST or BOTH
     */
     public durationFrame(Object inputDataWork, String inputDurationType)
     {

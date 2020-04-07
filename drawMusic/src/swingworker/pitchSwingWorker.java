@@ -17,13 +17,23 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 
 /**
- *
- * @author Giuseppe
+ * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
+ * @version     1.0
  */
 public class pitchSwingWorker
 {
+    /**
+    * Used to detect when the worker enters the catch
+    */
     private static Boolean isError = false;
     
+    /**
+    * Method used to perform lengthy GUI-interaction tasks in a background thread, and extract XML pitch information
+    * @param  inputFile The file object passed from main GUI and selected from JChooser
+    * @param  rappresentationType The value used for choose type of representation for data
+    * @param  typeOfNotes Value A or D used for choose whether to take only the pitch value or the complete value of the note including accidental
+    * @return The value of the operations computed by the worker on the input file
+    */
     public SwingWorker createWorker(File inputFile, String rappresentationType, String typeOfNotes)
     {
         return new SwingWorker<LinkedHashMap<String, Integer>, Void>()
@@ -136,6 +146,9 @@ public class pitchSwingWorker
         };          
     }
     
+    /**
+    * @return True if the worker caught during his execution, False otherwise
+    */
     public static Boolean getIsError()
     {
         return isError;
