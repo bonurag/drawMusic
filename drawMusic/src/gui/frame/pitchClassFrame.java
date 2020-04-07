@@ -12,16 +12,35 @@ import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 
 /**
- *
- * @author Giuseppe
+ * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
+ * @version     1.0
  */
 public class pitchClassFrame extends JFrame
 {
-    private String graphName = "Pitch Class Graph";
+    /**
+    * Instance of cartesianGui
+    */
     cartesianGui panel;
+    
+    /**
+    * Default graph name
+    */
+    private String graphName = "Pitch Class Graph";
+    
+    /**
+    * Size of the data calculated by the swing worker
+    */
     private int inputDataSize = 0;
+    
+    /**
+    * Default color for chart bars
+    */
     private Color chooseColor = Color.RED;
-
+    
+    /**
+    * Inside the class constructor, everything that the pitch class graph page must contain has been added.
+    * @param  inputDataWork Is an Object that contains the data calculated by the worker
+    */
     public pitchClassFrame(Object inputDataWork)
     {       
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
@@ -148,8 +167,12 @@ public class pitchClassFrame extends JFrame
             });
         }
     }
-
-    public void showUI() {
+    
+    /**
+    * Used in the main class to make the graph visible at the end of processing
+    */
+    public void showUI()
+    {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(700, 700);
         setLocationRelativeTo(null);
@@ -157,11 +180,19 @@ public class pitchClassFrame extends JFrame
         setResizable(false);
     }
     
-    public int getInputDataSize() {
+    /**
+    * @return The size of input data
+    */
+    public int getInputDataSize()
+    {
         return inputDataSize;
     }
-
-    public void setGraphName(String newName) {
+    
+    /**
+    * @param  newName The name we want to give to the graph coming from the test area in the main GUI
+    */
+    public void setGraphName(String newName)
+    {
         String grapName = "";
         if("".equals(newName) && newName == null)
             grapName = "Graph";
@@ -170,6 +201,9 @@ public class pitchClassFrame extends JFrame
         setTitle(grapName);
     }
     
+    /**
+    * @return The new graph name
+    */
     public String getGraphName()
     {
         return graphName;

@@ -13,16 +13,35 @@ import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 
 /**
- *
- * @author Giuseppe
+ * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
+ * @version     1.0
  */
 public class harmonicIntervalFrame extends JFrame
 {
-    private String graphName = "Harmonic Intervall Graph";
+    /**
+    * Instance of cartesianGui
+    */
     cartesianGui panel;
+    
+    /**
+    * Default graph name
+    */
+    private String graphName = "Harmonic Intervall Graph";
+    
+    /**
+    * Size of the data calculated by the swing worker
+    */
     private int inputDataSize = 0;
+    
+    /**
+    * Default color for chart bars
+    */
     private Color chooseColor = Color.RED;
     
+    /**
+    * Inside the class constructor, everything that the harmonic interval graph page must contain has been added.
+    * @param  inputDataWork Is an Object that contains the data calculated by the worker
+    */
     public harmonicIntervalFrame(Object inputDataWork)
     {
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
@@ -153,7 +172,10 @@ public class harmonicIntervalFrame extends JFrame
             });
         }   
     }
-
+    
+    /**
+    * Used in the main class to make the graph visible at the end of processing
+    */
     public void showUI()
     {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);    
@@ -163,11 +185,17 @@ public class harmonicIntervalFrame extends JFrame
         setResizable(false);
     }
     
+    /**
+    * @return The size of input data
+    */
     public int getInputDataSize()
     {
         return inputDataSize;
     }
-
+    
+    /**
+    * @param  newName The name we want to give to the graph coming from the test area in the main GUI
+    */
     public void setGraphName(String newName)
     {
         String grapName = "";
@@ -178,6 +206,9 @@ public class harmonicIntervalFrame extends JFrame
         setTitle(grapName);
     }
     
+    /**
+    * @return The new graph name
+    */
     public String getGraphName()
     {
         return graphName;

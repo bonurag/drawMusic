@@ -44,7 +44,7 @@ import javax.xml.transform.stream.StreamResult;
 
 /**
  * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
- * @version     1.0 (current version number of program)
+ * @version     1.0
  */
 public class drawMusicData_Utils
 {

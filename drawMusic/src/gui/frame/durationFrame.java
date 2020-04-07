@@ -13,16 +13,37 @@ import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 
 /**
- *
- * @author Giuseppe
+ * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
+ * @version     1.0
  */
 public class durationFrame extends JFrame
 {
-    private String graphName = "Duration Graph";
+    /**
+    * Instance of cartesianGui
+    */
     cartesianGui panel;
+    
+    /**
+    * Default graph name
+    */
+    private String graphName = "Duration Graph";
+    
+    /**
+    * Size of the data calculated by the swing worker
+    */
     private int inputDataSize = 0;
+    
+    /**
+    * Default color for chart bars
+    */
     private Color chooseColor = Color.RED;
     
+    /**
+    * Inside the class constructor, everything that the duration graph page must contain has been added,
+    * plus other useful methods for passing parameters or interacting with the class itself from the outside.
+    * @param  inputDataWork Is an Object that contains the data calculated by the worker
+    * @param  inputDurationType The duration to be measured coming from the main GUI
+    */
     public durationFrame(Object inputDataWork, String inputDurationType)
     {
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
@@ -160,7 +181,10 @@ public class durationFrame extends JFrame
             });
         }
     }
-
+    
+    /**
+    * Used in the main class to make the graph visible at the end of processing
+    */
     public void showUI()
     {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);    
@@ -170,11 +194,17 @@ public class durationFrame extends JFrame
         setResizable(false);
     }
     
+    /**
+    * @return The size of input data
+    */
     public int getInputDataSize()
     {
         return inputDataSize;
     }
-
+    
+    /**
+    * @param  newName The name we want to give to the graph coming from the test area in the main GUI
+    */
     public void setGraphName(String newName)
     {
         String grapName = "";
@@ -185,6 +215,9 @@ public class durationFrame extends JFrame
         setTitle(grapName);
     }
     
+    /**
+    * @return The new graph name
+    */
     public String getGraphName()
     {
         return graphName;
