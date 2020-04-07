@@ -207,12 +207,12 @@ public class durationFrame extends JFrame
     */
     public void setGraphName(String newName)
     {
-        String grapName = "";
+        String tmpName = "";
         if("".equals(newName) && newName == null)
-            grapName = "Graph";
+            tmpName = graphName;
         else
-            grapName = newName;
-        setTitle(grapName);
+            tmpName = newName;
+        setTitle(tmpName);
     }
     
     /**

@@ -1,58 +1,91 @@
 package gui.panel;
 
-
 import java.awt.Component;
 import java.util.HashMap;
 
 /**
- *
- * @author Giuseppe
+ * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
+ * @version     1.0
  */
 public class generalInfoTrackGui extends javax.swing.JPanel {
 
+    /**
+    * Contains all the components that make up the panel
+    */
     private HashMap componentMap;
-    private HashMap visibleComponentMap;
     
-    public generalInfoTrackGui() {
+    public generalInfoTrackGui() 
+    {
         initComponents();
         createComponentMap();  
     }
     
+    /**
+    * Method for setting the name extracted from the XML file inside the JLabel having a specific name
+    * @param  inputValue Value saved in the JLabel mainTitleValueLabel
+    */
     public void setMainTitleValueLabel(String inputValue)
     {
         mainTitleValueLabel.setText(inputValue);
     }
-        
+    
+    /**
+    * Method for setting the name extracted from the XML file inside the JLabel having a specific name
+    * @param  inputValue Value saved in the JLabel authorsValuesLabel
+    */
     public void setAuthorsValuesLabel(String inputValue)
     {
         authorsValuesLabel.setText(inputValue);
     }
-
+    
+    /**
+    * Method for setting the name extracted from the XML file inside the JLabel having a specific name
+    * @param  inputValue Value saved in the JLabel otherTitleValueLabel
+    */
     public void setOtherTitleValueLabel(String inputValue)
     {
         otherTitleValueLabel.setText(inputValue);
     }
     
+    /**
+    * Method for setting the name extracted from the XML file inside the JLabel having a specific name
+    * @param  inputValue Value saved in the JLabel numberValueLabel
+    */
     public void setNumberValueLabel(String inputValue)
     {
         numberValueLabel.setText(inputValue);
     }
     
+    /**
+    * Method for setting the name extracted from the XML file inside the JLabel having a specific name
+    * @param  inputValue Value saved in the JLabel workTitleValueLabel
+    */
     public void setWorkTitleValueLabel(String inputValue)
     {
         workTitleValueLabel.setText(inputValue);
     }
     
+    /**
+    * Method for setting the name extracted from the XML file inside the JLabel having a specific name
+    * @param  inputValue Value saved in the JLabel workNumberValueLabel
+    */
     public void setWorkNumberValueLabel(String inputValue)
     {
         workNumberValueLabel.setText(inputValue);
     }
-
+    
+    /**
+    * Method for setting the name extracted from the XML file inside the JLabel having a specific name
+    * @param  inputValue Value saved in the JLabel genresValueLabel
+    */
     public void setGenresValueLabel(String inputValue)
     {
         genresValueLabel.setText(inputValue);
     }
-
+    
+    /**
+    * Method that generates a list of components present in the JPanel generalInfoTrackGui
+    */
     private void createComponentMap()
     {
         componentMap = new HashMap<String,Component>();
@@ -63,7 +96,11 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
             //System.out.println("Component Name: " + components[i].getName());
         }
     }
-
+    
+    /**
+    * @param  name The name of the component that we want returned
+    * @return The component that is called how the paramter passed in input
+    */
     public Component getComponentByName(String name)
     {
         if(componentMap.containsKey(name))
@@ -71,22 +108,6 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
             return (Component) componentMap.get(name);
         }
         else return null;
-    }
-    
-    public HashMap<String,Component> getVisibleComponentMap()
-    {
-        visibleComponentMap = new HashMap<String,Component>();
-        Component[] components = this.getComponents();
-        for(int i=0; i < components.length; i++)
-        {
-            if(components[i].isVisible())
-            {
-                visibleComponentMap.put(components[i].getName(), components[i]);
-                System.out.println("visibleComponentMap Name: " + components[i].getName());
-            }
-        }
-        
-        return visibleComponentMap;
     }
     
     /**

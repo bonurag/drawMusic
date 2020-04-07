@@ -1,15 +1,17 @@
 package gui.panel;
 
-
 import java.awt.Component;
 import java.util.HashMap;
 
 /**
- *
- * @author Giuseppe
+ * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
+ * @version     1.0
  */
 public class singleTrackGui extends javax.swing.JPanel
 {
+    /**
+    * Contains all the components that make up the panel
+    */
     private HashMap componentMapSingleTrack;
     
     public singleTrackGui()
@@ -18,41 +20,72 @@ public class singleTrackGui extends javax.swing.JPanel
         createComponentMap(); 
     }
     
+    /**
+    * Method used for set dynamically the border title with the number of Track
+    * @param  inputTitle Name of border 
+    */
     public void setBorderTitle(String inputTitle)
     {
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, inputTitle, javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 0, 12), new java.awt.Color(0, 0, 0)));
     }
     
+    /**
+    * Method for setting the name extracted from the XML file inside the JLabel having a specific name
+    * @param  inputValue Value saved in the JLabel fileNameValueLabel
+    */
     public void setFileNameValueLabel(String inputValue)
     {
         fileNameValueLabel.setText(inputValue);
     }
     
+    /**
+    * Method for setting the name extracted from the XML file inside the JLabel having a specific name
+    * @param  inputValue Value saved in the JLabel fileFormatValueLabel
+    */
     public void setFileFormatValueLabel(String inputValue)
     {
         fileFormatValueLabel.setText(inputValue);
     }
     
+    /**
+    * Method for setting the name extracted from the XML file inside the JLabel having a specific name
+    * @param  inputValue Value saved in the JLabel encodingFormatValueLabel
+    */
     public void setEncodingFormatValueLabel(String inputValue)
     {
         encodingFormatValueLabel.setText(inputValue);
     }
     
+    /**
+    * Method for setting the name extracted from the XML file inside the JLabel having a specific name
+    * @param  inputValue Value saved in the JLabel durationValueLabel
+    */
     public void setDurationValueLabel(String inputValue)
     {
         durationValueLabel.setText(inputValue);
     }
     
+    /**
+    * Method for setting the name extracted from the XML file inside the JLabel having a specific name
+    * @param  inputValue Value saved in the JLabel performersValueLabel
+    */
     public void setPerformersValueLabel(String inputValue)
     {
         performersValueLabel.setText(inputValue);
     }
     
+    /**
+    * Method for setting the name extracted from the XML file inside the JLabel having a specific name
+    * @param  inputValue Value saved in the JLabel genresSingleTrackValueLabel
+    */
     public void setGenresSingleTrackValueLabel(String inputValue)
     {
         genresSingleTrackValueLabel.setText(inputValue);
     }
     
+    /**
+    * Method that generates a list of components present in the JPanel singleTrackGui
+    */
     private void createComponentMap()
     {
         componentMapSingleTrack = new HashMap<String,Component>();
@@ -63,7 +96,11 @@ public class singleTrackGui extends javax.swing.JPanel
             //System.out.println("Component Name: " + components[i].getName());
         }
     }
-
+    
+    /**
+    * @param  name The name of the component that we want returned
+    * @return The component that is called how the paramter passed in input
+    */
     public Component getComponentSingleTrackByName(String name)
     {
         if(componentMapSingleTrack.containsKey(name))

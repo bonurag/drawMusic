@@ -7,17 +7,47 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
 /**
- *
- * @author Giuseppe
+ * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
+ * @version     1.0
  */
 public class trackFrame extends JFrame
 {
+    /**
+    * Instance of singleTrackGui
+    */
     singleTrackGui panelSingleTrack;
+    
+    /**
+    * Instance of generalInfoTrackGui
+    */
     generalInfoTrackGui panelGeneralInfo;
     
+    /**
+    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    */
     private static final String EMPTY_VALUE = "N/A";
+    
+    /**
+    * Used for dynamically set of height of frame
+    */
     private int ySize = 0;
+    
+    /**
+    * Used for check if there are data to view or not
+    */
     private Boolean dataPresent = true;
+    
+    /**
+    * Inside the class constructor, there are computed and extract all the general information of XML file and the tracks indicated inside him
+    * @param  mainTitleInput Value of title present in XML file
+    * @param  authorsInput List of authors presents in XML file and the role of the author within the composition
+    * @param  otherTitleInput List of other title presents in XML file, used to represent alternative titles of the piece
+    * @param  numberInput Value of number, provides the position of the piece within the sorted collection of pieces it belongs to
+    * @param  workTitleInput List of work title presents in XML file, contains the title of the collection the piece belongs to
+    * @param  workNumberInput Value of work number present in XML file, contains the catalog number of the whole composition this piece belongs to
+    * @param  genresInput List of genres refer to the track and not to the piece
+    * @param  trackInput List of track presents inside de XML file
+    */
     public trackFrame(String mainTitleInput,
                         LinkedHashMap<String, String> authorsInput,
                         LinkedHashMap<String, String> otherTitleInput,
@@ -215,6 +245,9 @@ public class trackFrame extends JFrame
         }
     }
     
+    /**
+    * Used in the main class to make the graph visible at the end of processing
+    */
     public void showUI()
     {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);          
@@ -226,11 +259,17 @@ public class trackFrame extends JFrame
         setVisible(true);
     }
     
+    /**
+    * @return True if there is data to display False otherwise
+    */
     public Boolean getDataPresent()
     {
         return dataPresent;
     }
     
+    /**
+    * Method to initialize the JLabel of the panelGeneralInfo panel turned on and with a value equal to the constant EMPTY_VALUE
+    */
     public void inizializeComponentPanelGeneralInfo()
     {
         panelGeneralInfo.setMainTitleValueLabel(EMPTY_VALUE);
@@ -262,6 +301,9 @@ public class trackFrame extends JFrame
         panelGeneralInfo.getComponentByName("genresValueLabel").setVisible(true);
     }
     
+    /**
+    * Method to initialize the JLabel of the panelSingleTrack panel turned on and with a value equal to the constant EMPTY_VALUE
+    */
     public void inizializeComponentPanelSingleTrack()
     {
         panelSingleTrack.setFileNameValueLabel(EMPTY_VALUE);
