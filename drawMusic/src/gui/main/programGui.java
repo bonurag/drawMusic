@@ -1247,7 +1247,7 @@ public class programGui extends javax.swing.JFrame
                                 int labelTarget = drawMusicData_Utils.alignMessageToJBar(loadDataProgressBar, statusProgressBarText);
                                 getContentPane().add(statusProgressBarText, new org.netbeans.lib.awtextra.AbsoluteConstraints(labelTarget, 50, -1, -1));
                                 xmlFileDetailButton.setEnabled(false);
-
+                                
                                 trackFrame.showUI();
                             }
                             else if(!dataPresent || xmlDetailSwingWorker.getIsError())

@@ -134,7 +134,7 @@ public class generalInfoTrackGui extends javax.swing.JPanel {
         genresLabel = new javax.swing.JLabel();
         genresValueLabel = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(215, 215, 215));
+        setBackground(new java.awt.Color(214, 217, 223));
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "General Information", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
         setForeground(new java.awt.Color(255, 255, 255));
         setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N

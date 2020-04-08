@@ -132,7 +132,7 @@ public class singleTrackGui extends javax.swing.JPanel
         genresSingleTrackLabel = new javax.swing.JLabel();
         genresSingleTrackValueLabel = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(209, 209, 209));
+        setBackground(new java.awt.Color(214, 217, 223));
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Track x", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
         setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         setPreferredSize(new java.awt.Dimension(500, 110));
@@ -168,7 +168,7 @@ public class singleTrackGui extends javax.swing.JPanel
         durationLabel.setText("Duration:");
         durationLabel.setName("durationLabel"); // NOI18N
         add(durationLabel);
-        durationLabel.setBounds(360, 40, 54, 18);
+        durationLabel.setBounds(340, 40, 54, 18);
 
         fileNameValueLabel.setForeground(new java.awt.Color(0, 0, 0));
         fileNameValueLabel.setText("fileName");
@@ -180,7 +180,7 @@ public class singleTrackGui extends javax.swing.JPanel
         durationValueLabel.setText("duration");
         durationValueLabel.setName("durationValueLabel"); // NOI18N
         add(durationValueLabel);
-        durationValueLabel.setBounds(420, 40, 70, 16);
+        durationValueLabel.setBounds(400, 40, 90, 16);
 
         fileFormatValueLabel.setForeground(new java.awt.Color(0, 0, 0));
         fileFormatValueLabel.setText("format");
@@ -192,7 +192,7 @@ public class singleTrackGui extends javax.swing.JPanel
         encodingFormatValueLabel.setText("encoding");
         encodingFormatValueLabel.setName("encodingFormatValueLabel"); // NOI18N
         add(encodingFormatValueLabel);
-        encodingFormatValueLabel.setBounds(275, 40, 70, 16);
+        encodingFormatValueLabel.setBounds(275, 40, 60, 16);
 
         performersLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         performersLabel.setForeground(new java.awt.Color(0, 0, 0));

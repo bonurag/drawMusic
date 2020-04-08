@@ -170,9 +170,14 @@ public class trackFrame extends JFrame
                             if(k.equals("track_duration"))
                             {
                                 String trackDuration = trackInput.get(i).get(k);
-                                if(!trackDuration.equals(""))
+                                System.out.println("trackDuration: " + trackDuration);
+                                if(!trackDuration.equals("") && !trackDuration.equals("-1"))
                                 {
                                     panelSingleTrack.setDurationValueLabel(trackDuration);
+                                }
+                                else if(trackDuration.equals("-1"))
+                                {
+                                    panelSingleTrack.setDurationValueLabel(EMPTY_VALUE);
                                 }
                             } 
                             else if(!trackInput.get(i).containsKey("track_duration"))

@@ -891,31 +891,40 @@ public class drawMusicData_Utils
     */
     public static String trackDurationConverter(int secondsInput)
     {
-        String result = "";
-        String tmpSec = "";
-        int tmpMin = 0;
-        
-        String seconds = Integer.toString(secondsInput % 60);
-        String minutes = Integer.toString((secondsInput/60) % 60);
-        String hours = Integer.toString((secondsInput/60) / 60);
-        
-        seconds = Integer.parseInt(seconds) < 9 ? "0"+seconds : seconds;
-        minutes = Integer.parseInt(minutes) < 9  ? "0"+minutes : minutes;
-        hours = Integer.parseInt(hours) < 9  ? "0"+hours : hours;
-        
-        if(Integer.parseInt(seconds) <= 30)
+        String result;
+        if(secondsInput > 0)
         {
-            tmpSec = "30";
-            tmpMin = Integer.parseInt(minutes);
+            String tmpSec = ""; 
+            int tmpMin = 0;
+
+            String seconds = Integer.toString(secondsInput % 60);
+            String minutes = Integer.toString((secondsInput/60) % 60);
+            String hours = Integer.toString((secondsInput/60) / 60);
+
+            seconds = Integer.parseInt(seconds) < 9 ? "0"+seconds : seconds;
+            minutes = Integer.parseInt(minutes) < 9  ? "0"+minutes : minutes;
+            hours = Integer.parseInt(hours) < 9  ? "0"+hours : hours;
+
+            if(Integer.parseInt(seconds) <= 30)
+            {
+                tmpSec = "30";
+                tmpMin = Integer.parseInt(minutes);
+            }
+            else
+            {
+                tmpSec = "00";
+                tmpMin = Integer.parseInt(minutes) + 1;
+            }
+            String tmpResult = tmpMin < 9 ? "0"+Integer.toString(tmpMin) : Integer.toString(tmpMin);
+            String typeOfTime = tmpResult.equals("00") ? " sec" : " min";
+
+            result = "circa " + tmpResult + ":" + tmpSec + typeOfTime;
+            return result;
         }
         else
         {
-            tmpSec = "00";
-            tmpMin = Integer.parseInt(minutes) + 1;
+            return result = "-1";
         }
-        
-        result = "circa " + tmpMin + ":" + tmpSec;
-        return result;
     }
     
     /**

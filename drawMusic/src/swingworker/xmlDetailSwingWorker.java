@@ -410,8 +410,8 @@ public class xmlDetailSwingWorker
         NodeList trackeventList = (NodeList) (inputXPath.evaluate(xPathTrackDurationExpr, inputDocument, XPathConstants.NODESET));
         Node currenTrackEventNode;
         ArrayList<Double> durationEvent = null;
-        double maxValueDuratione = 0;
-        double minValueDuratione = 0;
+        double maxValueDuration = 0;
+        double minValueDuration = 0;
         
         if(trackeventList.getLength() > 0)
         {   
@@ -433,9 +433,9 @@ public class xmlDetailSwingWorker
                     }
                 }
             }
-            maxValueDuratione = Collections.max(durationEvent);   
-            minValueDuratione = Collections.min(durationEvent);  
+            maxValueDuration = Collections.max(durationEvent);   
+            minValueDuration = Collections.min(durationEvent);  
         }
-        return (int) Math.ceil(maxValueDuratione+minValueDuratione);
+        return (int) Math.ceil(maxValueDuration+minValueDuration);
     }
 }
