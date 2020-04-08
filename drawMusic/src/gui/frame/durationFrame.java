@@ -119,7 +119,7 @@ public class durationFrame extends JFrame
             else if(inputDurationType.equals("BOTH"))
                 xmlElementName = "all_duration";
 
-            drawMusicData_Utils.exportXml(xmlExportButton, inputData, xmlElementName, getGraphName(), inputDurationType);
+            drawMusicData_Utils.exportXml(xmlExportButton, inputData, xmlElementName, graphName, inputDurationType);
             
             checkBoxBarLabel.addItemListener((ItemEvent e) ->
             {
@@ -213,13 +213,5 @@ public class durationFrame extends JFrame
         else
             tmpName = newName;
         setTitle(tmpName);
-    }
-    
-    /**
-    * @return The new graph name
-    */
-    public String getGraphName()
-    {
-        return graphName;
     }
 }

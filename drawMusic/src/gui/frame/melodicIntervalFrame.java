@@ -110,7 +110,7 @@ public class melodicIntervalFrame extends JFrame
             add(panel);
             
             drawMusicData_Utils.saveScreenShoot(saveButton, panel);
-            drawMusicData_Utils.exportXml(xmlExportButton, inputData, "melodic_interval", getGraphName());
+            drawMusicData_Utils.exportXml(xmlExportButton, inputData, "melodic_interval", graphName);
             
             checkBoxBarLabel.addItemListener((ItemEvent e) ->
             {
@@ -204,13 +204,5 @@ public class melodicIntervalFrame extends JFrame
         else
             grapName = newName;
         setTitle(grapName);
-    }
-    
-    /**
-    * @return The new graph name
-    */
-    public String getGraphName()
-    {
-        return graphName;
     }
 }

@@ -23,77 +23,77 @@ import javax.swing.JPanel;
 public class cartesianGui extends JPanel
 {
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the margin of X axis start point of the left border of panel
     */
     public static final int SX_MARGIN_X_AXIS = 50;
     
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the X axis length
     */
     public static final int X_AXIS_LENGTH = 600;
     
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the distance between the top of panel to the X axis
     */
     public static final int TOP_MARGIN_X_AXIS = 600;
 
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the margin of Y axis start point of the top border of panel
     */
     public static final int TOP_MARGIN_Y_AXIS = 50;
     
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the Y axis length
     */
     public static final int Y_AXIS_LENGTH = 600;
     
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the margin of Y axis of the left border of panel
     */
     public static final int SX_MARGIN_Y_AXIS = 50;
 
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the distance of cateto towards the origin point
     */
     public static final int FIRST_CATETO = 10;
     
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the distance from the axis
     */
     public static final int SECOND_CATETO = 5;
 
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the diameter of origin point
     */
     public static final int ORIGIN_DIAMETER = 6;
 
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the normal distance of label to the X-Axis
     */
     public static final int NORMAL_DISTANCE_STRING_TO_X_AXIS = 25;
     
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the max distance of label to the X-Axis
     */
     public static final int MAJOR_DISTANCE_STRING_TO_X_AXIS = 40;
 
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the minimum large of histogram bar
     */
     public static final int MINIMUM_HISTOGRAM_BAR_WIDTH = 6; //HISTOGRAM_BAR_WIDTH_MIN
     
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the medium large of histogram bar
     */
     public static final int MEDIUM_HISTOGRAM_BAR_WIDTH = 12; //HISTOGRAM_BAR_WIDTH_MED
     
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the max large of histogram bar
     */
     public static final int LARGE_HISTOGRAM_BAR_WIDTH = 24; //HISTOGRAM_BAR_WIDTH
     
     /**
-    * Constant indicating that an element for which no results were found [N / A - Not Available]
+    * Constant indicating the offset bar to the top of panel
     */
     public static final int OFFSET_BAR_TO_TOP_PANEL = 100;
     

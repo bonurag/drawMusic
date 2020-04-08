@@ -109,7 +109,7 @@ public class pitchClassFrame extends JFrame
             add(panel);
             
             drawMusicData_Utils.saveScreenShoot(saveButton, panel);
-            drawMusicData_Utils.exportXml(xmlExportButton, inputData, "pitch_class", getGraphName());
+            drawMusicData_Utils.exportXml(xmlExportButton, inputData, "pitch_class", graphName);
             
             checkBoxBarLabel.addItemListener((ItemEvent e) ->
             {
@@ -199,13 +199,5 @@ public class pitchClassFrame extends JFrame
         else
             grapName = newName;
         setTitle(grapName);
-    }
-    
-    /**
-    * @return The new graph name
-    */
-    public String getGraphName()
-    {
-        return graphName;
     }
 }

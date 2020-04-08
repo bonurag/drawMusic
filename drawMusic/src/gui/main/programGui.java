@@ -598,7 +598,7 @@ public class programGui extends javax.swing.JFrame
                                     if(!graphName.equals(""))
                                         pitchClassFrame.setGraphName(graphName);
                                     else
-                                        pitchClassFrame.setGraphName("Default Graph Name");
+                                        pitchClassFrame.setGraphName("Pitch Class Graph");
                                     pitchClassFrame.addWindowListener(new java.awt.event.WindowAdapter()
                                     {
                                         @Override
@@ -725,7 +725,7 @@ public class programGui extends javax.swing.JFrame
                                     if(!graphName.equals(""))
                                         pitchFrame.setGraphName(graphName);
                                     else
-                                        pitchFrame.setGraphName("Default Graph Name");
+                                        pitchFrame.setGraphName("Pitch Graph");
                                     pitchFrame.addWindowListener(new java.awt.event.WindowAdapter()
                                     {
                                         @Override
@@ -855,7 +855,7 @@ public class programGui extends javax.swing.JFrame
                                     if(!graphName.equals(""))
                                         durationFrame.setGraphName(graphName);
                                     else
-                                        durationFrame.setGraphName("Default Graph Name");
+                                        durationFrame.setGraphName("Duration Graph");
                                     durationFrame.addWindowListener(new java.awt.event.WindowAdapter()
                                     {
                                         @Override
@@ -984,7 +984,7 @@ public class programGui extends javax.swing.JFrame
                                     if(!graphName.equals(""))
                                         melodicIntervalFrame.setGraphName(graphName);
                                     else
-                                        melodicIntervalFrame.setGraphName("Default Graph Name");
+                                        melodicIntervalFrame.setGraphName("Melodic Interval Graph");
                                     melodicIntervalFrame.addWindowListener(new java.awt.event.WindowAdapter()
                                     {
                                         @Override
@@ -1111,7 +1111,7 @@ public class programGui extends javax.swing.JFrame
                                     if(!graphName.equals(""))
                                         harmonicIntervalFrame.setGraphName(graphName);
                                     else
-                                        harmonicIntervalFrame.setGraphName("Default Graph Name");
+                                        harmonicIntervalFrame.setGraphName("Harmonic Interval Graph");
                                     harmonicIntervalFrame.addWindowListener(new java.awt.event.WindowAdapter()
                                     {
                                         @Override
