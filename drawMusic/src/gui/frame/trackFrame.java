@@ -2,6 +2,7 @@ package gui.frame;
 
 import gui.panel.generalInfoTrackGui;
 import gui.panel.singleTrackGui;
+import java.awt.Dimension;
 import java.util.LinkedHashMap;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -26,6 +27,11 @@ public class trackFrame extends JFrame
     * Constant indicating that an element for which no results were found [N / A - Not Available]
     */
     private static final String EMPTY_VALUE = "N/A";
+    
+    /**
+    * Constant for set max number of track for reduce numbero of JLabel on screen
+    */
+    private static final int MAX_TRACK = 10;
     
     /**
     * Used for dynamically set of height of frame
@@ -66,7 +72,8 @@ public class trackFrame extends JFrame
         {
             panelGeneralInfo = new generalInfoTrackGui();
             panelSingleTrack = new singleTrackGui();     
-
+            
+           
             inizializeComponentPanelGeneralInfo();     
             inizializeComponentPanelSingleTrack();
             getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
@@ -143,6 +150,12 @@ public class trackFrame extends JFrame
                 for(int i=0; i<trackInput.size(); i++)
                 {
                     panelSingleTrack = new singleTrackGui();
+                    if(trackInput.size() >= MAX_TRACK)
+                    {
+                        initializeSmallViewSingleTrack();
+                        panelSingleTrack.setPreferredSize(new Dimension(500,50));
+                    }
+                    
                     panelSingleTrack.setBorderTitle("Track "+(i+1));
                     if(!trackInput.get(i).isEmpty())
                     {
@@ -170,7 +183,6 @@ public class trackFrame extends JFrame
                             if(k.equals("track_duration"))
                             {
                                 String trackDuration = trackInput.get(i).get(k);
-                                System.out.println("trackDuration: " + trackDuration);
                                 if(!trackDuration.equals("") && !trackDuration.equals("-1"))
                                 {
                                     panelSingleTrack.setDurationValueLabel(trackDuration);
@@ -255,7 +267,7 @@ public class trackFrame extends JFrame
     */
     public void showUI()
     {
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);          
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);  
         setTitle("XML Additional Information");
         setSize(500, ySize);
         setLocationRelativeTo(null);
@@ -305,7 +317,7 @@ public class trackFrame extends JFrame
         panelGeneralInfo.getComponentByName("genresLabel").setVisible(true);
         panelGeneralInfo.getComponentByName("genresValueLabel").setVisible(true);
     }
-    
+  
     /**
     * Method to initialize the JLabel of the panelSingleTrack panel turned on and with a value equal to the constant EMPTY_VALUE
     */
@@ -334,5 +346,35 @@ public class trackFrame extends JFrame
         panelSingleTrack.setGenresSingleTrackValueLabel(EMPTY_VALUE);
         panelSingleTrack.getComponentSingleTrackByName("genresSingleTrackLabel").setVisible(true);
         panelSingleTrack.getComponentSingleTrackByName("genresSingleTrackValueLabel").setVisible(true);                        
+    }
+    
+    /**
+    * Method for displaying the panel JLabels in reduced mode when there are more than 10 tracks in the file;
+    */
+    public void initializeSmallViewSingleTrack()
+    {
+        panelSingleTrack.setFileNameValueLabel(EMPTY_VALUE);
+        panelSingleTrack.getComponentSingleTrackByName("fileNameLabel").setVisible(true);
+        panelSingleTrack.getComponentSingleTrackByName("fileNameValueLabel").setVisible(true);
+        
+        panelSingleTrack.setDurationValueLabel(EMPTY_VALUE);
+        panelSingleTrack.getComponentSingleTrackByName("durationLabel").setVisible(false);
+        panelSingleTrack.getComponentSingleTrackByName("durationValueLabel").setVisible(false);
+        
+        panelSingleTrack.setFileFormatValueLabel(EMPTY_VALUE);
+        panelSingleTrack.getComponentSingleTrackByName("fileFormatLabel").setVisible(false);
+        panelSingleTrack.getComponentSingleTrackByName("fileFormatValueLabel").setVisible(false);
+        
+        panelSingleTrack.setEncodingFormatValueLabel(EMPTY_VALUE);
+        panelSingleTrack.getComponentSingleTrackByName("encodingFormatLabel").setVisible(false);
+        panelSingleTrack.getComponentSingleTrackByName("encodingFormatValueLabel").setVisible(false);
+        
+        panelSingleTrack.setPerformersValueLabel(EMPTY_VALUE);
+        panelSingleTrack.getComponentSingleTrackByName("performersLabel").setVisible(false);
+        panelSingleTrack.getComponentSingleTrackByName("performersValueLabel").setVisible(false);
+
+        panelSingleTrack.setGenresSingleTrackValueLabel(EMPTY_VALUE);
+        panelSingleTrack.getComponentSingleTrackByName("genresSingleTrackLabel").setVisible(false);
+        panelSingleTrack.getComponentSingleTrackByName("genresSingleTrackValueLabel").setVisible(false);                        
     }
 }

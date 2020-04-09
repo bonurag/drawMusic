@@ -272,12 +272,17 @@ public class programGui extends javax.swing.JFrame
         whiteSpaceEnableCheckBox = new javax.swing.JCheckBox();
         xmlFileDetailButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Music Data Extractor");
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(680, 320));
         setName("programGui"); // NOI18N
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         openFileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/folder.png"))); // NOI18N
@@ -375,7 +380,7 @@ public class programGui extends javax.swing.JFrame
         getContentPane().add(selectedFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, -1, 20));
 
         openFileName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        getContentPane().add(openFileName, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, 20));
+        getContentPane().add(openFileName, new org.netbeans.lib.awtextra.AbsoluteConstraints(235, 20, -1, 20));
 
         pitchClassBntTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pitchClassBntTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -505,7 +510,7 @@ public class programGui extends javax.swing.JFrame
                 String name = f.getName();
                 String extension = name.substring(name.length()-3,name.length());
                 selectedFileIcon.setIcon(trueIcon);  
-                openFileName.setText(name);
+                openFileName.setText(name.substring(0, name.indexOf(".")));
                 unLockIcon();
                 unLockTextBox();
                 unLockComboBox();
@@ -589,7 +594,8 @@ public class programGui extends javax.swing.JFrame
                                         nomeGraficoTextField_1.setEnabled(true);
                                         nomeGraficoTextField_1.setText("");
                                         loadDataProgressBar.setValue(0);
-                                        loadDataProgressBar.setVisible(false);
+                                        if(workInProgress.isEmpty())
+                                            loadDataProgressBar.setVisible(false);
                                         String informationMessage = "Non sono presenti dati da elaborare!";
                                         JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);    
                                     }
@@ -716,7 +722,8 @@ public class programGui extends javax.swing.JFrame
                                         nomeGraficoTextField_2.setEnabled(true);
                                         nomeGraficoTextField_2.setText("");
                                         loadDataProgressBar.setValue(0);
-                                        loadDataProgressBar.setVisible(false);
+                                        if(workInProgress.isEmpty())
+                                            loadDataProgressBar.setVisible(false);
                                         String informationMessage = "Non sono presenti dati da elaborare!";
                                         JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);        
                                     }
@@ -846,7 +853,8 @@ public class programGui extends javax.swing.JFrame
                                         durationTypeComboBox.setEnabled(true);
                                         nomeGraficoTextField_3.setText("");
                                         loadDataProgressBar.setValue(0);
-                                        loadDataProgressBar.setVisible(false);
+                                        if(workInProgress.isEmpty())
+                                            loadDataProgressBar.setVisible(false);
                                         String informationMessage = "Non sono presenti dati da elaborare!";
                                         JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);    
                                     }
@@ -975,7 +983,8 @@ public class programGui extends javax.swing.JFrame
                                         nomeGraficoTextField_4.setEnabled(true);
                                         nomeGraficoTextField_4.setText("");
                                         loadDataProgressBar.setValue(0);
-                                        loadDataProgressBar.setVisible(false);
+                                        if(workInProgress.isEmpty())
+                                            loadDataProgressBar.setVisible(false);
                                         String informationMessage = "Non sono presenti dati da elaborare!";
                                         JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);    
                                     }
@@ -1102,7 +1111,8 @@ public class programGui extends javax.swing.JFrame
                                         nomeGraficoTextField_5.setEnabled(true);
                                         nomeGraficoTextField_5.setText("");
                                         loadDataProgressBar.setValue(0);
-                                        loadDataProgressBar.setVisible(false);
+                                        if(workInProgress.isEmpty())
+                                            loadDataProgressBar.setVisible(false);
                                         String informationMessage = "Non sono presenti dati da elaborare!";
                                         JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);    
                                     }
@@ -1256,7 +1266,8 @@ public class programGui extends javax.swing.JFrame
                                 xmlFileDetailButton.setEnabled(true);
 
                                 loadDataProgressBar.setValue(0);
-                                loadDataProgressBar.setVisible(false);
+                                if(workInProgress.isEmpty())
+                                    loadDataProgressBar.setVisible(false);
                                 String informationMessage = "Non sono presenti dati da elaborare!";
                                 JOptionPane.showMessageDialog(null, informationMessage, "Informazione", JOptionPane.INFORMATION_MESSAGE);    
                             }
@@ -1316,6 +1327,19 @@ public class programGui extends javax.swing.JFrame
             }
         });            
     }//GEN-LAST:event_xmlFileDetailButtonActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Object[] options = {"Si","No"};
+        int state = JOptionPane.showOptionDialog(this, 
+                    "Sei sicuro di voler chiudere questa finestra?",
+                    "Chiudi Finestra?", 
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE, null, options, null);
+        if(state == JOptionPane.YES_OPTION)
+        {
+            evt.getWindow().dispose();
+        }
+    }//GEN-LAST:event_formWindowClosing
     
     /**
      * @param args the command line arguments
