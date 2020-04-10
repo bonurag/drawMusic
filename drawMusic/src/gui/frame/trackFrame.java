@@ -34,7 +34,7 @@ public class trackFrame extends JFrame
     /**
     * Constant for set max number of track for reduce numbero of JLabel on screen
     */
-    private static final int MAX_TRACK = 10;
+    private static final int MAX_TRACK = 7;
     
     /**
     * Used for dynamically set of height of frame
