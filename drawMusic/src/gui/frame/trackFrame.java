@@ -150,11 +150,13 @@ public class trackFrame extends JFrame
             //============================================= Set TrackList Element ============================================================
             if(trackInput.size() > 0)
             {
+                Boolean maxTrackReach = false;
                 for(int i=0; i<trackInput.size(); i++)
                 {
                     panelSingleTrack = new singleTrackGui();
                     if(trackInput.size() >= MAX_TRACK)
                     {
+                        maxTrackReach = true;
                         initializeSmallViewSingleTrack();
                         panelSingleTrack.setPreferredSize(new Dimension(500,50));
                     }
@@ -232,7 +234,7 @@ public class trackFrame extends JFrame
                             if(k.equals("performers")) 
                             {
                                 String performers = trackInput.get(i).get(k);
-                                if(performers.length() > 60 && !performers.equals(""))
+                                if(performers.length() > 60 && !performers.equals("") && !maxTrackReach)
                                 {
                                     managementMultiplePerformers(performers);
                                 }
