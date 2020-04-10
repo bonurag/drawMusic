@@ -1,7 +1,11 @@
 package gui.panel;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.util.HashMap;
+import static javax.swing.BorderFactory.createTitledBorder;
+import javax.swing.border.TitledBorder;
 
 /**
  * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
@@ -26,7 +30,7 @@ public class singleTrackGui extends javax.swing.JPanel
     */
     public void setBorderTitle(String inputTitle)
     {
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, inputTitle, javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 0, 12), new java.awt.Color(0, 0, 0)));
+        setBorder(createTitledBorder(null, inputTitle, TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION, new Font("Comic Sans MS", 0, 12), new Color(0, 0, 0)));
     }
     
     /**

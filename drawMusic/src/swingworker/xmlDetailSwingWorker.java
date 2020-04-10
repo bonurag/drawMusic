@@ -2,16 +2,19 @@ package swingworker;
 
 import dataUtils.drawMusicData_Utils;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -46,27 +49,27 @@ public class xmlDetailSwingWorker
     /**
     * Used to save the list of authors presents in XML file and the role of the author within the composition
     */
-    private LinkedHashMap<String, String> authorsMap = new LinkedHashMap<>();
+    private final LinkedHashMap<String, String> authorsMap = new LinkedHashMap<>();
     
     /**
     * Used to save the list of other title presents in XML file, used to represent alternative titles of the piece
     */
-    private LinkedHashMap<String, String> otherTitleMap = new LinkedHashMap<>();
+    private final LinkedHashMap<String, String> otherTitleMap = new LinkedHashMap<>();
     
     /**
     * Used to save the list of work title presents in XML file
     */
-    private LinkedHashMap<String, String> workTitleMap = new LinkedHashMap<>();
+    private final LinkedHashMap<String, String> workTitleMap = new LinkedHashMap<>();
     
     /**
     * Used to savethe list of genres refer to the track and not to the piece
     */
-    private LinkedHashMap<String, String> genresMap = new LinkedHashMap<>();
+    private final LinkedHashMap<String, String> genresMap = new LinkedHashMap<>();
     
     /**
     * Used to save the list of track presents inside de XML file
     */
-    private LinkedHashMap<Integer, LinkedHashMap<String, String>> trackMap = new LinkedHashMap<>();
+    private final LinkedHashMap<Integer, LinkedHashMap<String, String>> trackMap = new LinkedHashMap<>();
     
     /**
     * Used to save the list of attributes for each track presents inside de XML file
@@ -313,7 +316,7 @@ public class xmlDetailSwingWorker
                             setProgress(100);
                     }
                 }
-                catch (Exception e)
+                catch (IOException | ParserConfigurationException | XPathExpressionException | DOMException e)
                 {
                     isError = true;
                     System.out.println("Errore nell'elaborazione del file - isError Value: " + isError);
@@ -409,7 +412,7 @@ public class xmlDetailSwingWorker
         String xPathTrackDurationExpr = "//ieee1599/audio/track[@file_name=\""+trackName+"\"]/track_indexing[@timing_type=\"seconds\"]/track_event";
         NodeList trackeventList = (NodeList) (inputXPath.evaluate(xPathTrackDurationExpr, inputDocument, XPathConstants.NODESET));
         Node currenTrackEventNode;
-        ArrayList<Double> durationEvent = null;
+        ArrayList<Double> durationEvent;
         double maxValueDuration = 0;
         double minValueDuration = 0;
         

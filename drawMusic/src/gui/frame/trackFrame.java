@@ -3,9 +3,12 @@ package gui.frame;
 import gui.panel.generalInfoTrackGui;
 import gui.panel.singleTrackGui;
 import java.awt.Dimension;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  * @author      Giuseppe Bonura giuseppe.bonura@studenti.unimi.it
@@ -84,7 +87,7 @@ public class trackFrame extends JFrame
 
             //============================================= Set List Authors ============================================================
             String authorResult = "";
-            String authorType = "";
+            String authorType;
             if(authorsInput.size() > 0)
             {            
                 for(String name : authorsInput.keySet())
@@ -229,7 +232,11 @@ public class trackFrame extends JFrame
                             if(k.equals("performers")) 
                             {
                                 String performers = trackInput.get(i).get(k);
-                                if(!performers.equals(""))
+                                if(performers.length() > 60 && !performers.equals(""))
+                                {
+                                    managementMultiplePerformers(performers);
+                                }
+                                else
                                 {
                                     panelSingleTrack.setPerformersValueLabel(performers);
                                 }
@@ -287,7 +294,7 @@ public class trackFrame extends JFrame
     /**
     * Method to initialize the JLabel of the panelGeneralInfo panel turned on and with a value equal to the constant EMPTY_VALUE
     */
-    public void inizializeComponentPanelGeneralInfo()
+    private void inizializeComponentPanelGeneralInfo()
     {
         panelGeneralInfo.setMainTitleValueLabel(EMPTY_VALUE);
         panelGeneralInfo.getComponentByName("mainTitleLabel").setVisible(true);
@@ -321,7 +328,7 @@ public class trackFrame extends JFrame
     /**
     * Method to initialize the JLabel of the panelSingleTrack panel turned on and with a value equal to the constant EMPTY_VALUE
     */
-    public void inizializeComponentPanelSingleTrack()
+    private void inizializeComponentPanelSingleTrack()
     {
         panelSingleTrack.setFileNameValueLabel(EMPTY_VALUE);
         panelSingleTrack.getComponentSingleTrackByName("fileNameLabel").setVisible(true);
@@ -351,7 +358,7 @@ public class trackFrame extends JFrame
     /**
     * Method for displaying the panel JLabels in reduced mode when there are more than 10 tracks in the file;
     */
-    public void initializeSmallViewSingleTrack()
+    private void initializeSmallViewSingleTrack()
     {
         panelSingleTrack.setFileNameValueLabel(EMPTY_VALUE);
         panelSingleTrack.getComponentSingleTrackByName("fileNameLabel").setVisible(true);
@@ -377,4 +384,38 @@ public class trackFrame extends JFrame
         panelSingleTrack.getComponentSingleTrackByName("genresSingleTrackLabel").setVisible(false);
         panelSingleTrack.getComponentSingleTrackByName("genresSingleTrackValueLabel").setVisible(false);                        
     }
+    
+    /**
+    * This method is used for add a new line in performers JLabel when string where are concatenate all value has length more than 60 character
+    * @param  inputPerformers Value of performers name and type
+    */
+    private void managementMultiplePerformers(String inputPerformers)
+    {
+        JLabel morePerformer = new JLabel();
+        morePerformer.setBackground(new java.awt.Color(255, 255, 255));
+        morePerformer.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        morePerformer.setForeground(new java.awt.Color(0, 0, 0));
+        morePerformer.setName("addPerformersValueLabel"); // NOI18N
+        morePerformer.setBounds(65, 60, 420, 18);
+        morePerformer.setLocation(65, 80);
+        panelSingleTrack.add(morePerformer);
+        panelSingleTrack.revalidate();
+        panelSingleTrack.repaint();
+        panelSingleTrack.getComponentSingleTrackByName("genresSingleTrackLabel").setLocation(10, 100);
+        panelSingleTrack.getComponentSingleTrackByName("genresSingleTrackValueLabel").setLocation(65, 100); 
+        panelSingleTrack.setPreferredSize(new Dimension(500, 130));
+        List<String> tmpPerformers = Arrays.asList(inputPerformers.split(";"));
+        String remainingPerformers = "";
+        if(tmpPerformers.size() == 1)
+            panelSingleTrack.setPerformersValueLabel(tmpPerformers.get(0));
+        else
+        {
+            panelSingleTrack.setPerformersValueLabel(tmpPerformers.get(0));
+            for(int x=1; x<tmpPerformers.size(); x++)
+            {
+                remainingPerformers += tmpPerformers.get(x);
+            }
+            morePerformer.setText(remainingPerformers);
+        }
+    }   
 }
