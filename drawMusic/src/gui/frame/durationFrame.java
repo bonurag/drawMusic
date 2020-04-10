@@ -47,16 +47,13 @@ public class durationFrame extends JFrame
     public durationFrame(Object inputDataWork, String inputDurationType)
     {
         LinkedHashMap<String, Integer> inputData = (LinkedHashMap<String, Integer>) inputDataWork;
-        System.out.println("inputData: " + inputData);
+        //System.out.println("inputData: " + inputData);
         if(inputData.containsKey("Empty"))
         {
             inputDataSize = 0;
         }
         else if(inputData.size() > 0 && inputData != null)
         {
-            String verticalBarLabel = "";
-            String xDrawLineLabel  = "";
-            String yDrawLineLabel  = "";
             inputDataSize = inputData.size();
             panel = new cartesianGui(inputData); 
             
@@ -77,22 +74,19 @@ public class durationFrame extends JFrame
             
             JCheckBox checkBoxBarLabel = new JCheckBox();
             checkBoxBarLabel.setVisible(true);
-            verticalBarLabel = panel.getViewValueOnBar() ? "Disable Bar Label" : "Enable Bar Label";
-            checkBoxBarLabel.setText(verticalBarLabel);
+            checkBoxBarLabel.setText("Bar Label");
             checkBoxBarLabel.setToolTipText("En/Dis visualizzazione valori sulle Vertical Bar");
             checkBoxBarLabel.setSelected(panel.getViewValueOnBar());
             
             JCheckBox checkBoxXdrawLine = new JCheckBox();
             checkBoxXdrawLine.setVisible(true);
-            xDrawLineLabel = panel.getDisableXLabelView() ? "Disable X-Line" : "Enable X-Line";
-            checkBoxXdrawLine.setText(xDrawLineLabel);
+            checkBoxXdrawLine.setText("X-Line");
             checkBoxXdrawLine.setToolTipText("En/Dis visualizzazione indicatori asse X");
             checkBoxXdrawLine.setSelected(panel.getDisableXLabelView());
             
             JCheckBox checkBoxYdrawLine = new JCheckBox();
             checkBoxYdrawLine.setVisible(true);
-            yDrawLineLabel = panel.getDisableYLabelView() ? "Disable Y-Line" : "Enable Y-Line";
-            checkBoxYdrawLine.setText(yDrawLineLabel);
+            checkBoxYdrawLine.setText("Y-Line");
             checkBoxYdrawLine.setToolTipText("En/Dis visualizzazione indicatori asse Y");
             checkBoxYdrawLine.setSelected(panel.getDisableYLabelView());
                                  
@@ -125,13 +119,11 @@ public class durationFrame extends JFrame
             {
                 if(checkBoxBarLabel.isSelected())
                 {
-                    checkBoxBarLabel.setText("Disable Bar Label");
                     panel.setViewValueOnBar(true);
                     panel.repaint();
                 }
                 else
                 {
-                    checkBoxBarLabel.setText("Enable Bar Label");
                     panel.setViewValueOnBar(false);
                     panel.repaint();
                 }
@@ -141,13 +133,11 @@ public class durationFrame extends JFrame
             {
                 if(checkBoxXdrawLine.isSelected())
                 {
-                    checkBoxXdrawLine.setText("Disable X-Line");
                     panel.setDisableXLabelView(true);
                     panel.repaint();
                 }
                 else
                 {
-                    checkBoxXdrawLine.setText("Enable X-Line");
                     panel.setDisableXLabelView(false);
                     panel.repaint();
                 }
@@ -157,13 +147,11 @@ public class durationFrame extends JFrame
             {
                 if(checkBoxYdrawLine.isSelected())
                 {
-                    checkBoxYdrawLine.setText("Disable Y-Line");
                     panel.setDisableYLabelView(true);
                     panel.repaint();
                 }
                 else
                 {
-                    checkBoxYdrawLine.setText("Enable Y-Line");
                     panel.setDisableYLabelView(false);
                     panel.repaint();
                 }
@@ -175,8 +163,11 @@ public class durationFrame extends JFrame
                 public void actionPerformed(ActionEvent e)
                 {
                     chooseColor = JColorChooser.showDialog(null,"Scegli un colore",Color.RED);
-                    panel.setBarColor(chooseColor);
-                    panel.repaint();
+                    if(chooseColor != null)
+                    {
+                        panel.setBarColor(chooseColor);
+                        panel.repaint();
+                    }
                 }
             });
         }
