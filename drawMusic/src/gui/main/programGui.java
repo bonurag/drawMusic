@@ -128,9 +128,7 @@ public class programGui extends javax.swing.JFrame
         lockCheckBoxValidationXml();
         lockCheckBoxWhiteSpaceXml();
         loadDataProgressBar.setVisible(false);
-        openFileName.setText("Nessun file selezionato!");
-        xmlValidationEnableCheckBox.setText("Abilita validazione XML");
-        whiteSpaceEnableCheckBox.setText("Abilita Ignora Spazi XML");      
+        openFileName.setText("Nessun file selezionato!");    
     }
     
     /**
@@ -453,7 +451,7 @@ public class programGui extends javax.swing.JFrame
         getContentPane().add(durationTypeComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, 100, -1));
 
         xmlValidationEnableCheckBox.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
-        xmlValidationEnableCheckBox.setText("XML Validation Enable");
+        xmlValidationEnableCheckBox.setText("Abilita validazione XML");
         xmlValidationEnableCheckBox.setToolTipText("Abilita la validazione del file XML");
         xmlValidationEnableCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -463,7 +461,7 @@ public class programGui extends javax.swing.JFrame
         getContentPane().add(xmlValidationEnableCheckBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 50, -1, -1));
 
         whiteSpaceEnableCheckBox.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
-        whiteSpaceEnableCheckBox.setText("Ignoring WhiteSpace");
+        whiteSpaceEnableCheckBox.setText("Abilita Ignora Spazi XML");
         whiteSpaceEnableCheckBox.setToolTipText("Esclusione Spazi Bianchi Elementi XML Abilitata");
         whiteSpaceEnableCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1187,18 +1185,12 @@ public class programGui extends javax.swing.JFrame
     }//GEN-LAST:event_generateHarmonicIntervalButtonActionPerformed
 
     private void xmlValidationEnableCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xmlValidationEnableCheckBoxActionPerformed
-        if(xmlValidationEnableCheckBox.isSelected() && !whiteSpaceEnableCheckBox.isSelected())
+        if(xmlValidationEnableCheckBox.isSelected())
         {
-            xmlValidationEnableCheckBox.setText("Disabilita validazione XML");
             drawMusicData_Utils.setXmlEnableValidationFromGui(true);
-
-            whiteSpaceEnableCheckBox.setText("Disabilita Ignora Spazi XML");
-            whiteSpaceEnableCheckBox.setSelected(true);
-            drawMusicData_Utils.setXmlEnableIgnoringWhitespaceFromGui(true);
         }
         else
         {
-            xmlValidationEnableCheckBox.setText("Abilita validazione XML");
             drawMusicData_Utils.setXmlEnableValidationFromGui(false);
         }
     }//GEN-LAST:event_xmlValidationEnableCheckBoxActionPerformed
@@ -1206,12 +1198,10 @@ public class programGui extends javax.swing.JFrame
     private void whiteSpaceEnableCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_whiteSpaceEnableCheckBoxActionPerformed
         if(whiteSpaceEnableCheckBox.isSelected())
         {
-            whiteSpaceEnableCheckBox.setText("Disabilita Ignora Spazi XML");
             drawMusicData_Utils.setXmlEnableIgnoringWhitespaceFromGui(true);
         }
         else
         {
-            whiteSpaceEnableCheckBox.setText("Abilita Ignora Spazi XML");
             drawMusicData_Utils.setXmlEnableIgnoringWhitespaceFromGui(false);
         }
     }//GEN-LAST:event_whiteSpaceEnableCheckBoxActionPerformed
